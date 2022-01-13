@@ -1,3 +1,4 @@
+
 body {
     background-color: #F0F2F5;
 }
@@ -24,7 +25,12 @@ body {
     border: 1px solid grey;
     border-radius: 10px;
     padding: 10px;
+    margin: 10px;
+}
 
+#modifButton {
+    display: flex;
+    margin-left: 30px;
 }
 
 .mCompte {
