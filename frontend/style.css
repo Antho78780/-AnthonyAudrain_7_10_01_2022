@@ -1,25 +1,22 @@
 
 body {
     background-color: #F0F2F5;
-}
-#app {
     display: block;
     width: 100%;
     margin-left: 35%;
     margin-top: 5%;
 }
-#app p {
+p {
     font-family: Arial, Helvetica, sans-serif;
 }
-#compte {
+#blocCompte {
     display: block;
     margin: center;
     width: 10%;
     margin-left: 5%;
-  
-    margin-top: 10%;
+    margin-top: 5%;
 }
-#compte .button {
+.modifButton {
     display: flex;
     margin-left: 110px;
     border: 1px solid grey;
@@ -28,12 +25,19 @@ body {
     margin: 10px;
 }
 
-#modifButton {
+#ensembleButton {
     display: flex;
     margin-left: 30px;
 }
 
-.mCompte {
+.modifAdresseMail {
+    border: 1px solid grey;
+    border-radius: 10px;
+    height: 40px;
+    margin: 10px;
+    width: 300px;
+}
+.modifMdp {
     border: 1px solid grey;
     border-radius: 10px;
     height: 40px;
@@ -42,4 +46,28 @@ body {
 }
 ::placeholder {
    padding-left: 10px;
+   background-color: #fafafa;
   }
+#formInscription {
+    display: block;
+    margin-left: 150px;
+    margin-top: 5%;
+    width: 20%;
+}
+.inscription2 {
+    margin: 10px;
+    height: 25px;
+   border: 1px solid grey;
+   border-radius: 5px;
+   width: 200px;
+}
+.buttonSuivant {
+    width: 210px;
+    margin-left: 160px;
+    margin-top: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #0095f6;
+    border: 0px;
+    color: white;
+}

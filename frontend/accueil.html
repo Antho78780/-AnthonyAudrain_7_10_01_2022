@@ -11,13 +11,15 @@
             <img src = "images/icon-left-font-monochrome-black.svg">
             <p>Groupomania le nouveau réseau social pour communiqué entre collègue</p>
 
-            <div id ="compte">
-                <input type="email", name= "email", value="", placeholder="Adresse email" class="modifCompte mCompte">
-                <input type="password", name="password", value="", placeholder="Mot de passe" class="modifCompte2 mCompte" >
-                <div id="modifButton">
-                    <input type="button" value="Se connecter" class="button">
-                    <input type="button" value="s'enregistrer" class="button button2">
-                </div>
+            <div id ="blocCompte">
+                <label>
+                    <input type="email", name= "email", value="", placeholder="Adresse email" class="modifAdresseMail">
+                    <input type="password", name="password", value="", placeholder="Mot de passe" class="modifMdp" >
+                </label>
+                <form id="ensembleButton">
+                    <input type="button" value="Se connecter" class="modifButton">
+                    <input type="button" value="s'enregistrer" class="modifButton inscription">
+                </form>
             </div>
         </section>
 
