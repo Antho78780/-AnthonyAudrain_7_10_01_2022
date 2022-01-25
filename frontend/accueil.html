@@ -6,28 +6,21 @@
         <meta name="viewport" content="width=500, initial-scale=1">  
         <link rel="stylesheet"  href="style.css">
     </head>
-    <body>
-        <section id ="app">
-            <img src = "images/icon-left-font-monochrome-black.svg">
-            <p>Groupomania le nouveau réseau social pour communiqué entre collègue</p>
-
-            <div id ="blocCompte">
-                <label>
-                    <input type="email", name= "email", value="", placeholder="Adresse email" class="modifAdresseMail">
-                    <input type="password", name="password", value="", placeholder="Mot de passe" class="modifMdp" >
-                </label>
+    <body id="app">
+            <div>
+                <img src = "images/icon-left-font-monochrome-black.svg">
+                <p>Groupomania le nouveau réseau social pour communiqué entre collègue</p>
+            </div>
+            <section id ="blocCompte">
+                <form id="formLogin">
+                    <input type="email", name= "email", value="", placeholder="Adresse email" class="modifAdresseMail" required>
+                    <input type="password", name="password", value="", placeholder="Mot de passe" class="modifMdp" required>
+                </form>
                 <form id="ensembleButton">
                     <input type="button" value="Se connecter" class="modifButton">
-                    <input type="button" value="s'enregistrer" class="modifButton inscription">
+                    <input type="button" value="s'enregistrer" class="modifButton" id="modifInscription">
                 </form>
-            </div>
-        </section>
-
-        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-        <script>
-            const app = new Vue({
-            })
-        </script>
+            </section>
         <script src="js/accueil.js"></script>;
     </body>
 </html>
