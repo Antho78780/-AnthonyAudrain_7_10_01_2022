@@ -6,13 +6,14 @@ if(recupButton) {
         const formLogin = document.querySelector("#formLogin");
         if(formLogin[0].value == "" || formLogin[1].value == "") {
             console.log("Aucun compte détecté")
+            alert("Champ non remplis")
         }
         else {
             console.log(formLogin[0].value);
             console.log(formLogin[1].value);
             console.log("page suivante")
          
-            /**window.location.href="accueil2.html"**/
+            window.location.href="accueil.html"
         }
     })
     recupButton[1].addEventListener("click", function() {
@@ -59,12 +60,15 @@ if(buttonSuivant) {
                 
             }; 
         }
-        if(validEmail() && validPrenom() && validNom()) {
+        if(validEmail() && validPrenom() && validNom() && password != "") {
             console.log("page suivante");
-            window.location.href="accueil2.html"
+            window.location.href="accueil.html"
         }
-        else if (validEmail() == false || validPrenom() == false || validNom() == false){
+        else if (validEmail()  && validPrenom() && validNom() && password == ""){
             alert("champs incorrects");
+        }
+        else {
+            alert("Champs Incorrects")
         }
 
     })
