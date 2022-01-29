@@ -17,7 +17,7 @@ section {
   justify-content: center;
 }
 .modifButton {
-  background-color: #1877F2;
+  background-color: #1877f2;
   color: white;
   border: none;
   border-radius: 6px;
@@ -27,7 +27,7 @@ section {
   width: 200px;
 }
 .modifButton:hover {
- background-color: blue;
+  background-color: blue;
 }
 .modifChampLogin {
   border: 1px solid #dddfe2;

@@ -1,3 +1,4 @@
+
 const recupButton = document.querySelector("#ensembleButton");
 
 if(recupButton) {
@@ -17,12 +18,13 @@ if(recupButton) {
         }
     })
     recupButton[1].addEventListener("click", function() {
-        window.location.href="inscription.html"
+        window.location.href="inscription.php"
     })
 }
 
 const informationRegister = document.querySelector("#formInscription");
 const buttonSuivant = document.querySelector(".buttonSuivant");
+
 if(buttonSuivant) {
     buttonSuivant.addEventListener("click", function(event) {
         event.preventDefault();
@@ -62,7 +64,7 @@ if(buttonSuivant) {
         }
         if(validEmail() && validPrenom() && validNom() && password != "") {
             console.log("page suivante");
-            window.location.href="accueil.html"
+            ///window.location.href="accueil.html"///
         }
         else if (validEmail()  && validPrenom() && validNom() && password == ""){
             alert("champs incorrects");
@@ -74,4 +76,5 @@ if(buttonSuivant) {
     })
 
 }
+
 
