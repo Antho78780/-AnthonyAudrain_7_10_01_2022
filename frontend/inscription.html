@@ -21,30 +21,7 @@
                             <input type="submit" name="Suivant" value="Suivant" class="buttonSuivant">
                         </form>
                     </label>
-                    <?php
-                        $users = "root";
-                        $password = "";
-                        $db = "users";
-                        $serveur = "localhost";
-                       
-                            $pdo = new PDO("mysql:host=$serveur;dbname=$db", $users, $password);
-                      
-                        if(isset($_POST['Suivant'])) {
-                            $prenom = $_POST['prenom'];
-                            $nom = $_POST['nom'];
-                            $email = $_POST['email'];
-                            $mdp = $_POST['password'];
-
-                            $sql = "INSERT INTO `register`(`prenom`, `nom`, `email`, `mdp`) VALUES ('$prenom','$nom','$email','$mdp')";
-                            $query = $pdo->prepare($sql);
-                            $query->bindParam("prenom",$prenom);
-                            $query->bindParam("nom",$nom);
-                            $query->bindParam("email",$email);
-                            $query->bindParam("mdp",$mdp);
-                            $query->execute();
-                            var_dump($_POST);
-                        }
-                    ?>
             </section>
+            <script src="js/accueil.js"></script>
         </body>
 </html>

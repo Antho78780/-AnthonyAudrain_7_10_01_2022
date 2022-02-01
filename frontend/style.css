@@ -67,7 +67,7 @@ section {
   transition: 0.5s;
 }
 .buttonSuivant:hover {
-  background-color: blue;
+  background-color: #1877f2;
 }
 .modifTitre {
   color: black;

@@ -12,13 +12,13 @@ if(recupButton) {
         else {
             console.log(formLogin[0].value);
             console.log(formLogin[1].value);
-            console.log("page suivante")
+            console.log("page suivante");
          
-            window.location.href="accueil.html"
+            ///window.location.href="accueil.html"///
         }
     })
     recupButton[1].addEventListener("click", function() {
-        window.location.href="inscription.php"
+        window.location.href="inscription.html"
     })
 }
 
@@ -36,6 +36,20 @@ if(buttonSuivant) {
         const tableauFormulaire = [firstName, name, email, password];
         console.log(tableauFormulaire);
 
+        const api = fetch(`http://localhost:3000/register`, {
+            method: "POST",
+            body: JSON.stringify(tableauFormulaire),
+            headers: {
+                'content-type' : 'application/json',
+                'Accept' : 'application/json'
+            }
+        });
+        api
+        .then((data) => {
+            console.log(data)
+        })
+      
+        
         function validEmail() {
             const verifEmail = email;
             if(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(verifEmail)) {
