@@ -1,13 +1,34 @@
-const modelUsers = require("../models/register");
+const modelUsers = require("../models/users");
 const bcrypt = require("bcrypt");
 
 
 exports.login =  (req, res) => {
-   res.send("login");
-   console.log(req.body);
+   console.log(req.body)
+   modelUsers.findAll()
+   .then((users) => {
+       for(let i =0; i < users.length;i++) {
+           if(req.body[0]  == users[i].email) {
+               bcrypt.compare(req.body[1], users[i].mdp)
+               .then((control) => {
+                   if(control) {
+                       console.log("mot de passe bon");
+                       res.status(200).json({message : "compte connecté"})
+                   }
+                   else {
+                       console.log("mot de passe incorrect");
+                       res.status(400).json({message : "impossible"})
+                   }
+               })
+              
+           }
+           else {
+               console.log("Email non reconnu")
+           }
+       }
+   })
+
 }
 exports.register = (req, res) => {
-    console.log("Enregistration Compte utilisateur");
     console.log("Compte enregistré")
     console.log(req.body);
     bcrypt.hash(req.body[3], 5)

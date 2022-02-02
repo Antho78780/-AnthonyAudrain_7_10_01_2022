@@ -12,9 +12,29 @@ if(recupButton) {
         else {
             console.log(formLogin[0].value);
             console.log(formLogin[1].value);
-            console.log("page suivante");
-         
-            ///window.location.href="accueil.html"///
+            
+            const tableauLogin = [formLogin[0].value, formLogin[1].value];
+            console.log(tableauLogin);
+            const apiLogin = fetch(`http://localhost:3000/login`, {
+                method : "POST",
+                body: JSON.stringify(tableauLogin),
+                    headers: {
+                        'content-type' : 'application/json',
+                        'Accept' : 'application/json'
+                    }
+            })
+            apiLogin
+            .then((res) => {
+                if(res.ok) {
+                    console.log("ok")
+                    window.location.href ="accueil.html";
+                }
+                else {
+                    alert("Mot de passe incorrect")
+                }
+            })
+            console.log("Page suivante")
+            ///window.location.href="accueil.html"
         }
     })
     recupButton[1].addEventListener("click", function() {
@@ -33,23 +53,9 @@ if(buttonSuivant) {
         const email = informationRegister[2].value;
         const password = informationRegister[3].value; 
 
-        const tableauFormulaire = [firstName, name, email, password];
-        console.log(tableauFormulaire);
+        const tableauRegister = [firstName, name, email, password];
+        console.log(tableauRegister);
 
-        const api = fetch(`http://localhost:3000/register`, {
-            method: "POST",
-            body: JSON.stringify(tableauFormulaire),
-            headers: {
-                'content-type' : 'application/json',
-                'Accept' : 'application/json'
-            }
-        });
-        api
-        .then((data) => {
-            console.log(data)
-        })
-      
-        
         function validEmail() {
             const verifEmail = email;
             if(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(verifEmail)) {
@@ -77,7 +83,20 @@ if(buttonSuivant) {
             }; 
         }
         if(validEmail() && validPrenom() && validNom() && password != "") {
-            console.log("page suivante");
+            
+            const apiRegister = fetch(`http://localhost:3000/register`, {
+                method: "POST",
+                body: JSON.stringify(tableauRegister),
+                    headers: {
+                        'content-type' : 'application/json',
+                        'Accept' : 'application/json'
+                    }
+            });
+            apiRegister
+            .then((req) => {
+                console.log(req)
+            })
+            console.log("Page suivante")
             ///window.location.href="accueil.html"///
         }
         else if (validEmail()  && validPrenom() && validNom() && password == ""){
