@@ -6,6 +6,7 @@ const controllersUsers = require("../controllers/users");
 
 router.post("/login", controllersUsers.login);
 router.get("/login", controllersUsers.login);
+router.delete("/delete", controllersUsers.deleteCompte)
 router.post("/register", controllersUsers.register);
 router.get("/register", controllersUsers.register);
 
