@@ -2,37 +2,43 @@
 const recupButton = document.querySelector("#ensembleButton");
 
 if(recupButton) {
-    recupButton[0].addEventListener("click", function(event){
-        event.preventDefault();
+    	recupButton[0].addEventListener("click", function(event){
+     	event.preventDefault();
 
-        const formLogin = document.querySelector("#formLogin");
-        const emailLogin = formLogin[0].value;
-        const passwordLogin = formLogin[1].value;
+		const formLogin = document.querySelector("#formLogin");
+		const emailLogin = formLogin[0].value;
+		const passwordLogin = formLogin[1].value;
 
-        const objetLogin = {emailLogin, passwordLogin};
-
-        const apiLogin = fetch(`http://localhost:3000/login`, {
-            method : "POST",
-            body: JSON.stringify(objetLogin),
-                headers: {
-                    'content-type' : 'application/json',
-                    'Accept' : 'application/json'
-                }
-        })
-        apiLogin
-        .then((res) => {
-            if(res.ok) {
-                console.log("Compte reconnu");
-                console.log(objetLogin);
-                console.log(res);
-                console.log("Page suivante");
-                window.location.href ="accueil.html";
-            }
-            else {
-                console.log("Compte incorrect");
-                alert("compte incorrect");
-            }
-        })
+        	const objetLogin = {emailLogin, passwordLogin};
+        
+		if (objetLogin.emailLogin == "" || objetLogin.passwordLogin == "") {
+			console.log("Compte vide");
+			alert("Champ non remplis")
+		}
+		else {
+            console.log(objetLogin);
+			const apiLogin = fetch(`http://localhost:3000/login`, {
+				method : "POST",
+				body: JSON.stringify(objetLogin),
+				headers: {
+					'content-type' : 'application/json',
+					'Accept' : 'application/json',
+                    'Authorization' : "Bearer"
+				}
+			})
+			apiLogin
+			.then((res) => {
+				console.log(res);
+				if(res.ok) {
+				    ///window.location.href ="accueil.html";
+				}
+				else {
+					console.log("Compte incorrect");
+					alert("compte incorrect");
+				}
+			})
+		}
+        
     })
     recupButton[1].addEventListener("click", function() {
         window.location.href="inscription.html"
@@ -81,7 +87,7 @@ if(buttonSuivant) {
 
         if(validEmail() && validPrenom() && validNom() && password != "") {
             
-            console.log(objetRegister)
+            console.log(objetRegister);
             const apiRegister = fetch(`http://localhost:3000/register`, {
                 method: "POST",
                 body: JSON.stringify(objetRegister),
@@ -99,5 +105,8 @@ if(buttonSuivant) {
     })
 
 }
+
+
+
 
 
