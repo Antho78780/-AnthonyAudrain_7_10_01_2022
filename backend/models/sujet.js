@@ -1,7 +1,7 @@
 const sequelize = require("sequelize");
 const Sequelize = require("../database");
 
-const article = Sequelize.define("article", {
+const sujet = Sequelize.define("sujet", {
     id: {
         type: sequelize.INTEGER,
         autoIncrement: true, 
@@ -18,4 +18,6 @@ const article = Sequelize.define("article", {
     },
 })
 
-module.exports = article;
+Sequelize.sync();
+
+module.exports = sujet;

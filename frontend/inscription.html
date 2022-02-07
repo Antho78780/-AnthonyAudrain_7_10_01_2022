@@ -7,10 +7,10 @@
         <link rel="stylesheet"  href="style.css">
     </head>
     <body>
-            <section>
+            <section id="app">
                 <div>
                     <img src = "images/icon-left-font-monochrome-black.svg">
-                    <h1>Inscrivez vous pour accéder au site web</h1>
+                    <h1>{{texte1Inscription}}</h1>
                 </div>
                     <label>
                         <form method="post" id ="formInscription">
@@ -18,10 +18,11 @@
                             <input type="text" name="nom" placeholder="nom" class="modifChampInscription" id="nom" value="" required>
                             <input type="email" name="email" placeholder="e-mail" class="modifChampInscription" id="email" value="" required>
                             <input type="password" name="password" placeholder="password" class="modifChampInscription" id="password" value="" required>
-                            <input type="submit" name="Suivant" value="Suivant" class="buttonSuivant">
+                            <input @click="buttonEnregistrerFormulaire" type="button" value="Valider" class="buttonSuivant">
                         </form>
                     </label>
             </section>
-            <script src="js/accueil.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+            <script src="./js/vue.js"></script>
         </body>
 </html>

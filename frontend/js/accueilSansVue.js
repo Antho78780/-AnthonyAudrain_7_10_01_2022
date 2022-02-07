@@ -30,6 +30,7 @@ if(recupButton) {
 			.then((res) => {
 				console.log(res);
 				if(res.ok) {
+                    console.log(objetLogin);
 				    ///window.location.href ="accueil.html";
 				}
 				else {

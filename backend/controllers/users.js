@@ -1,6 +1,4 @@
 const modelUsers = require("../models/users");
-const modelsArticle = require("../models/article");
-
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -17,6 +15,7 @@ exports.login =  (req, res) => {
 					console.log(req.body)
 					res.status(200).json({
 						message: "mot de passe bon", 
+						email: req.body.emailLogin,
 						id: users.id, 
 						token : jwt.sign(
 							{id: users.id}, 
@@ -40,8 +39,8 @@ exports.register = (req, res) => {
     bcrypt.hash(req.body.passwordRegister, 5)
     .then((hash) => {
         modelUsers.create({
-            prenom: req.body.firstName,
-            nom: req.body.name,
+            prenom: req.body.prenom,
+            nom: req.body.nom,
             email: req.body.emailRegister, 
             mdp: hash,
         })
@@ -52,20 +51,4 @@ exports.register = (req, res) => {
 			}
 		})
     });
-}
-
-exports.article = (req, res) => {
-	console.log(req.body);
-	res.status(201).json({messgae: "sujet créer"});
-	modelUsers.findOne({
-		where: {email : req.body.email}
-	})
-	.then((user) => {
-		modelsArticle.create({
-			titre: req.body.titre,
-			sujet: req.body.sujet,
-			userId: user.id
-		})
-	})
-	
 }

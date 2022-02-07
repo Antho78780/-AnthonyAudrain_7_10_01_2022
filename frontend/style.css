@@ -100,4 +100,12 @@ section {
   width: 200px;
   margin-right: 1000px;
 }
+#titreForms {
+  height: 30px;
+  width: 500px;
+}
+#message {
+  height: 300px;
+  width: 700px;
 
+}

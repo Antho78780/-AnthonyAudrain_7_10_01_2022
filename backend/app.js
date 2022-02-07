@@ -17,9 +17,9 @@ app.use((req, res, next) => {
 const Sequelize = require("./database");
 
 const modelUsers = require("./models/users");
-const modelsArticle = require("./models/article");
+const modelsSujet = require("./models/sujet");
 
-modelUsers.hasMany(modelsArticle);
+modelUsers.hasMany(modelsSujet);
 
 Sequelize
 .sync()
@@ -33,8 +33,10 @@ Sequelize
 
 
 const routeUsers = require("./routes/users");
+const routeSujet = require("./routes/sujet");
 
 app.use("/", routeUsers);
+app.use("/", routeSujet);
 
 
 module.exports = app;
