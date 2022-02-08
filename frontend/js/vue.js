@@ -6,7 +6,7 @@ const app = new Vue({
         titreSujet: "Titre",
         titreObligatoire: "Obligatoire",
         SujetArticle: "Sujet",
-        linkImg: "images/icon-left-font-monochrome-black.svg",
+        linkImg: "./images/icon-left-font-monochrome-black.svg",
     },
     methods: {
         buttonConnecter() {
@@ -73,13 +73,17 @@ const app = new Vue({
     }
 })
 const apiAllSujet = fetch("http://localhost:3000/login/getAllSujet");
+const recupArticle2 =  document.querySelector("#article2");
 apiAllSujet
 .then(res => res.json())
 .then((sujet) => {
     console.log("Affichage de tout les sujets")
     console.log(sujet);
     for(let i =0; i<sujet.length;i++) {
-        document.querySelector("#article2").innerHTML += `<a href="/sujet.html?${sujet[i].id}"<h1>${sujet[i].titre}<h1><p>${sujet[i].sujet}</p></a>`
+       if(recupArticle2) {
+            recupArticle2.innerHTML += `<article id="article2"><a href="/sujet.html?${sujet[i].id}">
+            <h1 class="decoration">${sujet[i].titre}</h1><p class="decoration">${sujet[i].sujet}</p></a></article`
+       }
     }
 })
 const apiOneSujet = fetch("http://localhost:3000/login/getOneSujet");

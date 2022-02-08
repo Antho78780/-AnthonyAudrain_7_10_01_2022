@@ -81,24 +81,24 @@ section {
   margin: auto;
 }
 #modifA {
-  display: flex;
-  justify-content: right;
+ justify-content: right;
   background-color: #0095f6;
+  display: flex;
+  width: 1600px;
   height: 100px;
+  margin: auto;
 }
 #article1 {
   display: flex;
-  justify-content: center;
-  background-color: white;
+  justify-content:space-around;
   height: 100px;
-  border-radius: 10px;
-}
-.texte1 {
+  width: 1600px;
   margin: auto;
 }
 #img1 {
-  width: 200px;
-  margin-right: 1000px;
+  width: 300px;
+  height: 150px;
+  
 }
 #titreForms {
   height: 30px;
@@ -108,4 +108,20 @@ section {
   height: 300px;
   width: 700px;
 
+}
+#article2 {
+  height: 170px;
+  width: 1000px;
+  padding-left: 20px;
+  background-color: white;
+  margin: auto;
+  margin-top: 50px;
+}
+.decoration {
+ color: black;
+ margin-top: 50px;
+}
+a {
+  text-decoration: none;
+  color: black;
 }
