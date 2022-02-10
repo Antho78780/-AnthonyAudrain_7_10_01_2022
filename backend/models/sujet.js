@@ -16,6 +16,14 @@ const sujet = Sequelize.define("sujet", {
         type: sequelize.STRING,
         allowNull: false,
     },
+    likes: {
+        type: sequelize.INTEGER,
+        defaultValue: 0,
+    },
+    disLikes: {
+        type: sequelize.INTEGER,
+        defaultValue: 0,
+    },
 })
 
 Sequelize.sync();

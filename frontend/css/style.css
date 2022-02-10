@@ -1,5 +1,5 @@
 body {
-  background-color: #f0f2f5;
+  background-color: #FECB98;
 }
 p {
   font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
@@ -82,46 +82,69 @@ section {
 }
 #modifA {
  justify-content: right;
-  background-color: #0095f6;
+  background-color: #B2D1FA;
   display: flex;
   width: 1600px;
   height: 100px;
   margin: auto;
+  border-radius: 10px;
 }
-#article1 {
+#section1 {
   display: flex;
   justify-content:space-around;
   height: 100px;
   width: 1600px;
   margin: auto;
+  margin-top: 20px;
 }
-#img1 {
+.img1 {
   width: 300px;
   height: 150px;
   
 }
 #titreForms {
-  height: 30px;
-  width: 500px;
+ width: 70%;
+ height: 40px;
+  border: 1px solid grey;
 }
 #message {
-  height: 300px;
-  width: 700px;
+  width: 70%;
+  height: 500px;
+  border: 1px solid grey;
 
 }
-#article2 {
-  height: 170px;
-  width: 1000px;
-  padding-left: 20px;
+#articleSuivant {
+  height: 300px;
+  width: 900px;
   background-color: white;
-  margin: auto;
   margin-top: 50px;
+  border-radius: 5px;
+
+  margin: auto;
+  
 }
 .decoration {
- color: black;
- margin-top: 50px;
+  color: black;
+  padding-top: 50px;
+  width: 100%;
+  margin-left: 15px;
 }
 a {
   text-decoration: none;
   color: black;
+}
+#background {
+  background-color: #B2D1FA;
+}
+.size {
+  font-size: 12px;
+  color: #AA1414;
+}
+.likes {
+  text-align: right;
+  margin-right: 30px;
+}
+i {
+  font-family: FontAwesome;
+  margin: 5px;
 }

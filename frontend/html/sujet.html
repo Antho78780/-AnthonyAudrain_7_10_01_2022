@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang = "fr">
+    <head>
+        <title>profil Groupomania</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=500, initial-scale=1">  
+        <link rel="stylesheet"  href="/frontend/css/style.css">
+    </head>
+    <body id="background">
+        <section id="app">
+            <form method="post">
+                <div id="flex">
+                    <p>{{ titreSujet }}</p>
+                    <p class="size">{{ titreObligatoire }}</p>
+                </div>
+                    <input v-model="titre" type="text" id="titreForms">
+            </form>
+            <a href="#">Ajouter une photo</a>
+            <form method="post">
+                <p>{{  SujetArticle }}</p>
+                <textarea  v-model="sujet" id="message"></textarea>
+            </form>
+            <button type="button"class="modifButton" @click="envoyerSujet">Envoyer</button>
+        </section>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="../js/vue.js"></script>
+    </body>
+</html>

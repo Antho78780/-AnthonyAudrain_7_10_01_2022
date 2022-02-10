@@ -21,6 +21,7 @@ const modelsSujet = require("./models/sujet");
 
 modelUsers.hasMany(modelsSujet);
 
+
 Sequelize
 .sync()
 .then(() => {

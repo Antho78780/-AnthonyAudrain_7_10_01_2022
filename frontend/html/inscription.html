@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang = "fr">
+    <head>
+        <title>inscription Groupomania</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=500, initial-scale=1">  
+        <link rel="stylesheet"   href="/frontend/css/style.css">
+    </head>
+    <body>
+            <section id="app">
+                <div>
+                    <img class="img1" :src="linkImg">
+                    <h1>{{texte1Inscription}}</h1>
+                </div>
+                    <label>
+                        <form method="post" id ="formInscription">
+                            <input type="text" v-model="prenom" placeholder="prénom" class="modifChampInscription">
+                            <input type="text" v-model="nom" placeholder="nom" class="modifChampInscription">
+                            <input type="email" v-model="emailRegister" placeholder="e-mail" class="modifChampInscription">
+                            <input type="password" v-model="passwordRegister" placeholder="password" class="modifChampInscription">
+                            <button @click="enregistrerFormulaire" type="button" class="buttonSuivant">Valider</button>
+                        </form>
+                    </label>
+            </section>
+            <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+            <script src="../js/vue.js"></script>
+        </body>
+</html>
