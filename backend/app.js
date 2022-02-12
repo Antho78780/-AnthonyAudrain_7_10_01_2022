@@ -14,27 +14,25 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
   });
-const Sequelize = require("./database");
+const SequelizeDb = require("./database");
 
 const modelUsers = require("./models/users");
 const modelsSujet = require("./models/sujet");
 
 modelUsers.hasMany(modelsSujet);
 
-
-Sequelize
-.sync()
-.then(() => {
+try {
+    SequelizeDb.authenticate();
+    SequelizeDb.sync();
     console.log("Connexion à la base de donnée réussie");
-})
-.catch(() => {
+}
+catch(error) {
     console.log("Connexion à la base de donnée echouée")
-})
 
-
-
+}
 const routeUsers = require("./routes/users");
 const routeSujet = require("./routes/sujet");
+const sequelize = require("./database");
 
 app.use("/", routeUsers);
 app.use("/", routeSujet);

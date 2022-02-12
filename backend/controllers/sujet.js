@@ -1,15 +1,18 @@
 const modelsSujet = require("../models/sujet");
-const modelUsers = require("../models/users");
 
 exports.sujetCreate = (req, res) => {
 	console.log(req.body);
-	modelsSujet.create({
+	const createSujet = modelsSujet.build({
 		titre: req.body.titre,
 		sujet: req.body.sujet,
-		userId: req.body.userId,
+		prenom: req.body.prenomSujet,
+		nom: req.body.nomSujet,
+		email: req.body.emailSujet,
+		userId: req.body.userIdSujet,
 		likes: 0,
 		disLikes: 0,
 	})
+	createSujet.save();
 	res.status(201).json({messgae: "sujet créer"});
 }
 exports.getAllSujet = (req, res) => {

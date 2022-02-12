@@ -8,6 +8,19 @@ const sujet = Sequelize.define("sujet", {
         allowNull: false,
         primaryKey: true,
     },
+    prenom: {
+        type: sequelize.STRING,
+        allowNull: false,
+    },
+    nom: {
+        type: sequelize.STRING,
+        allowNull: false,
+    },
+    email: {
+        type: sequelize.STRING,
+        allowNull: false,
+        unique: true,
+    },
     titre: {
         type: sequelize.STRING,
         allowNull: false,
@@ -26,6 +39,5 @@ const sujet = Sequelize.define("sujet", {
     },
 })
 
-Sequelize.sync();
 
 module.exports = sujet;

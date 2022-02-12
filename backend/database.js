@@ -1,9 +1,9 @@
 
-const sequelize = require("sequelize");
+const {Sequelize}  = require("sequelize");
 
-const Sequelize = new sequelize(`${process.env.dbName}`,`${process.env.usersNameDb}`,`${process.env.passwordDb}`, {
+const sequelize = new Sequelize(`${process.env.dbName}`,`${process.env.usersNameDb}`,`${process.env.passwordDb}`, {
     dialect : "mysql",
     host : "localhost"
 });
 
-module.exports = Sequelize;
+module.exports = sequelize;

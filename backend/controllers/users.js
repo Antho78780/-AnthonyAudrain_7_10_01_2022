@@ -15,6 +15,8 @@ exports.login =  (req, res) => {
 					console.log(req.body)
 					res.status(200).json({
 						message: "mot de passe bon", 
+						prenom: users.prenom,
+						nom: users.nom,
 						email: req.body.emailLogin,
 						id: users.id, 
 						token: jwt.sign(

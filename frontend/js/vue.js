@@ -37,7 +37,8 @@ const app = new Vue({
 
         champ: "",
 
-        
+        infosUsers: [],
+
 
     },
     methods: {
@@ -55,17 +56,23 @@ const app = new Vue({
                 body: JSON.stringify(objetLogin)
             })
             .then(res => res.json())
-            .then((msgLogin) => {
-                console.log(msgLogin);
-                if(msgLogin.message) {
-                    localStorage.setItem("token", msgLogin.token);
-                    localStorage.setItem("userId", msgLogin.id);
-                    window.location.href = "accueil.html"
+            .then((user) => {
+                if(user.message) {
+                    console.log(user);
+                    this.infosUsers.push(user.prenom, user.nom, user.email, user.id, user.token);
+                    localStorage.setItem("InfosUsers", JSON.stringify(this.infosUsers));
+
+                    window.location.href="accueil.html"
+                    
                 }
                 else {
                     alert("Informations incorrect");
                 }
             })
+        },
+        deconnecter () {
+            localStorage.removeItem("InfosUsers");
+            window.location.href="connexion.html"
         },
 
         enregistrer() {
@@ -98,7 +105,12 @@ const app = new Vue({
 
         envoyerSujet() {
 
-            const userId = localStorage.getItem("userId");
+            const infosUsersSujet = JSON.parse(localStorage.getItem("InfosUsers"));
+            console.log(infosUsersSujet);
+            const prenomSujet = infosUsersSujet[0];
+            const nomSujet = infosUsersSujet[1];
+            const emailSujet = infosUsersSujet[2];
+            const userIdSujet = infosUsersSujet[3];
             const titre = this.titre;
             const sujet = this.sujet;
 
@@ -106,7 +118,7 @@ const app = new Vue({
                 alert("Vous ne pouvez pas envoyé de champs vide")
             }
             else {
-                const objetSujet = {titre, sujet, userId};
+                const objetSujet = {titre, sujet, prenomSujet, nomSujet, emailSujet, userIdSujet };
                 fetch (this.apiSujetCreate, {
                     method: "POST", 
                     headers: {
@@ -116,7 +128,7 @@ const app = new Vue({
                 })
                 .then((res) => {
                     if(res.ok) {
-                       window.location.href = "accueil.html"
+                       window.location.href ="accueil.html"
                     }
                 });
             }
@@ -130,8 +142,9 @@ fetch("http://localhost:3000/getAllSujet")
 .then(res => res.json())
 .then((sujet) => {
     if(recupArticle) {
+        console.log(sujet);
         for(let i=0; i < sujet.length;i++) {
-            recupArticle.innerHTML += `<article id="articleSuivant"><p class="infos">Utilisateur: ${sujet[i].userId}</p><h1 class="decoration titreSujet">${sujet[i].titre}</h1>
+            recupArticle.innerHTML += `<article id="articleSuivant"><p class="infos">${sujet[i].prenom}</p><h1 class="decoration titreSujet">${sujet[i].titre}</h1>
             <p class="decoration">${sujet[i].sujet}<p class="likes"><i class="fa-solid fa-thumbs-up"></i>${sujet[i].likes}</p>
             <p class="likes"><i class="fa-solid fa-thumbs-down"></i>${sujet[i].disLikes}</p></article>`
 
@@ -139,16 +152,6 @@ fetch("http://localhost:3000/getAllSujet")
     }
 
 })
-const userId = localStorage.getItem("userId");
-console.log(userId)
-fetch(`http://localhost:3000/getOneProfil/${userId}`)
-.then(res => res.json())
-.then((sujet) => {
-    console.log("Affichage du Profil")
-    console.log(sujet);
-})
-
-
 
 
 
