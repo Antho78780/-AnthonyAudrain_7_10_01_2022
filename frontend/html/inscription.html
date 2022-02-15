@@ -23,6 +23,45 @@
                     </label>
             </section>
             <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-            <script src="../js/vue.js"></script>
+            <script>
+                const app = new Vue({
+                    el: "#app",
+                    data: {
+                        texte1Inscription: "Inscrivez vous pour accéder au site web",
+                        linkImg: "../images/icon-left-font-monochrome-black.svg",
+                        apiRegister: "http://localhost:3000/register",
+
+                        prenom: "",
+                        nom: "",
+                        emailRegister: "",
+                        passwordRegister: "",
+                    },
+                    methods: {
+                        enregistrerFormulaire() {
+                        const prenom = this.prenom;
+                        const nom = this.nom;
+                        const emailRegister = this.emailRegister;
+                        const passwordRegister = this.passwordRegister;
+
+                        const objetRegister = {prenom, nom, emailRegister, passwordRegister};
+                        console.log(objetRegister);
+
+                        fetch (this.apiRegister, {
+                            method: "POST", 
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                            },
+                            body: JSON.stringify(objetRegister)
+                        })
+                        .then((res) => {
+                            if(res.ok) {
+                                window.location.href = "connexion.html"
+                            }
+                        })
+                    },
+                    }
+                })
+            </script>
         </body>
 </html>

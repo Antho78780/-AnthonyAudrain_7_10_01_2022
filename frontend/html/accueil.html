@@ -10,17 +10,36 @@
     <body>
         <div id="app">
             <main id="modifA">
-                <a :href="hrefProfil"  class="modifTitre"><p>Profil</p></a>
-                <button @click="deconnecter" type="button" class="modifButton2">Déconnexion </button>
+                <a :href="hrefProfil"  class="modifTitre"><p>{{texteProfil}}</p></a>
+                <button @click="deconnecter" type="button" class="modifButton2">{{texteDeconnexion}}</button>
             </main>
             <section id="section1">
-                <h1 class="texte1">Forums</h1>
-                <a :href="hrefSujet"><p class="texte1">Créer un nouveau sujet</p></a>
+                <h1 class="texte1">{{texteForums}}</h1>
+                <a :href="hrefSujet"><p class="texte1">{{texteCreerSujet}}</p></a>
             </section>
             <article  id="articleJs">
             </article>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-        <script src="../js/vue.js"></script>
+        <script>
+            const app = new Vue({
+                el: "#app",
+                data: {
+                    texteCreerSujet : "Créer un nouveau sujet",
+                    texteDeconnexion: "Déconnexion",
+                    texteForums: "Forums",
+                    texteProfil : "Profil",
+                    hrefProfil: "profil.html",
+                    hrefSujet: "sujet.html",
+                },
+                methods: {
+                    deconnecter() {
+                       window.location.href = "connexion.html";
+                       sessionStorage.removeItem("usersIdToken")
+                    }
+                }
+            })
+        </script>
+          <script src="../js/accueil.js"></script>
     </body>
 </html>

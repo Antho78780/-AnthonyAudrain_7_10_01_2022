@@ -57,21 +57,32 @@ exports.register = (req, res) => {
     });
 }
 
-exports.deleteCompte = (req, res) => {
-	console.log(req.body);
+exports.deleteUsers = (req, res) => {
 	modelUsers.destroy({
-		where: {id : req.body.id}
+		where: {id: req.params.id}
 	})
-	.then((destroy) => {
-		res.status(200).json(destroy);
+	.then((deleteUsers) => {
+		if(deleteUsers) {
+			res.status(201).json({message: "compte supprimé"});
+		}
+		else {
+			res.status(400).json({message: "compte non supprimé"})
+		}
 	})
 }
 
-exports.getOneProfil = (req, res) => {
-	console.log(req.params.id);
+exports.getAllUsers = (req, res) => {
+	modelUsers.findAll()
+	.then((users) => {
+		res.status(200).json(users);
+	})
+}
+exports.getOneUsers = (req, res) => {
+	console.log(req.params)
 	modelUsers.findByPk(req.params.id)
-	.then((infoUsers) => {
-		res.status(200).json(infoUsers);
+	.then((oneUsers) => {
+		res.status(200).json(oneUsers);
 	})
 }
 
+ 

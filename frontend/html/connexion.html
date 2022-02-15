@@ -24,6 +24,52 @@
             </label>
         </section>
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-        <script src="../js/vue.js"></script>
+        <script>
+            const app = new Vue({
+                el: "#app",
+                data: {
+                    texte1Connexion: "Groupomania le nouveau réseau social pour communiqué entre collègue",
+                    linkImg: "../images/icon-left-font-monochrome-black.svg",
+                    apiLogin: "http://localhost:3000/login",
+
+                    emailLogin: "",
+                    passwordLogin: "",
+                    infosUsers: [],
+                },
+                methods: {
+                    connecter() {
+                        const emailLogin =  this.emailLogin;
+                        const passwordLogin =  this.passwordLogin;
+                        const objetLogin = {emailLogin, passwordLogin};
+
+                        fetch (this.apiLogin, {
+                            method: "POST", 
+                            headers: {
+                                'Content-Type' : 'application/json'
+                            },
+                            body: JSON.stringify(objetLogin)
+                        })
+                        .then(res => res.json())
+                        .then((user) => {
+                            if(user.message) {
+                                console.log(user);
+                                this.infosUsers.push(user.id, user.token);
+                                sessionStorage.setItem("usersIdToken", JSON.stringify(this.infosUsers));
+
+                                window.location.href="accueil.html"
+                                
+                            }
+                            else {
+                                alert("Informations incorrect");
+                            }
+                        })
+                    },
+                    enregistrer() {
+                        window.location.href = "inscription.html";
+                    },
+                }
+            })
+        </script>
+        
     </body>
 </html>

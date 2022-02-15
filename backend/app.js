@@ -32,7 +32,7 @@ catch(error) {
 }
 const routeUsers = require("./routes/users");
 const routeSujet = require("./routes/sujet");
-const sequelize = require("./database");
+
 
 app.use("/", routeUsers);
 app.use("/", routeSujet);

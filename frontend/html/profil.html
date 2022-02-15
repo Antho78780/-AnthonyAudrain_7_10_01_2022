@@ -8,11 +8,38 @@
     </head>
     <body>
         <section id="app">
-            <p>Prenom</p>
-            <p>Nom</p>
-            <a :href="hrefSuppresion"><p>Supprésion du compte</p></a>
+            <p> </p>
+            <p>Nom: </p>
+            <p>Email:</p>
+            <button @click="suppresion" type="button" class="modifButton">{{titreSuppresionCompte}}</button>
         </section>
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-        <script src="../js/vue.js"></script>
+        <script>
+            const app = new Vue({
+                el: "#app",
+                data: {
+                    titreSuppresionCompte: "Suppresion de mon compte",  
+                },
+                methods: {
+                    suppresion() {
+                    const idUserssessionStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
+                    const users_id = idUserssessionStorage[0];
+                    fetch(`http://localhost:3000/deleteUsers/${users_id}`, {
+                    method: "DELETE",
+                    headers: {
+                        'Content-Type' : 'application/json'
+                    }, 
+                })
+                .then((res) => {
+                    if(res.ok) {
+                        alert("Votre compte à été supprimé")
+                        sessionStorage.removeItem("usersIdToken");
+                        window.location.href = "connexion.html";
+                    }
+                })
+        },
+                }
+            })
+        </script>
     </body>
 </html>
