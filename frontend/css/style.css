@@ -1,5 +1,5 @@
 body {
-  background-color: #FECB98;
+  background-color: #b2d1fa;
 }
 p {
   font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
@@ -81,10 +81,12 @@ section {
   margin: auto;
 }
 #modifA {
- justify-content: right;
-  background-color: #00FFFF;
+  display: flex;
+  justify-content: space-between;
+  background-color: #0056b3;
   display: flex;
   height: 100px;
+
   
 }
 #section1 {
@@ -97,7 +99,7 @@ section {
 }
 .img1 {
   width: 300px;
-  height: 150px;
+  height: 110px;
   
 }
 #titreForms {
@@ -111,13 +113,12 @@ section {
   border: 1px solid grey;
 
 }
-#articleSuivant {
+#articleJs{
   height: 300px;
   width: 900px;
   background-color: white;
   margin-top: 50px;
   border-radius: 5px;
-
   margin: auto;
   
 }
@@ -134,7 +135,7 @@ a {
   color: black;
 }
 #background {
-  background-color: #00FFFF;
+  background-color: #b2d1fa;
 }
 .size {
   font-size: 12px;
@@ -150,7 +151,7 @@ i {
 }
 .modifButton2 {
   border: none;
-  background-color: #00FFFF;
+  background-color: #0056b3;
   font-size: 17px;
   margin-right: 10px;
 }
@@ -161,8 +162,16 @@ i {
   height: 50px;
 } 
 .modifPrenom {
-  background-color: #00FFFF;
+  background-color: #b2d1fa;
+  width: 150px;
   height: 40px;
-  padding-left: 20px;
+  border-radius: 5px;
+  margin-left: 5px;
 }
-
+#flex-row {
+  display: flex;
+}
+.mbutton {
+  margin-left: 70%;
+  margin-top: 10%;
+}

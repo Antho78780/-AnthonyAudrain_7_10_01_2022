@@ -1,30 +1,33 @@
-const sequelize = require("sequelize");
-const Sequelize = require("../database");
+const {DataTypes} = require("sequelize");
+const sequelizeDB = require("../database");
 
-const sujet = Sequelize.define("sujet", {
+const sujet = sequelizeDB.define("sujet", {
     id: {
-        type: sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         autoIncrement: true, 
         allowNull: false,
         primaryKey: true,
     },
     userId: {
-        type: sequelize.INTEGER,
+        type: DataTypes.INTEGER,
+    },
+    images: {
+        type : DataTypes.STRING,
     },
     titre: {
-        type: sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
     },
     sujet: {
-        type: sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
     },
     likes: {
-        type: sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         defaultValue: 0,
     },
     disLikes: {
-        type: sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         defaultValue: 0,
     },
 })

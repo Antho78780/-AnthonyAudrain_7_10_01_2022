@@ -16,10 +16,6 @@ app.use((req, res, next) => {
   });
 const SequelizeDb = require("./database");
 
-const modelUsers = require("./models/users");
-const modelsSujet = require("./models/sujet");
-
-modelUsers.hasMany(modelsSujet);
 
 try {
     SequelizeDb.authenticate();

@@ -10,36 +10,57 @@
     <body>
         <div id="app">
             <main id="modifA">
-                <a :href="hrefProfil"  class="modifTitre"><p>{{texteProfil}}</p></a>
-                <button @click="deconnecter" type="button" class="modifButton2">{{texteDeconnexion}}</button>
+                <img class="img1" :src="linkImg">
+                <div id="flex-row">
+                    <a :href="hrefProfil"  class="modifTitre"><p>{{texteProfil}}</p></a>
+                    <button @click="deconnecter" type="button" class="modifButton2">{{texteDeconnexion}}</button>
+                </div>
             </main>
             <section id="section1">
                 <h1 class="texte1">{{texteForums}}</h1>
                 <a :href="hrefSujet"><p class="texte1">{{texteCreerSujet}}</p></a>
             </section>
-            <article  id="articleJs">
+            <article v-for="sujet in allSujet" id="articleJs">
+                <h1 class="decoration titreSujet">{{sujet.titre}}</h1>
+                <p class="modifPrenom"></p>
+                <p class="decoration">{{sujet.sujet}}</p>
+                <!----
+                <button type="button" class="modifButton mbutton">Supprimé le sujet</button>
+                -->
             </article>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="https://unpkg.com/vue@3"></script>
         <script>
-            const app = new Vue({
-                el: "#app",
-                data: {
-                    texteCreerSujet : "Créer un nouveau sujet",
-                    texteDeconnexion: "Déconnexion",
-                    texteForums: "Forums",
-                    texteProfil : "Profil",
-                    hrefProfil: "profil.html",
-                    hrefSujet: "sujet.html",
+            Vue.createApp({
+                data() {
+                    return {
+                        texteCreerSujet : "Créer un nouveau sujet",
+                        texteDeconnexion: "Déconnexion",
+                        texteForums: "Forums",
+                        texteProfil : "Profil",
+                        hrefProfil: "profil.html",
+                        hrefSujet: "sujet.html",
+                        linkImg: "../images/icon-left-font-monochrome-black.svg",
+                        allSujet: [],
+                    }
+                },
+                mounted() {
+                       
+                        fetch("http://localhost:3000/getAllSujet")
+                        .then(res => res.json())
+                        .then((data) => {
+                            console.log(data)
+                            this.allSujet = data;
+                        })
                 },
                 methods: {
                     deconnecter() {
                        window.location.href = "connexion.html";
                        sessionStorage.removeItem("usersIdToken")
-                    }
+                    },
                 }
             })
+            .mount("#app")
         </script>
-          <script src="../js/accueil.js"></script>
     </body>
 </html>

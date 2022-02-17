@@ -1,12 +1,13 @@
 const http = require("http");
+require("dotenv").config();
 
-const PORT = 3000;
+const PORT2 = process.env.PORT;
 
 const app = require("./app");
 
-app.set("port", PORT);
+app.set("port", PORT2);
 
 
 const server = http.createServer(app);
 
-server.listen(PORT);
+server.listen(PORT2);

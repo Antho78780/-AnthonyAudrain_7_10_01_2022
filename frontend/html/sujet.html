@@ -22,19 +22,20 @@
             </form>
             <button type="button"class="modifButton" @click="envoyerSujet">Envoyer</button>
         </section>
-        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="https://unpkg.com/vue@3"></script>
         <script>
-            const app = new Vue({
-                el: "#app",
-                data: {
-                    titreSujet: "Titre",
-                    titreObligatoire: "Obligatoire",
-                    SujetArticle: "Créer un nouveau sujet",
-                    photo: "Ajouté une photo",
-                    apiSujetCreate: "http://localhost:3000/sujetCreate",
-                    
-                    titre: "",
-                    sujet: "",
+            Vue.createApp({
+                data() {
+                    return {
+                        titreSujet: "Titre",
+                        titreObligatoire: "Obligatoire",
+                        SujetArticle: "Créer un nouveau sujet",
+                        photo: "Ajouté une photo",
+                        apiSujetCreate: "http://localhost:3000/sujetCreate",
+                        
+                        titre: "",
+                        sujet: "",
+                    }
                 },
                 methods: {
                     envoyerSujet() {
@@ -55,15 +56,15 @@
                                 },
                                 body: JSON.stringify(objetSujet)
                             })
-                            .then((res) => {
-                                if(res.ok) {
-                                    window.location.href="accueil.html"
-                                }
+                            .then(res => res.json())
+                            .then((data) => {
+                                    window.location.href= "accueil.html"
                             })
                         }
                     }
                 }
             })
+            .mount("#app")
         </script>
     </body>
 </html>

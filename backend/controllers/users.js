@@ -1,6 +1,8 @@
 const modelUsers = require("../models/users");
+const modelsSujet = require("../models/sujet");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 
 
 exports.login =  (req, res) => {
@@ -14,10 +16,7 @@ exports.login =  (req, res) => {
 				if(control) {
 					console.log(req.body)
 					res.status(200).json({
-						message: "mot de passe bon", 
-						prenom: users.prenom,
-						nom: users.nom,
-						email: req.body.emailLogin,
+						message: "Compte connecté",
 						id: users.id, 
 						token: jwt.sign(
 							{id: users.id}, 
@@ -82,6 +81,12 @@ exports.getOneUsers = (req, res) => {
 	modelUsers.findByPk(req.params.id)
 	.then((oneUsers) => {
 		res.status(200).json(oneUsers);
+	})
+}
+exports.uploadImage = (req, res) => {
+	console.log(req.body);
+	modelUsers.create({
+		images : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
 	})
 }
 

@@ -4,11 +4,15 @@ const router = express.Router();
 
 const controllersSujet = require("../controllers/sujet");
 const auth = require("../middelware/auth");
+const multer = require("../middelware/multer");
 
-router.post("/sujetCreate", controllersSujet.sujetCreate);
-router.get("/sujetCreate", controllersSujet.sujetCreate);
+router.post("/sujetCreate", multer, controllersSujet.sujetCreate);
 router.get("/getAllSujet", controllersSujet.getAllSujet);
-router.put("/likes", controllersSujet.postLikes)
+router.put("/updateSujet/:id", controllersSujet.updateSujet);
+router.delete("/deleteSujet/:id", controllersSujet.deleteSujet)
+router.put("/likes/:id", controllersSujet.sujetLikes);
+router.put("/disLikes/:id", controllersSujet.sujetDisLikes);
+router.patch("/comments/:id", controllersSujet.commentsSujet);
 
 
 
