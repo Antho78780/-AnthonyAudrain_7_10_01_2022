@@ -11,6 +11,6 @@ router.post("/register", controllersUsers.register);
 router.delete("/deleteUsers/:id",auth, controllersUsers.deleteUsers);
 router.get("/getAllUsers", controllersUsers.getAllUsers);
 router.get("/getOneUsers/:id", controllersUsers.getOneUsers);
-router.post("/uploadImage", multer, controllersUsers.uploadImage);
+
 
 module.exports = router;

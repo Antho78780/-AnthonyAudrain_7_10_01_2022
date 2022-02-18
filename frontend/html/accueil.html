@@ -12,18 +12,22 @@
             <main id="modifA">
                 <img class="img1" :src="linkImg">
                 <div id="flex-row">
-                    <a :href="hrefProfil"  class="modifTitre"><p>{{texteProfil}}</p></a>
-                    <button @click="deconnecter" type="button" class="modifButton2">{{texteDeconnexion}}</button>
+                    <a :href="hrefProfil"  class="modifTitre modifFlex"><p>{{texteProfil}}</p></a>
+                    <button @click="deconnecter" type="button" class="modifButton2 modifFlex">{{texteDeconnexion}}</button>
                 </div>
             </main>
             <section id="section1">
                 <h1 class="texte1">{{texteForums}}</h1>
                 <a :href="hrefSujet"><p class="texte1">{{texteCreerSujet}}</p></a>
             </section>
-            <article v-for="sujet in allSujet" id="articleJs">
-                <h1 class="decoration titreSujet">{{sujet.titre}}</h1>
-                <p class="modifPrenom"></p>
-                <p class="decoration">{{sujet.sujet}}</p>
+            <article v-for="sujet in allSujet"  id="articleJs">
+                    <h1 class="decoration titreSujet">{{sujet.titre}}</h1>
+                    <p class="modifPrenom"></p>
+                    <p class="decoration">{{sujet.sujet}}</p>
+                    <div id="flex">
+                        <textarea  class="modifText"placeholder="Ecrivez un commentaire"></textarea>
+                        <p class="modifTemp">Créer le: {{sujet.createdAt}} </p>
+                    </div>
                 <!----
                 <button type="button" class="modifButton mbutton">Supprimé le sujet</button>
                 -->
@@ -34,6 +38,7 @@
             Vue.createApp({
                 data() {
                     return {
+                        apiGetAllSujet: "http://localhost:3000/post/getAllPost",
                         texteCreerSujet : "Créer un nouveau sujet",
                         texteDeconnexion: "Déconnexion",
                         texteForums: "Forums",
@@ -45,19 +50,27 @@
                     }
                 },
                 mounted() {
-                       
-                        fetch("http://localhost:3000/getAllSujet")
-                        .then(res => res.json())
-                        .then((data) => {
-                            console.log(data)
-                            this.allSujet = data;
-                        })
+                    fetch(this.apiGetAllSujet)
+                    .then(res => res.json())
+                    .then((data) => {
+                        for(let post of data) {
+                           let date = new Date(post.createdAt);
+                           const datePost = date.toLocaleDateString() + " à " + date.toLocaleTimeString();
+                           post.createdAt = datePost;
+                        }
+                        this.allSujet = data;
+                        console.log(data);
+                    })
                 },
                 methods: {
                     deconnecter() {
                        window.location.href = "connexion.html";
-                       sessionStorage.removeItem("usersIdToken")
+                       sessionStorage.removeItem("usersIdToken");
                     },
+                    envoisComments() {
+                        console.log("ok");
+                        
+                    }
                 }
             })
             .mount("#app")

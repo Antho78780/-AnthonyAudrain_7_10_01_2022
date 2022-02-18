@@ -40,7 +40,7 @@ section {
 
 ::placeholder {
   padding-left: 10px;
-  background-color: #fafafa;
+  background-color: white;
 }
 #formInscription {
   margin-top: 10%;
@@ -72,8 +72,7 @@ section {
 .modifTitre {
   color: black;
   text-decoration: none;
-  margin-right: 70px;
-  margin-top: 23px;
+  
   
 }
 #accueil {
@@ -103,14 +102,13 @@ section {
   
 }
 #titreForms {
- width: 70%;
+ width: 40%;
  height: 40px;
-  border: 1px solid grey;
 }
 #message {
-  width: 70%;
-  height: 500px;
-  border: 1px solid grey;
+  width: 40%;
+  height: 300px;
+  margin: auto;
 
 }
 #articleJs{
@@ -153,7 +151,8 @@ i {
   border: none;
   background-color: #0056b3;
   font-size: 17px;
-  margin-right: 10px;
+  height: 10px;
+  margin-top: 15px;
 }
 .infos {
   padding-left: 15px;
@@ -171,7 +170,34 @@ i {
 #flex-row {
   display: flex;
 }
+.modifFlex {
+ padding: 40px;
+ font-weight: bold;
+}
 .mbutton {
   margin-left: 70%;
   margin-top: 10%;
+}
+.color {
+  color: #F01A1A;
+  font-size: 20px;
+  font-weight: bold;
+}
+.modifTemp {
+ margin-left: 25%;
+ font-weight: bold;
+}
+.obligatoire {
+  font-size: 10px;
+  color: #F01A1A
+}
+#flex {
+  display: flex;
+  margin-top: 15%;
+}
+.modifText {
+  width: 34%;
+  height: 35px;
+  border: 1px solid #0056b3;
+  margin-left: 5px;
 }

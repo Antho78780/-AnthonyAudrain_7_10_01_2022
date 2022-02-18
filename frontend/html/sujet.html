@@ -9,16 +9,14 @@
     <body id="background">
         <section id="app">
             <form method="post">
-                <div id="flex">
-                    <p>{{ titreSujet }}</p>
-                    <p class="size">{{ titreObligatoire }}</p>
+                <p>{{titreSujet}}</p>
+                <p class="obligatoire">{{titreObligatoire}}</p>
+               <textarea v-model="titre" id="titreForms"></textarea>
+                <div>
+                    <p class="test">{{  SujetArticle }}</p>
+                    <input type="file">
                 </div>
-                    <input v-model="titre" type="text" id="titreForms">
-            </form>
-            <a href="#">{{photo}}</a>
-            <form method="post">
-                <p>{{  SujetArticle }}</p>
-                <textarea  v-model="sujet" id="message"></textarea>
+                    <textarea  v-model="sujet" id="message"></textarea>
             </form>
             <button type="button"class="modifButton" @click="envoyerSujet">Envoyer</button>
         </section>
@@ -28,10 +26,9 @@
                 data() {
                     return {
                         titreSujet: "Titre",
-                        titreObligatoire: "Obligatoire",
+                        titreObligatoire: "(Obligatoire)",
                         SujetArticle: "Créer un nouveau sujet",
-                        photo: "Ajouté une photo",
-                        apiSujetCreate: "http://localhost:3000/sujetCreate",
+                        apiSujetCreate: "http://localhost:3000/post/postCreate",
                         
                         titre: "",
                         sujet: "",
@@ -40,7 +37,7 @@
                 methods: {
                     envoyerSujet() {
                         const recupStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
-                        const userIdSujet = recupStorage[0]
+                        const userId = recupStorage[0]
                         const titre = this.titre;
                         const sujet = this.sujet;
 
@@ -48,7 +45,8 @@
                             alert("Vous ne pouvez pas envoyé de champs vide")
                         }
                         else {
-                            const objetSujet = {titre, sujet, userIdSujet};
+                            const objetSujet = {titre, sujet, userId};
+                            console.log(objetSujet)
                             fetch (this.apiSujetCreate, {
                                 method: "POST", 
                                 headers: {

@@ -21,6 +21,7 @@
                     <button type="button" @click="connecter" class="modifButton">Se connecter</button>
                     <button type="button" @click="enregistrer" class="modifButton">s'enregistrer</button>
                 </form>
+                <div class="color">{{emailPasswordError}}</div>
             </label>
         </section>
         <script src="https://unpkg.com/vue@3"></script>
@@ -30,11 +31,12 @@
                     return {
                         texte1Connexion: "Groupomania le nouveau réseau social pour communiqué entre collègue",
                         linkImg: "../images/icon-left-font-monochrome-black.svg",
-                        apiLogin: "http://localhost:3000/login",
+                        apiLogin: "http://localhost:3000/users/login",
 
                         emailLogin: "",
                         passwordLogin: "",
                         infosUsers: [],
+                        emailPasswordError: "",
                     }
                 },
                 methods: {
@@ -42,7 +44,8 @@
                         const emailLogin =  this.emailLogin;
                         const passwordLogin =  this.passwordLogin;
                         const objetLogin = {emailLogin, passwordLogin};
-                        console.log(objetLogin);
+                        console.log(objetLogin)
+                        
 
                         fetch (this.apiLogin, {
                             method: "POST", 
@@ -55,15 +58,19 @@
                         .then((user) => {
                             if(user.message) {
                                 console.log(user);
+                                this.emailPasswordError = "";
                                 this.infosUsers.push(user.id, user.token);
                                 sessionStorage.setItem("usersIdToken", JSON.stringify(this.infosUsers));
+                                window.location.href = "accueil.html"
 
-                                window.location.href="accueil.html"
-                                
                             }
                             else {
-                                alert("Informations incorrect");
+                                console.log(user.error)
+                                this.emailPasswordError = user.error
                             }
+                        })
+                        .catch((err) => {
+                            console.log(err)
                         })
                     },
                     enregistrer() {

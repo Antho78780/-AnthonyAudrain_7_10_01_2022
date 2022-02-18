@@ -1,5 +1,4 @@
 const modelUsers = require("../models/users");
-const modelsSujet = require("../models/sujet");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
@@ -72,8 +71,8 @@ exports.deleteUsers = (req, res) => {
 
 exports.getAllUsers = (req, res) => {
 	modelUsers.findAll()
-	.then((users) => {
-		res.status(200).json(users);
+	.then((user)=> {
+		res.status(200).json(user)
 	})
 }
 exports.getOneUsers = (req, res) => {
@@ -81,12 +80,6 @@ exports.getOneUsers = (req, res) => {
 	modelUsers.findByPk(req.params.id)
 	.then((oneUsers) => {
 		res.status(200).json(oneUsers);
-	})
-}
-exports.uploadImage = (req, res) => {
-	console.log(req.body);
-	modelUsers.create({
-		images : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
 	})
 }
 

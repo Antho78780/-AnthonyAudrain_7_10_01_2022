@@ -8,6 +8,7 @@
     </head>
     <body>
         <section id="app">
+            <h1 class="modifFlex">Bienvenue {{user.prenom}}</h1>
             <p><strong>Prenom: </strong>{{user.prenom}} </p>
             <p><strong>Nom: </strong>{{user.nom}}</p>
             <p><strong>Email: </strong>{{user.email}}</p>
@@ -20,13 +21,13 @@
                 data() {
                     return {
                         titreSuppresionCompte: "Suppresion de mon compte",
-                        user: {}
+                        user: ""
                     }  
                 },
                 mounted() {
                     const idUserssessionStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
                     const users_id = idUserssessionStorage[0];
-                    fetch(`http://localhost:3000/getOneUsers/${users_id}`)
+                    fetch(`http://localhost:3000/users/getOneUsers/${users_id}`)
                     .then(res => res.json())
                     .then((data) => {
                         console.log(data)
@@ -43,14 +44,14 @@
                             headers: {
                                 'Content-Type' : 'application/json'
                             }
-                            .then((res) => {
+                        })
+                        .then((res) => {
                                 if(res.ok) {
                                     alert("Votre compte à été supprimé")
                                     sessionStorage.removeItem("usersIdToken");
                                     window.location.href = "connexion.html";
                                 }
                             })
-                        })
                     }
                 }
             })
