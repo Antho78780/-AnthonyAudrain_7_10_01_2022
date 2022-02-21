@@ -71,15 +71,15 @@ exports.deleteUsers = (req, res) => {
 
 exports.getAllUsers = (req, res) => {
 	modelUsers.findAll()
-	.then((user)=> {
-		res.status(200).json(user)
+	.then((users)=> {
+		res.status(200).json(users)
 	})
 }
 exports.getOneUsers = (req, res) => {
 	console.log(req.params)
 	modelUsers.findByPk(req.params.id)
-	.then((oneUsers) => {
-		res.status(200).json(oneUsers);
+	.then((oneUser) => {
+		res.status(200).json(oneUser);
 	})
 }
 

@@ -19,9 +19,8 @@ const SequelizeDb = require("./util/database");
 const modelsUsers = require("./models/users");
 const modelsPost = require("./models/post");
 
+ 
 try {
-    modelsUsers.hasMany(modelsPost);
-    modelsPost.belongsTo(modelsUsers);
     SequelizeDb.authenticate();
     SequelizeDb.sync();
     console.log("Connexion à la base de donnée réussie");

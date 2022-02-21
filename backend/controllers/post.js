@@ -6,7 +6,7 @@ const modelsUsers = require("../models/users");
 exports.postCreate = (req, res) => {
 	console.log(req.body);
 	modelsPost.create({
-		userId : req.body.userId,
+		userId: req.body.userId,
 		titre: req.body.titre,
 		sujet: req.body.sujet,
 	})

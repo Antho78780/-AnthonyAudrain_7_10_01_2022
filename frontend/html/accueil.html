@@ -22,11 +22,11 @@
             </section>
             <article v-for="sujet in allSujet"  id="articleJs">
                     <h1 class="decoration titreSujet">{{sujet.titre}}</h1>
-                    <p class="modifPrenom"></p>
+                    <p class="modifPrenom">{{sujet.auteur}}</p>
                     <p class="decoration">{{sujet.sujet}}</p>
                     <div id="flex">
                         <textarea  class="modifText"placeholder="Ecrivez un commentaire"></textarea>
-                        <p class="modifTemp">Créer le: {{sujet.createdAt}} </p>
+                        <p class="modifTemp">Créer le: {{sujet.date}} </p>
                     </div>
                 <!----
                 <button type="button" class="modifButton mbutton">Supprimé le sujet</button>
@@ -52,14 +52,21 @@
                 mounted() {
                     fetch(this.apiGetAllSujet)
                     .then(res => res.json())
-                    .then((data) => {
-                        for(let post of data) {
+                    .then((allPost) => {
+                        for(let post of allPost) {
                            let date = new Date(post.createdAt);
                            const datePost = date.toLocaleDateString() + " à " + date.toLocaleTimeString();
-                           post.createdAt = datePost;
+                           fetch(`http://localhost:3000/users/getOneUsers/${post.userId}`)
+                            .then(res => res.json())
+                            .then((user) => {
+                                this.allSujet.push({
+                                    titre: post.titre,
+                                    sujet: post.sujet,
+                                    date: datePost,
+                                    auteur: user.prenom
+                                })
+                            })
                         }
-                        this.allSujet = data;
-                        console.log(data);
                     })
                 },
                 methods: {

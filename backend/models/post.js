@@ -9,6 +9,10 @@ const post = sequelizeDb.define("post", {
         allowNull: false,
         primaryKey: true,
     },
+    userId: {
+        type: DataTypes.INTEGER, 
+        allowNull: false,
+    },
     images: {
         type : DataTypes.STRING,
     },
@@ -21,6 +25,4 @@ const post = sequelizeDb.define("post", {
         allowNull: false,
     },
 })
-
-
 module.exports = post;

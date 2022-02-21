@@ -1,4 +1,75 @@
-body {
+<template>
+    <div id="bloc">
+                <img src="../assets/icon-left-font-monochrome-black.svg" class="img1">
+                <p>{{texte1Connexion}}</p>
+            </div>
+            <label>
+                <form id="formLogin">
+                    <input  type="email" v-model="emailLogin" placeholder="Addrese email" class="modifChampLogin">
+                    <input type="password" v-model="passwordLogin" placeholder="Mot de passe" class="modifChampLogin">
+                </form>
+                <form id="ensembleButton">
+                    <button type="button" @click="connecter" class="modifButton">Se connecter</button>
+                    <button type="button" @click="enregistrer" class="modifButton">s'enregistrer</button>
+                </form>
+                <div class="color">{{emailPasswordError}}</div>
+            </label>
+</template>
+<script>
+	export default {
+		data() {
+        return {
+            texte1Connexion: "Groupomania le nouveau réseau social pour communiqué entre collègue",
+            apiLogin: "http://localhost:3000/users/login",
+
+            emailLogin: "",
+            passwordLogin: "",
+            infosUsers: [],
+            emailPasswordError: "",
+        }
+    },
+    methods: {
+        connecter() {
+            const emailLogin =  this.emailLogin;
+            const passwordLogin =  this.passwordLogin;
+            const objetLogin = {emailLogin, passwordLogin};
+            console.log(objetLogin)
+            
+
+            fetch (this.apiLogin, {
+                method: "POST", 
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify(objetLogin)
+            })
+            .then(res => res.json())
+            .then((user) => {
+                if(user.message) {
+                    console.log(user);
+                    this.emailPasswordError = "";
+                    this.infosUsers.push(user.id, user.token);
+                    sessionStorage.setItem("usersIdToken", JSON.stringify(this.infosUsers));
+                    window.location.href = "/#/accueil.html"
+
+                }
+                else {
+                    console.log(user.error)
+                    this.emailPasswordError = user.error
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        },
+        enregistrer() {
+            window.location.href = "/#/register";
+        },
+    }
+	}
+</script>
+<style scoped>
+	body {
   background-color: #b2d1fa;
 }
 p {
@@ -201,3 +272,5 @@ i {
   border: 1px solid #0056b3;
   margin-left: 5px;
 }
+
+</style>

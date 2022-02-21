@@ -39,28 +39,28 @@
                     },
                     methods: {
                         enregistrerFormulaire() {
-                        const prenom = this.prenom;
-                        const nom = this.nom;
-                        const emailRegister = this.emailRegister;
-                        const passwordRegister = this.passwordRegister;
+                            const prenom = this.prenom;
+                            const nom = this.nom;
+                            const emailRegister = this.emailRegister;
+                            const passwordRegister = this.passwordRegister;
 
-                        const objetRegister = {prenom, nom, emailRegister, passwordRegister};
-                        console.log(objetRegister);
+                            const objetRegister = {prenom, nom, emailRegister, passwordRegister};
+                            console.log(objetRegister);
 
-                        fetch (this.apiRegister, {
-                            method: "POST", 
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json',
-                            },
-                            body: JSON.stringify(objetRegister)
-                        })
-                        .then((res) => {
-                            if(res.ok) {
-                                window.location.href = "connexion.html"
-                            }
-                        })
-                    },
+                            fetch (this.apiRegister, {
+                                method: "POST", 
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json',
+                                },
+                                body: JSON.stringify(objetRegister)
+                            })
+                            .then((res) => {
+                                if(res.ok) {
+                                    window.location.href = "connexion.html"
+                                }
+                            })
+                        }
                     }
                 })
                 .mount("#app")

@@ -1,4 +1,4 @@
-# p7-openclassrooms
+# frontend
 
 ## Project setup
 ```
