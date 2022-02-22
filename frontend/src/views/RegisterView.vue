@@ -1,17 +1,19 @@
 <template>
-     <div>
-        <img src="../assets/icon-left-font-monochrome-black.svg" class="img1">
-        <h1>{{texte1Inscription}}</h1>
-    </div>
-        <label>
-            <form method="post" id ="formInscription">
-                <input type="text" v-model="prenom" placeholder="prénom" class="modifChampInscription">
-                <input type="text" v-model="nom" placeholder="nom" class="modifChampInscription">
-                <input type="email" v-model="emailRegister" placeholder="e-mail" class="modifChampInscription">
-                <input type="password" v-model="passwordRegister" placeholder="password" class="modifChampInscription">
-                <button @click="enregistrerFormulaire" type="button" class="buttonSuivant">Valider</button>
-            </form>
-        </label>
+    <section>
+        <div>
+            <img src="../assets/icon-left-font-monochrome-black.svg" class="img1">
+            <h1>{{texte1Inscription}}</h1>
+        </div>
+            <label>
+                <form method="post" id ="formInscription">
+                    <input type="text" v-model="prenom" placeholder="prénom" class="modifChampInscription">
+                    <input type="text" v-model="nom" placeholder="nom" class="modifChampInscription">
+                    <input type="email" v-model="emailRegister" placeholder="e-mail" class="modifChampInscription">
+                    <input type="password" v-model="passwordRegister" placeholder="password" class="modifChampInscription">
+                    <button @click="enregistrerFormulaire" type="button" class="buttonSuivant">Valider</button>
+                </form>
+            </label>
+    </section>
 </template>
 <script>
     export default {
@@ -46,16 +48,16 @@
                 })
                 .then((res) => {
                     if(res.ok) {
-                        window.location.href = "connexion.html"
+                        window.location.href = "/#/"
                     }
                 })
             }
         }
     }
 </script>
-<style scoped>
-        body {
-    background-color: #b2d1fa;
+<style>
+    body {
+        background-color: #b2d1fa;
     }
     p {
     font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
@@ -64,36 +66,6 @@
     margin-top: 5%;
     text-align: center;
     }
-    #formLogin {
-    width: 20%;
-    margin: auto;
-    }
-    #ensembleButton {
-    display: flex;
-    justify-content: center;
-    }
-    .modifButton {
-    background-color: #1877f2;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 10px;
-    margin: 10px;
-    transition: 0.5s;
-    width: 200px;
-    }
-    .modifButton:hover {
-    background-color: blue;
-    }
-    .modifChampLogin {
-    border: 1px solid #dddfe2;
-    border-radius: 5px;
-    height: 40px;
-    margin: 10px;
-    width: 300px;
-    font-size: 17px;
-    }
-
     ::placeholder {
     padding-left: 10px;
     background-color: white;
@@ -125,137 +97,9 @@
     .buttonSuivant:hover {
     background-color: #1877f2;
     }
-    .modifTitre {
-    color: black;
-    text-decoration: none;
-    
-    
-    }
-    #accueil {
-    width: 1600px;
-    margin: auto;
-    }
-    #modifA {
-    display: flex;
-    justify-content: space-between;
-    background-color: #0056b3;
-    display: flex;
-    height: 100px;
-
-    
-    }
-    #section1 {
-    display: flex;
-    justify-content:space-around;
-    height: 100px;
-    width: 1600px;
-    margin: auto;
-    margin-top: 20px;
-    }
     .img1 {
-    width: 300px;
-    height: 110px;
-    
-    }
-    #titreForms {
-    width: 40%;
-    height: 40px;
-    }
-    #message {
-    width: 40%;
-    height: 300px;
-    margin: auto;
-
-    }
-    #articleJs{
-    height: 300px;
-    width: 900px;
-    background-color: white;
-    margin-top: 50px;
-    border-radius: 5px;
-    margin: auto;
-    
-    }
-    .decoration {
-    color: black;
-    width: 100%;
-    margin-left: 15px;
-    }
-    .titreSujet {
-    text-align: center;
-    }
-    a {
-    text-decoration: none;
-    color: black;
-    }
-    #background {
-    background-color: #b2d1fa;
-    }
-    .size {
-    font-size: 12px;
-    color: #AA1414;
-    }
-    .likes {
-    text-align: right;
-    margin-right: 30px;
-    }
-    i {
-    font-family: FontAwesome;
-    margin: 5px;
-    }
-    .modifButton2 {
-    border: none;
-    background-color: #0056b3;
-    font-size: 17px;
-    height: 10px;
-    margin-top: 15px;
-    }
-    .infos {
-    padding-left: 15px;
-    padding-top: 5px;
-    background-color: #00FFFF;
-    height: 50px;
-    } 
-    .modifPrenom {
-    background-color: #b2d1fa;
-    width: 150px;
-    height: 40px;
-    border-radius: 5px;
-    margin-left: 5px;
-    }
-    #flex-row {
-    display: flex;
-    }
-    .modifFlex {
-    padding: 40px;
-    font-weight: bold;
-    }
-    .mbutton {
-    margin-left: 70%;
-    margin-top: 10%;
-    }
-    .color {
-    color: #F01A1A;
-    font-size: 20px;
-    font-weight: bold;
-    }
-    .modifTemp {
-    margin-left: 25%;
-    font-weight: bold;
-    }
-    .obligatoire {
-    font-size: 10px;
-    color: #F01A1A
-    }
-    #flex {
-    display: flex;
-    margin-top: 15%;
-    }
-    .modifText {
-    width: 34%;
-    height: 35px;
-    border: 1px solid #0056b3;
-    margin-left: 5px;
+        width: 300px;
+        height: 110px;
     }
 </style>
 

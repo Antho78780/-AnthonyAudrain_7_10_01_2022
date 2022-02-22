@@ -2,6 +2,7 @@ const modelUsers = require("../models/users");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
+const { use } = require("../routes/users");
 
 
 exports.login =  (req, res) => {
@@ -80,6 +81,20 @@ exports.getOneUsers = (req, res) => {
 	modelUsers.findByPk(req.params.id)
 	.then((oneUser) => {
 		res.status(200).json(oneUser);
+	})
+}
+
+exports.addPhoto = (req, res) => {
+	modelUsers.findByPk(req.params.id)
+	.then((user) => {
+		if(user) {
+			user.update({
+				images: req.body.image
+			})
+			.then((userPhoto) => {
+				res.status(201).json(userPhoto);
+			})
+		}
 	})
 }
 

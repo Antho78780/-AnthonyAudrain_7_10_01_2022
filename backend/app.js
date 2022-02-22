@@ -2,7 +2,6 @@
 const express = require("express");
 
 const app = express();
-const path = require("path");
 
 app.use(express.json());
 
@@ -32,7 +31,6 @@ catch(error) {
 const routeUsers = require("./routes/users");
 const routePost = require("./routes/post");
 const routeComments = require("./routes/comments");
-
 
 app.use("/users/", routeUsers);
 app.use("/post/", routePost);
