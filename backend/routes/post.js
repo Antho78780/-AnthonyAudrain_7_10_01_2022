@@ -4,9 +4,8 @@ const router = express.Router();
 
 const controllersPost = require("../controllers/post");
 const auth = require("../middelware/auth");
-const multer = require("../middelware/multer");
 
-router.post("/postCreate",auth, multer, controllersPost.postCreate);
+router.post("/postCreate",auth,  controllersPost.postCreate);
 router.get("/getAllpost", controllersPost.getAllPost);
 router.get("/getOnePost/:id", controllersPost.getOnePost);
 router.put("/updatePost/:id", controllersPost.updatePost);

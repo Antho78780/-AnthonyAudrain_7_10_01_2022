@@ -2,6 +2,8 @@
 const express = require("express");
 
 const app = express();
+const path = require("path");
+const multer = require("multer");
 
 app.use(express.json());
 
@@ -14,11 +16,10 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
   });
+    
 const SequelizeDb = require("./util/database");
 const modelsUsers = require("./models/users");
-const modelsPost = require("./models/post");
 
- 
 try {
     SequelizeDb.authenticate();
     SequelizeDb.sync();
@@ -28,13 +29,39 @@ catch(error) {
     console.log("Connexion à la base de donnée echouée")
 
 }
+const stockage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, "./images")
+    },
+    filename: (req, file, callback) => {
+        callback(null, Date.now() + path.extname(file.originalname));
+    }
+})
+const upload = multer({storage: stockage});
+
+
+
 const routeUsers = require("./routes/users");
 const routePost = require("./routes/post");
 const routeComments = require("./routes/comments");
 
+app.post("/users/addPhoto/:id", upload.single("image"), (req, res) => {
+    modelsUsers.findByPk(req.params.id)
+    .then((user) => {
+        if(user) 
+        console.log(req.file)
+        user.update({
+            images: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+        })
+        .then((userUpdate) => {
+            res.status(200).json(userUpdate);
+        })
+    })
+})
 app.use("/users/", routeUsers);
 app.use("/post/", routePost);
 app.use("/comments/", routeComments);
+app.use("/images", express.static(path.join(__dirname, "images")))
 
 
 module.exports = app;

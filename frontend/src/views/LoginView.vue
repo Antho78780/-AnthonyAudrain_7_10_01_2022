@@ -82,7 +82,7 @@
     text-align: center;
   }
   #formLogin {
-    width: 20%;
+    width: 50%;
     margin: auto;
   }
   .color {
@@ -108,10 +108,11 @@
   .modifChampLogin {
     border: 1px solid #dddfe2;
     border-radius: 5px;
-    height: 40px;
+    height: 50px;
     margin: 10px;
     width: 300px;
     font-size: 17px;
+    
   }
 
   ::placeholder {

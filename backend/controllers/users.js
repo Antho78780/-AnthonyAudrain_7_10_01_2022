@@ -84,18 +84,4 @@ exports.getOneUsers = (req, res) => {
 	})
 }
 
-exports.addPhoto = (req, res) => {
-	modelUsers.findByPk(req.params.id)
-	.then((user) => {
-		if(user) {
-			user.update({
-				images: req.body.image
-			})
-			.then((userPhoto) => {
-				res.status(201).json(userPhoto);
-			})
-		}
-	})
-}
 
- 

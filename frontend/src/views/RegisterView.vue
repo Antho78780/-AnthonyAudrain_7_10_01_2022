@@ -77,7 +77,7 @@
     }
     .modifChampInscription {
     margin: 10px;
-    height: 30px;
+    height: 40px;
     border: 1px solid gainsboro;
     border-radius: 5px;
     width: 200px;
@@ -85,7 +85,6 @@
     }
     .buttonSuivant {
     width: 210px;
-    margin-left: 10px;
     margin-top: 20px;
     padding: 5px;
     border-radius: 5px;
