@@ -10,294 +10,329 @@
 		<h1 class="texte1">{{texteForums}}</h1>
 		<a :href="hrefSujet"><p class="texte1">{{texteCreerSujet}}</p></a>
 	</section>
-    <div v-for="sujet in allSujet" :key="sujet" class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div id="content" class="content content-full-width">
-                <ul class="timeline">
-                <li>
-                    <div class="timeline-time">
-                        <span class="date">{{sujet.dateJour}}</span>
-                        <span class="time">{{sujet.dateHeure}}</span>
-                    </div>
-                    <div class="timeline-body">
-                        <div class="timeline-header">
-                            <span class="userimage"><img :src="sujet.image" alt=""></span>
-                            <p class="username"><a href="javascript:;">{{sujet.auteur}}</a></p>
-                            <p class="titreSujet">{{sujet.titre}}</p>
-                        </div>
-                        <div class="timeline-content">
-                            <p>{{sujet.sujet}}</p>
-                        </div>
-                        <div class="timeline-likes">
-                            <div class="stats-right">
-                            <span class="stats-text">259 Shares</span>
-                            <span class="stats-text">21 Comments</span>
-                            </div>
-                            <div class="stats">
-                            <span class="fa-stack fa-fw stats-icon">
-                            <i class="fa fa-circle fa-stack-2x text-danger"></i>
-                            <i class="fa fa-heart fa-stack-1x fa-inverse t-plus-1"></i>
-                            </span>
-                            <span class="fa-stack fa-fw stats-icon">
-                            <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
-                            </span>
-                            <span class="stats-total">4.3k</span>
-                            </div>
-                        </div>
-                        <div class="timeline-footer">
-                            <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
-                            <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a> 
-                            <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a>
-                        </div>
-                        <div class="timeline-comment-box">
-                            <div class="input">
-                            <form action="">
-                                <div class="input-group">
-                                    <input type="text" class="form-control rounded-corner" placeholder="Entrez votre commentaire...">
-                                    <span class="input-group-btn p-l-10">
-                                    <button type="button">Comment</button>
-                                    </span>
-                                </div>
-                            </form>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <div v-for="post in allPostsUsers" :key="post" class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div id="content" class="content content-full-width">
+					<ul class="timeline">
+					<li>
+						<div class="timeline-time">
+							<span class="date">{{post.dateJour}}</span>
+							<span class="time">{{post.dateHeure}}</span>
+						</div>
+						<div class="timeline-body">
+							<div class="timeline-header">
+								<span class="userimage"><img :src="post.image" alt=""></span>
+								<p class="username"><a href="javascript:;">{{post.auteur}}</a></p>
+								<p class="titreSujet">{{post.titre}}</p>
+							</div>
+							<div class="timeline-content">
+								<p>{{post.sujet}}</p>
+								<span><img :src="post.imagePostUser" alt=""></span>
+							</div>
+							<div class="timeline-likes">
+								<div class="stats-right">
+									<span class="stats-text">{{post.numberComments}}</span>
+								</div>
+							</div>
+							<div class="timeline-footer">
+								<a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
+								<button type="button" @click="buttonComments(post)" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> comment</button> 
+								<button @click="suppresionPostUser" type="button" class="suppPost">Supprimé</button>
+								<div class="timeline-header">
+									<span ><img :src="post.imagePost" alt=""></span>
+								</div>
+								<div  v-for="postCommentsUser in post.comments" :key="postCommentsUser" class="container justify-content-center mt-5 border-left border-right">
+									<div class="d-flex justify-content-center py-2">
+										<div class="second py-2 px-2"> <span class="text1">{{postCommentsUser.comments}}</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="timeline-comment-box">
+								<div class="input">
+								<form action="">
+									<div class="input-group">
+										<input v-model.lazy="textComments" type="text" class="form-control rounded-corner" placeholder="Entrez votre commentaire...">
+										<span class="input-group-btn p-l-10">
+											<button @click="envoisComments(post)" type="button">Comment</button>
+										</span>
+									</div>   
+								</form>
+								</div>
+							</div>
+						</div>
+					</li>
+					</ul>
+				</div>
+			</div>
+		</div>
     </div>
 </template>
 <script>
-   export default {
-       data() {
-         return {
-            apiGetAllSujet: "http://localhost:3000/post/getAllPost",
-            texteCreerSujet : "Créer un nouveau sujet",
-            texteDeconnexion: "Déconnexion",
-            texteForums: "Forums",
-            texteProfil : "Profil",
-            hrefProfil: "/#/profil",
-            hrefSujet: "/#/sujet",
-            allSujet: [],
-         }
-         },
-         mounted() {
-            fetch(this.apiGetAllSujet)
-            .then(res => res.json())
-            .then((allPost) => {
-               for(let post of allPost) {
-                  let date = new Date(post.createdAt);
-                  const dateJour = date.toLocaleDateString();
-                  const dateHeure = date.toLocaleTimeString();
-                  fetch(`http://localhost:3000/users/getOneUsers/${post.userId}`)
-                     .then(res => res.json())
-                     .then((user) => {
-                        this.allSujet.push({
-                           titre: post.titre,
-                           sujet: post.sujet,
-                           dateJour: dateJour,
-                           dateHeure: dateHeure,
-                           auteur: user.prenom,
-                           image: user.images
-                        })
-                     })
-               }
-            })
-         },
-         methods: {
-            deconnecter() {
-               window.location.href = "/#/";
-               sessionStorage.removeItem("usersIdToken");
-            },
-            envoisComments() {
-               console.log("ok");
-               
-            }
-         }
-   }
+export default {
+	data() {
+		return {
+			apiGetAllPost: "http://localhost:3000/post/getAllPost",
+			texteCreerSujet : "Créer un nouveau sujet",
+			texteDeconnexion: "Déconnexion",
+			texteForums: "Forums",
+			texteProfil : "Profil",
+			hrefProfil: "/#/profil",
+			hrefSujet: "/#/sujet",
+			allPostsUsers: [],
+			textComments: "",
+		}
+	},
+	mounted() {
+		fetch(this.apiGetAllPost)
+		.then(res => res.json())
+		.then((allPost) => {
+			for(let post of allPost) {
+				let date = new Date(post.createdAt);
+				const dateJour = date.toLocaleDateString();
+				const dateHeure = date.toLocaleTimeString();
+				fetch(`http://localhost:3000/comments/getAllComments/${post.id}`)
+				.then(res => res.json())
+				.then((onePost) => {
+					fetch(`http://localhost:3000/users/getOneUsers/${post.userId}`)
+					.then(res => res.json())
+					.then((user) => {
+						this.allPostsUsers.push({
+							titre: post.titre,
+							sujet: post.sujet,
+							dateJour: dateJour,
+							dateHeure: dateHeure,
+							auteur: user.prenom,
+							image: user.images,
+							imagePostUser: post.images,
+							idPost: post.id,
+							comments: "",
+							numberComments: onePost.length
+						})
+					})
+				})
+			}
+		})
+	},
+	methods: {
+		deconnecter() {
+			window.location.href = "/#/";
+			sessionStorage.removeItem("usersIdToken");
+		},
+		buttonComments(post) {
+			fetch(`http://localhost:3000/post/getOnePost/${post.idPost}`)
+			.then(res => res.json())
+			.then(() => {
+				fetch(`http://localhost:3000/comments/getAllComments/${post.idPost}`)
+				.then(res => res.json())
+				.then((commentUser) => {
+					post.comments = commentUser;
+				})
+			})
+		},
+		envoisComments(post) {
+			const comment = this.textComments;
+			const objetComments = {comment};
+			console.log(post)
+			fetch(`http://localhost:3000/comments/createComments/${post.idPost}`, {
+				method: "POST",
+				headers: {
+					"Content-type" : "application/json"
+				},
+				body: JSON.stringify(objetComments)
+			})
+			location.reload();
+		}
+
+	}
+}
 </script>
 <style>
-  p {
-    font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
-  }
-  section {
-    text-align: center;
-  }
-  ::placeholder {
-    padding-left: 10px;
-    background-color: white;
-  }
-  .modifTitre {
-    color: black;
-    text-decoration: none;
-  }
-  #accueil {
-    width: 1600px;
-    margin: auto;
-  }
-  #modifA {
-    display: flex;
-    justify-content: space-between;
-    background: linear-gradient(#e66465, #9198e5);
-    height: 100px;
-    
-  }
-  .titreSujet {
-	display: flex;
-	justify-content: center;
-  }
-  #section1 {
-    display: flex;
-    justify-content:space-around;
-    height: 100px;
-    width: 1600px;
-    margin: auto;
-    margin-top: 20px;
-  }
-  .img1 {
-    width: 300px;
-    height: 110px;
-    
-  }
-  #articleJs{
-    height: 300px;
-    width: 900px;
-    background-color: white;
-    margin-top: 50px;
-    border-radius: 5px;
-    margin: auto;
-    
-  }
-  .titreSujet {
-    text-align: center;
-  }
-  a {
-    text-decoration: none;
-    color: black;
-  }
-  .likes {
-    text-align: right;
-    margin-right: 30px;
-  }
-  i {
-    font-family: FontAwesome;
-    margin: 5px;
-  }
-  .modifButton2 {
-    border: none;
-    font-size: 17px;
-    height: 10px; 
-  }
-  .modifButton2:hover{
-      color: #0d6efd;
-  }
-  a:hover {
-      color: #0d6efd;
-  }
-  .modifPrenom {
-    background-color: #b2d1fa;
-    width: 150px;
-    height: 40px;
-    border-radius: 5px;
-    margin-left: 5px;
-  }
-  #flex-row {
-    display: flex;
-  }
-  .modifFlex {
-  padding: 40px;
-  font-weight: bold;
-  }
+p {
+font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
+}
+.suppPost {
+	margin-left: 88%;
+	display: none;
+}
+.m-r-15{
+	border: none;
+	background-color: white;
+}
+section {
+text-align: center;
+}
+::placeholder {
+padding-left: 10px;
+background-color: white;
+}
+.modifTitre {
+color: black;
+text-decoration: none;
+}
+#accueil {
+width: 1600px;
+margin: auto;
+}
+#modifA {
+display: flex;
+justify-content: space-between;
+background: linear-gradient(#e66465, #9198e5);
+height: 100px;
 
-  .modifTemp {
-  margin-left: 25%;
-  font-weight: bold;
-  }
-  #flex {
-    display: flex;
-    margin-top: 15%;
-  }
-  .modifText {
-    width: 34%;
-    height: 35px;
-    border: 1px solid #0056b3;
-    margin-left: 5px;
-  }
-  body{
-    margin-top:20px;
-    background:#eee;
+}
+.titreSujet {
+display: flex;
+justify-content: center;
+}
+#section1 {
+display: flex;
+justify-content:space-around;
+height: 100px;
+width: 1600px;
+margin: auto;
+margin-top: 20px;
+}
+.img1 {
+width: 300px;
+height: 110px;
+
+}
+#articleJs{
+height: 300px;
+width: 900px;
+background-color: white;
+margin-top: 50px;
+border-radius: 5px;
+margin: auto;
+
+}
+.titreSujet {
+text-align: center;
+}
+a {
+text-decoration: none;
+color: black;
+}
+.likes {
+text-align: right;
+margin-right: 30px;
+}
+i {
+font-family: FontAwesome;
+margin: 5px;
+}
+.modifButton2 {
+border: none;
+font-size: 17px;
+height: 10px; 
+}
+.modifButton2:hover{
+	color: #0d6efd;
+}
+a:hover {
+	color: #0d6efd;
+}
+.modifPrenom {
+background-color: #b2d1fa;
+width: 150px;
+height: 40px;
+border-radius: 5px;
+margin-left: 5px;
+}
+#flex-row {
+display: flex;
+}
+.modifFlex {
+padding: 40px;
+font-weight: bold;
+}
+
+.modifTemp {
+margin-left: 25%;
+font-weight: bold;
+}
+#flex {
+display: flex;
+margin-top: 15%;
+}
+.modifText {
+width: 34%;
+height: 35px;
+border: 1px solid #0056b3;
+margin-left: 5px;
+}
+body{
+margin-top:20px;
+background:#eee;
 }
 
 body{
-    margin-top:20px;
-    background:#eee;
+margin-top:20px;
+background:#eee;
 }
 
 .profile-header {
-    position: relative;
-    overflow: hidden
+position: relative;
+overflow: hidden
 }
 
 .profile-header .profile-header-cover {
-    background-image: url(https://bootdey.com/img/Content/bg1.jpg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0
+background-image: url(https://bootdey.com/img/Content/bg1.jpg);
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+position: absolute;
+left: 0;
+right: 0;
+top: 0;
+bottom: 0
 }
 
 .profile-header .profile-header-cover:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .75) 100%)
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .75) 100%)
 }
 
 .profile-header .profile-header-content {
-    color: #fff;
-    padding: 25px
+color: #fff;
+padding: 25px
 }
 
 .profile-header-img {
-    float: left;
-    width: 120px;
-    height: 120px;
-    overflow: hidden;
-    position: relative;
-    z-index: 10;
-    margin: 0 0 -20px;
-    padding: 3px;
-    border-radius: 4px;
-    background: #fff
+float: left;
+width: 120px;
+height: 120px;
+overflow: hidden;
+position: relative;
+z-index: 10;
+margin: 0 0 -20px;
+padding: 3px;
+border-radius: 4px;
+background: #fff
 }
 
 .profile-header-img img {
-    max-width: 100%
+max-width: 100%
 }
 
 .profile-header-info h4 {
-    font-weight: 500;
-    color: #fff
+font-weight: 500;
+color: #fff
 }
 
 .profile-header-img+.profile-header-info {
-    margin-left: 140px
+margin-left: 140px
 }
 
 .profile-header .profile-header-content,
 .profile-header .profile-header-tab {
-    position: relative
+position: relative
 }
 
 .b-minus-1,
@@ -379,193 +414,193 @@ body{
 .t-plus-7,
 .t-plus-8,
 .t-plus-9 {
-    position: relative!important
+position: relative!important
 }
 
 .profile-header .profile-header-tab {
-    background: #fff;
-    list-style-type: none;
-    margin: -10px 0 0;
-    padding: 0 0 0 140px;
-    white-space: nowrap;
-    border-radius: 0
+background: #fff;
+list-style-type: none;
+margin: -10px 0 0;
+padding: 0 0 0 140px;
+white-space: nowrap;
+border-radius: 0
 }
 
 .text-ellipsis,
 .text-nowrap {
-    white-space: nowrap!important
+white-space: nowrap!important
 }
 
 .profile-header .profile-header-tab>li {
-    display: inline-block;
-    margin: 0
+display: inline-block;
+margin: 0
 }
 
 .profile-header .profile-header-tab>li>a {
-    display: block;
-    color: #929ba1;
-    line-height: 20px;
-    padding: 10px 20px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 12px;
-    border: none
+display: block;
+color: #929ba1;
+line-height: 20px;
+padding: 10px 20px;
+text-decoration: none;
+font-weight: 700;
+font-size: 12px;
+border: none
 }
 
 .profile-header .profile-header-tab>li.active>a,
 .profile-header .profile-header-tab>li>a.active {
-    color: #242a30
+color: #242a30
 }
 
 .profile-content {
-    padding: 25px;
-    border-radius: 4px
+padding: 25px;
+border-radius: 4px
 }
 
 .profile-content:after,
 .profile-content:before {
-    content: '';
-    display: table;
-    clear: both
+content: '';
+display: table;
+clear: both
 }
 
 .profile-content .tab-content,
 .profile-content .tab-pane {
-    background: 0 0
+background: 0 0
 }
 
 .profile-left {
-    width: 200px;
-    float: left
+width: 200px;
+float: left
 }
 
 .profile-right {
-    margin-left: 240px;
-    padding-right: 20px
+margin-left: 240px;
+padding-right: 20px
 }
 
 .profile-image {
-    height: 175px;
-    line-height: 175px;
-    text-align: center;
-    font-size: 72px;
-    margin-bottom: 10px;
-    border: 2px solid #E2E7EB;
-    overflow: hidden;
-    border-radius: 4px
+height: 175px;
+line-height: 175px;
+text-align: center;
+font-size: 72px;
+margin-bottom: 10px;
+border: 2px solid #E2E7EB;
+overflow: hidden;
+border-radius: 4px
 }
 
 .profile-image img {
-    display: block;
-    max-width: 100%
+display: block;
+max-width: 100%
 }
 
 .profile-highlight {
-    padding: 12px 15px;
-    background: #FEFDE1;
-    border-radius: 4px
+padding: 12px 15px;
+background: #FEFDE1;
+border-radius: 4px
 }
 
 .profile-highlight h4 {
-    margin: 0 0 7px;
-    font-size: 12px;
-    font-weight: 700
+margin: 0 0 7px;
+font-size: 12px;
+font-weight: 700
 }
 
 .table.table-profile>thead>tr>th {
-    border-bottom: none!important
+border-bottom: none!important
 }
 
 .table.table-profile>thead>tr>th h4 {
-    font-size: 20px;
-    margin-top: 0
+font-size: 20px;
+margin-top: 0
 }
 
 .table.table-profile>thead>tr>th h4 small {
-    display: block;
-    font-size: 12px;
-    font-weight: 400;
-    margin-top: 5px
+display: block;
+font-size: 12px;
+font-weight: 400;
+margin-top: 5px
 }
 
 .table.table-profile>tbody>tr>td,
 .table.table-profile>thead>tr>th {
-    border: none;
-    padding-top: 7px;
-    padding-bottom: 7px;
-    color: #242a30;
-    background: 0 0
+border: none;
+padding-top: 7px;
+padding-bottom: 7px;
+color: #242a30;
+background: 0 0
 }
 
 .table.table-profile>tbody>tr>td.field {
-    width: 20%;
-    text-align: right;
-    font-weight: 600;
-    color: #2d353c
+width: 20%;
+text-align: right;
+font-weight: 600;
+color: #2d353c
 }
 
 .table.table-profile>tbody>tr.highlight>td {
-    border-top: 1px solid #b9c3ca;
-    border-bottom: 1px solid #b9c3ca
+border-top: 1px solid #b9c3ca;
+border-bottom: 1px solid #b9c3ca
 }
 
 .table.table-profile>tbody>tr.divider>td {
-    padding: 0!important;
-    height: 10px
+padding: 0!important;
+height: 10px
 }
 
 .profile-section+.profile-section {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #b9c3ca
+margin-top: 20px;
+padding-top: 20px;
+border-top: 1px solid #b9c3ca
 }
 
 .profile-section:after,
 .profile-section:before {
-    content: '';
-    display: table;
-    clear: both
+content: '';
+display: table;
+clear: both
 }
 
 .profile-section .title {
-    font-size: 20px;
-    margin: 0 0 15px
+font-size: 20px;
+margin: 0 0 15px
 }
 
 .profile-section .title small {
-    font-weight: 400
+font-weight: 400
 }
 
 body.flat-black {
-    background: #E7E7E7
+background: #E7E7E7
 }
 
 .flat-black .navbar.navbar-inverse {
-    background: #212121
+background: #212121
 }
 
 .flat-black .navbar.navbar-inverse .navbar-form .form-control {
-    background: #4a4a4a;
-    border-color: #4a4a4a
+background: #4a4a4a;
+border-color: #4a4a4a
 }
 
 .flat-black .sidebar,
 .flat-black .sidebar-bg {
-    background: #3A3A3A
+background: #3A3A3A
 }
 
 .flat-black .page-with-light-sidebar .sidebar,
 .flat-black .page-with-light-sidebar .sidebar-bg {
-    background: #fff
+background: #fff
 }
 
 .flat-black .sidebar .nav>li>a {
-    color: #b2b2b2
+color: #b2b2b2
 }
 
 .flat-black .sidebar.sidebar-grid .nav>li>a {
-    border-bottom: 1px solid #474747;
-    border-top: 1px solid #474747
+border-bottom: 1px solid #474747;
+border-top: 1px solid #474747
 }
 
 .flat-black .sidebar .active .sub-menu>li.active>a,
@@ -575,12 +610,12 @@ body.flat-black {
 .flat-black .sidebar .sub-menu>li>a:focus,
 .flat-black .sidebar .sub-menu>li>a:hover,
 .sidebar .nav>li.nav-profile>a {
-    color: #fff
+color: #fff
 }
 
 .flat-black .sidebar .sub-menu>li>a,
 .flat-black .sidebar .sub-menu>li>a:before {
-    color: #999
+color: #999
 }
 
 .flat-black .page-with-light-sidebar .sidebar .active .sub-menu>li.active>a,
@@ -589,12 +624,12 @@ body.flat-black {
 .flat-black .page-with-light-sidebar .sidebar .nav>li.active>a,
 .flat-black .page-with-light-sidebar .sidebar .nav>li.active>a:focus,
 .flat-black .page-with-light-sidebar .sidebar .nav>li.active>a:hover {
-    color: #000
+color: #000
 }
 
 .flat-black .page-sidebar-minified .sidebar .nav>li.has-sub:focus>a,
 .flat-black .page-sidebar-minified .sidebar .nav>li.has-sub:hover>a {
-    background: #323232
+background: #323232
 }
 
 .flat-black .page-sidebar-minified .sidebar .nav li.has-sub>.sub-menu,
@@ -605,278 +640,278 @@ body.flat-black {
 .flat-black .sidebar .sub-menu>li.has-sub>a:before,
 .flat-black .sidebar .sub-menu>li:before,
 .flat-black .sidebar .sub-menu>li>a:after {
-    background: #2A2A2A
+background: #2A2A2A
 }
 
 .flat-black .page-sidebar-minified .sidebar .sub-menu>li:before,
 .flat-black .page-sidebar-minified .sidebar .sub-menu>li>a:after {
-    background: #3e3e3e
+background: #3e3e3e
 }
 
 .flat-black .sidebar .nav>li.nav-profile .cover.with-shadow:before {
-    background: rgba(42, 42, 42, .75)
+background: rgba(42, 42, 42, .75)
 }
 
 .bg-white {
-    background-color: #fff!important;
+background-color: #fff!important;
 }
 .p-10 {
-    padding: 10px!important;
+padding: 10px!important;
 }
 .media.media-xs .media-object {
-    width: 32px;
+width: 32px;
 }
 .m-b-2 {
-    margin-bottom: 2px!important;
+margin-bottom: 2px!important;
 }
 .media>.media-left, .media>.pull-left {
-    padding-right: 15px;
+padding-right: 15px;
 }
 .media-body, .media-left, .media-right {
-    display: table-cell;
-    vertical-align: top;
+display: table-cell;
+vertical-align: top;
 }
 select.form-control:not([size]):not([multiple]) {
-    height: 34px;
+height: 34px;
 }
 .form-control.input-inline {
-    display: inline;
-    width: auto;
-    padding: 0 7px;
+display: inline;
+width: auto;
+padding: 0 7px;
 }
 
 
 .timeline {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    position: relative
+list-style-type: none;
+margin: 0;
+padding: 0;
+position: relative
 }
 
 .timeline:before {
-    content: '';
-    position: absolute;
-    top: 5px;
-    bottom: 5px;
-    width: 5px;
-    background: #2d353c;
-    left: 20%;
-    margin-left: -2.5px
+content: '';
+position: absolute;
+top: 5px;
+bottom: 5px;
+width: 5px;
+background: #2d353c;
+left: 20%;
+margin-left: -2.5px
 }
 
 .timeline>li {
-    position: relative;
-    min-height: 50px;
-    padding: 20px 0
+position: relative;
+min-height: 50px;
+padding: 20px 0
 }
 
 .timeline .timeline-time {
-    position: absolute;
-    left: 0;
-    width: 18%;
-    text-align: right;
-    top: 30px
+position: absolute;
+left: 0;
+width: 18%;
+text-align: right;
+top: 30px
 }
 
 .timeline .timeline-time .date,
 .timeline .timeline-time .time {
-    display: block;
-    font-weight: 600
+display: block;
+font-weight: 600
 }
 
 .timeline .timeline-time .date {
-    line-height: 16px;
-    font-size: 12px
+line-height: 16px;
+font-size: 12px
 }
 
 .timeline .timeline-time .time {
-    line-height: 24px;
-    font-size: 20px;
-    color: #242a30
+line-height: 24px;
+font-size: 20px;
+color: #242a30
 }
 
 .timeline .timeline-icon {
-    left: 15%;
-    position: absolute;
-    width: 10%;
-    text-align: center;
-    top: 40px
+left: 15%;
+position: absolute;
+width: 10%;
+text-align: center;
+top: 40px
 }
 
 .timeline .timeline-icon a {
-    text-decoration: none;
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    border-radius: 20px;
-    background: #d9e0e7;
-    line-height: 10px;
-    color: #fff;
-    font-size: 14px;
-    border: 5px solid #2d353c;
-    transition: border-color .2s linear
+text-decoration: none;
+width: 20px;
+height: 20px;
+display: inline-block;
+border-radius: 20px;
+background: #d9e0e7;
+line-height: 10px;
+color: #fff;
+font-size: 14px;
+border: 5px solid #2d353c;
+transition: border-color .2s linear
 }
 
 .timeline .timeline-body {
-    margin-left: 23%;
-    margin-right: 17%;
-    background: #fff;
-    position: relative;
-    padding: 20px 25px;
-    border-radius: 6px
+margin-left: 23%;
+margin-right: 17%;
+background: #fff;
+position: relative;
+padding: 20px 25px;
+border-radius: 6px
 }
 
 .timeline .timeline-body:before {
-    content: '';
-    display: block;
-    position: absolute;
-    border: 10px solid transparent;
-    border-right-color: #fff;
-    left: -20px;
-    top: 20px
+content: '';
+display: block;
+position: absolute;
+border: 10px solid transparent;
+border-right-color: #fff;
+left: -20px;
+top: 20px
 }
 
 .timeline .timeline-body>div+div {
-    margin-top: 15px
+margin-top: 15px
 }
 
 .timeline .timeline-body>div+div:last-child {
-    margin-bottom: -20px;
-    padding-bottom: 20px;
-    border-radius: 0 0 6px 6px
+margin-bottom: -20px;
+padding-bottom: 20px;
+border-radius: 0 0 6px 6px
 }
 
 .timeline-header {
-    padding-bottom: 10px;
-    border-bottom: 1px solid #e2e7eb;
-    line-height: 30px
+padding-bottom: 10px;
+border-bottom: 1px solid #e2e7eb;
+line-height: 30px
 }
 
 .timeline-header .userimage {
-    float: left;
-    width: 34px;
-    height: 34px;
-    border-radius: 40px;
-    overflow: hidden;
-    margin: -2px 10px -2px 0
+float: left;
+width: 34px;
+height: 34px;
+border-radius: 40px;
+overflow: hidden;
+margin: -2px 10px -2px 0
 }
 
 .timeline-header .username {
-    font-size: 16px;
-    font-weight: 600
+font-size: 16px;
+font-weight: 600
 }
 
 .timeline-header .username,
 .timeline-header .username a {
-    color: #2d353c
+color: #2d353c
 }
 
 .timeline img {
-    max-width: 100%;
-    display: block
+max-width: 100%;
+display: block
 }
 
 .timeline-content {
-    letter-spacing: .25px;
-    line-height: 18px;
-    font-size: 13px
+letter-spacing: .25px;
+line-height: 18px;
+font-size: 13px
 }
 
 .timeline-content:after,
 .timeline-content:before {
-    content: '';
-    display: table;
-    clear: both
+content: '';
+display: table;
+clear: both
 }
 
 .timeline-title {
-    margin-top: 0
+margin-top: 0
 }
 
 .timeline-footer {
-    background: #fff;
-    border-top: 1px solid #e2e7ec;
-    padding-top: 15px
+background: #fff;
+border-top: 1px solid #e2e7ec;
+padding-top: 15px
 }
 
 .timeline-footer a:not(.btn) {
-    color: #575d63
+color: #575d63
 }
 
 .timeline-footer a:not(.btn):focus,
 .timeline-footer a:not(.btn):hover {
-    color: #2d353c
+color: #2d353c
 }
 
 .timeline-likes {
-    color: #6d767f;
-    font-weight: 600;
-    font-size: 12px
+color: #6d767f;
+font-weight: 600;
+font-size: 12px
 }
 
 .timeline-likes .stats-right {
-    float: right
+float: right
 }
 
 .timeline-likes .stats-total {
-    display: inline-block;
-    line-height: 20px
+display: inline-block;
+line-height: 20px
 }
 
 .timeline-likes .stats-icon {
-    float: left;
-    margin-right: 5px;
-    font-size: 9px
+float: left;
+margin-right: 5px;
+font-size: 9px
 }
 
 .timeline-likes .stats-icon+.stats-icon {
-    margin-left: -2px
+margin-left: -2px
 }
 
 .timeline-likes .stats-text {
-    line-height: 20px
+line-height: 20px
 }
 
 .timeline-likes .stats-text+.stats-text {
-    margin-left: 15px
+margin-left: 15px
 }
 
 .timeline-comment-box {
-    background: #f2f3f4;
-    margin-left: -25px;
-    margin-right: -25px;
-    padding: 20px 25px
+background: #f2f3f4;
+margin-left: -25px;
+margin-right: -25px;
+padding: 20px 25px
 }
 
 .timeline-comment-box .user {
-    float: left;
-    width: 34px;
-    height: 34px;
-    overflow: hidden;
-    border-radius: 30px
+float: left;
+width: 34px;
+height: 34px;
+overflow: hidden;
+border-radius: 30px
 }
 
 .timeline-comment-box .user img {
-    max-width: 100%;
-    max-height: 100%
+max-width: 100%;
+max-height: 100%
 }
 
 .timeline-comment-box .user+.input {
-    margin-left: 44px
+margin-left: 44px
 }
 
 .lead {
-    margin-bottom: 20px;
-    font-size: 21px;
-    font-weight: 300;
-    line-height: 1.4;
+margin-bottom: 20px;
+font-size: 21px;
+font-weight: 300;
+line-height: 1.4;
 }
 
 .text-danger, .text-red {
-    color: #ff5b57!important;
+color: #ff5b57!important;
 }
 body {
-    background-color: #b2d1fa;
-  }
+background-color: #b2d1fa;
+}
 </style>
 

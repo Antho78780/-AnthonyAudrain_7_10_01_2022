@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                        <button @click="suppresionCompte" type="button" class="profile-edit-btn" name="btnAddMore">Supprimé le compte</button>
                     </div>
                 </div>
 					<div class="tab-content profile-tab" id="myTabContent">
@@ -77,17 +77,18 @@
 			const users_id = idUserssessionStorage[0];
 			fetch(`http://localhost:3000/users/getOneUsers/${users_id}`)
 			.then(res => res.json())
-			.then((data) => {
-                console.log(data)
-                this.user = data
+			.then((getOneUser) => {
+                console.log("Profil de l'utilistateur")
+                console.log(getOneUser)
+                this.user = getOneUser
 			})
 		},
 
 		methods: {
-			suppresion() {
+			suppresionCompte() {
 			const recupTokenIdStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
 			const users_id = recupTokenIdStorage[0];
-				fetch(`http://localhost:3000/deleteUsers/${users_id}`, {
+				fetch(`http://localhost:3000/users/deleteUsers/${users_id}`, {
 					method: "DELETE",
 					headers: {
 						'Content-Type' : 'application/json'
@@ -97,23 +98,23 @@
 						if(res.ok) {
 							alert("Votre compte à été supprimé")
 							sessionStorage.removeItem("usersIdToken");
-							window.location.href = "/#/login";
+							window.location.href = "/#/";
 						}
 					})
 			},
 			changePhoto(e) {
                 this.selectedFile = e.target.files[0];
                 const fd = new FormData();
-                fd.append("image", this.selectedFile, this.selectedFile.name);
+                fd.append("imageUser", this.selectedFile, this.selectedFile.name);
                 
 
                 const idUserssessionStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
                 const users_id = idUserssessionStorage[0];
+                console.log(users_id);
                      axios.post(`http://localhost:3000/users/addPhoto/${users_id}`, fd)
                     .then((updateImgUser) => {
-                        console.log(updateImgUser);
                         if(updateImgUser) {
-                            location.reload()
+                            location.reload();
                         }
                     })
 			},

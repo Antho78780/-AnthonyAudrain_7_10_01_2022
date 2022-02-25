@@ -49,19 +49,15 @@
             .then((user) => {
                 if(user.message) {
                     console.log(user);
-                    this.emailPasswordError = "";
                     this.infosUsers.push(user.id, user.token);
                     sessionStorage.setItem("usersIdToken", JSON.stringify(this.infosUsers));
                     window.location.href = "/#/accueil"
 
                 }
                 else {
-                    console.log(user.error)
+                    console.log(user)
                     this.emailPasswordError = user.error
                 }
-            })
-            .catch((err) => {
-                console.log(err)
             })
         },
         enregistrer() {
@@ -112,7 +108,9 @@
     margin: 10px;
     width: 300px;
     font-size: 17px;
-    
+  }
+  .img1 {
+    width: 15%;
   }
 
   ::placeholder {

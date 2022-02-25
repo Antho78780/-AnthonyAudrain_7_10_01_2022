@@ -8,7 +8,7 @@ const comments = sequelizeDb.define("comments", {
         allowNull: false,
         primaryKey: true,
     },
-    postId: {
+    idPost: {
         type: DataTypes.INTEGER,
     },
     comments: {

@@ -1,21 +1,34 @@
+
 const modelsComments = require("../models/comments");
+const modelsPost = require("../models/post");
 const modelsUsers = require("../models/users");
 
-
 exports.createComments = (req,res) => {
-    modelsComments.create({
-        postId: req.params.id,
-        comments: req.body.comments
+    console.log(req.params.id)
+    modelsPost.findOne({
+        where: {id: req.params.id}
     })
-    .then((create) => {
-        console.log(create);
-        res.status(201).json(create);
+    .then((post) => {
+        modelsComments.create({
+            idPost: post.id,
+            comments: req.body.comment
+        })
+        .then((comment) => {
+            res.status(200).json(comment)
+        })
     })
 }
-
 exports.getAllComments = (req, res) => {
-    modelsComments.findAll()
-    .then((comments) => {
-        res.status(200).json(comments);
+    modelsPost.findOne({
+        where: {id : req.params.id}
+    })
+    .then((post) => {
+        console.log(post)
+        modelsComments.findAll({
+            where: {idPost: post.id}
+        })
+        .then((comments) => {
+            res.status(200).json(comments)
+        })
     })
 }

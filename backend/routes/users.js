@@ -8,7 +8,7 @@ const auth = require("../middelware/auth");
 
 router.post("/login", controllersUsers.login);
 router.post("/register", controllersUsers.register);
-router.delete("/deleteUsers/:id",auth, controllersUsers.deleteUsers);
+router.delete("/deleteUsers/:id", controllersUsers.deleteUsers);
 router.get("/getAllUsers", controllersUsers.getAllUsers);
 router.get("/getOneUsers/:id", controllersUsers.getOneUsers);
 

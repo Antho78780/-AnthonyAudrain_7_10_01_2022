@@ -2,23 +2,18 @@
 const modelsPost = require("../models/post");
 const modelsUsers = require("../models/users");
 
-
 exports.postCreate = (req, res) => {
-	console.log(req.body);
+	console.log(req.body)
 	modelsPost.create({
-		userId: req.body.userId,
-		titre: req.body.titre,
-		sujet: req.body.sujet,
-	})
-	.then((create) => {
-		if(create) {
-			res.status(201).json(create);
-		}
-		else {
-			res.status(400).json({error: "Sujet non créer"})
-		}
-	})
+        userId: req.body.userId,
+        titre: req.body.titre,
+        sujet: req.body.sujet,
+   })
+   .then((post) => {
+       res.status(200).json(post);
+   })
 }
+
 exports.getAllPost = (req, res) => {
 	modelsPost.findAll()
 	.then((sujet) => {
@@ -27,10 +22,14 @@ exports.getAllPost = (req, res) => {
 	
 }
 exports.getOnePost = (req, res) => {
-	modelsPost.findByPk(req.params.id)
+	console.log(req.params.id)
+	modelsPost.findOne({
+		where: {id : req.params.id}
+	})
 	.then((post) => {
 		res.status(200).json(post)
 	})
+	
 }
 
 exports.updatePost = (req, res) => {

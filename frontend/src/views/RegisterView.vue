@@ -97,7 +97,7 @@
     background-color: #1877f2;
     }
     .img1 {
-        width: 300px;
+        width: 15%;
         height: 110px;
     }
 </style>

@@ -6,7 +6,7 @@
 			<textarea v-model="titre" id="titreForms"></textarea>
 			<div>
 				<p class="test">{{  SujetArticle }}</p>
-				<input type="file">
+				<input @change="changeFile" type="file">
 			</div>
 				<textarea  v-model="sujet" id="message"></textarea>
 		</form>
@@ -14,44 +14,63 @@
     </section>
 </template>
 <script>
+import axios from "axios";
 export default {
 	data() {
 		return {
 			titreSujet: "Titre",
 			titreObligatoire: "(Obligatoire)",
 			SujetArticle: "Créer un nouveau sujet",
-			apiSujetCreate: "http://localhost:3000/post/postCreate",
+			apiPostCreateFile: "http://localhost:3000/post/postCreate/file",
+			apiPostCreate: "http://localhost:3000/post/postCreate",
 			
 			titre: "",
 			sujet: "",
+			fileSujet: ""
 		}
 	},
 	methods: {
+		changeFile(e) {
+			this.fileSujet = e.target.files[0];
+		},
 		envoyerSujet() {
 			const recupStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
 			const userId = recupStorage[0]
 			const titre = this.titre;
 			const sujet = this.sujet;
 
-			if(titre == "" || sujet == "") {
-				alert("Vous ne pouvez pas envoyé de champs vide")
+			const fd = new FormData();
+			if(this.fileSujet) {
+				const postUser = {titre, sujet, userId};
+				console.log(postUser);
+				fd.append("imagePost", this.fileSujet, this.fileSujet.name);
+				fd.append("postUser", JSON.stringify(postUser));
+				axios.post(this.apiPostCreateFile, fd)
+				.then((res) =>  {
+					if(res.status == 200) {
+						window.location.href = "/#/accueil"
+					}
+					else {
+						alert("Il y a une erreur")
+					}
+				})
 			}
 			else {
-				const objetSujet = {titre, sujet, userId};
-				console.log(objetSujet)
-				fetch (this.apiSujetCreate, {
-					method: "POST", 
+				const postUser = {titre, sujet, userId};
+				fetch(this.apiPostCreate, {
+					method: "POST",
 					headers: {
-						'Content-Type' : 'application/json'
+						"Content-type" : "application/json"
 					},
-					body: JSON.stringify(objetSujet)
+					body: JSON.stringify(postUser)
 				})
-				.then(res => res.json())
-				.then(() => {
-						window.location.href= "/#/accueil"
+				.then((res) => {
+					if(res.ok) {
+						window.location.href = "/#/accueil"
+					}
 				})
 			}
-		}
+		},
 	}
 }
 </script>

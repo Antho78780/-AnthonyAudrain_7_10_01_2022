@@ -1,4 +1,5 @@
 
+
 const express = require("express");
 
 const app = express();
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
     
 const SequelizeDb = require("./util/database");
 const modelsUsers = require("./models/users");
+const modelsPost = require("./models/post");
 
 try {
     SequelizeDb.authenticate();
@@ -39,13 +41,11 @@ const stockage = multer.diskStorage({
 })
 const upload = multer({storage: stockage});
 
-
-
 const routeUsers = require("./routes/users");
 const routePost = require("./routes/post");
 const routeComments = require("./routes/comments");
 
-app.post("/users/addPhoto/:id", upload.single("image"), (req, res) => {
+app.post("/users/addPhoto/:id", upload.single("imageUser"), (req, res) => {
     modelsUsers.findByPk(req.params.id)
     .then((user) => {
         if(user) 
@@ -58,10 +58,24 @@ app.post("/users/addPhoto/:id", upload.single("image"), (req, res) => {
         })
     })
 })
+app.post("/post/postCreate/file", upload.single("imagePost"),(req, res) => {
+    const fichePostUser = JSON.parse(req.body.postUser);
+    console.log(fichePostUser);
+   modelsPost.create({
+        userId: fichePostUser.userId,
+        titre: fichePostUser.titre,
+        sujet: fichePostUser.sujet,
+        images: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+   })
+   .then((post) => {
+       res.status(200).json(post);
+   })
+})
+
 app.use("/users/", routeUsers);
 app.use("/post/", routePost);
 app.use("/comments/", routeComments);
-app.use("/images", express.static(path.join(__dirname, "images")))
-
+app.use("/images/", express.static(path.join(__dirname, "/images/")))
 
 module.exports = app;
+
