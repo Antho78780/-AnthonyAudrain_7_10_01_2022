@@ -8,10 +8,13 @@ const comments = sequelizeDb.define("comments", {
         allowNull: false,
         primaryKey: true,
     },
+    userIdComment: {
+        type: DataTypes.INTEGER
+    },
     idPost: {
         type: DataTypes.INTEGER,
     },
-    comments: {
+    comment: {
         type: DataTypes.STRING
     },
     image: {

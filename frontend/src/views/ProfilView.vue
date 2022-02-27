@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
-                            <img :src="user.images"  alt="">
+                            <img :src="user.image"  alt="">
                             <form method="post">
                                 <div class="file btn btn-lg btn-primary">
                                     choisi ta photo
@@ -19,7 +19,7 @@
                                     <h5>{{user.prenom}}</h5>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">A propos de</a>
                                 </li>
                             </ul>
                         </div>
@@ -121,10 +121,7 @@
 		}
     }
 </script>
-<style>
-body {
-background-color: #b2d1fa;
-}
+<style scoped>
 p {
 font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
 }
@@ -233,5 +230,10 @@ text-align: center;
 .profile-tab p{
     font-weight: 600;
     color: #0062cc;
+}
+</style>
+<style>
+body {
+    background-color: #b2d1fa;
 }
 </style>

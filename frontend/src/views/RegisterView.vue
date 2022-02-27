@@ -55,51 +55,53 @@
         }
     }
 </script>
+<style scoped>
+p {
+font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
+}
+section {
+margin-top: 5%;
+text-align: center;
+}
+::placeholder {
+padding-left: 10px;
+background-color: white;
+}
+#formInscription {
+margin-top: 10%;
+width: 20%;
+margin: auto;
+}
+.modifChampInscription {
+margin: 10px;
+height: 40px;
+border: 1px solid gainsboro;
+border-radius: 5px;
+width: 200px;
+font-size: 15px;
+}
+.buttonSuivant {
+width: 210px;
+margin-top: 20px;
+padding: 5px;
+border-radius: 5px;
+background-color: #0095f6;
+border: 0px;
+color: white;
+transition: 0.5s;
+}
+.buttonSuivant:hover {
+background-color: #1877f2;
+}
+.img1 {
+    width: 15%;
+    height: 110px;
+}
+</style>
 <style>
-    body {
-        background-color: #b2d1fa;
-    }
-    p {
-    font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
-    }
-    section {
-    margin-top: 5%;
-    text-align: center;
-    }
-    ::placeholder {
-    padding-left: 10px;
-    background-color: white;
-    }
-    #formInscription {
-    margin-top: 10%;
-    width: 20%;
-    margin: auto;
-    }
-    .modifChampInscription {
-    margin: 10px;
-    height: 40px;
-    border: 1px solid gainsboro;
-    border-radius: 5px;
-    width: 200px;
-    font-size: 15px;
-    }
-    .buttonSuivant {
-    width: 210px;
-    margin-top: 20px;
-    padding: 5px;
-    border-radius: 5px;
-    background-color: #0095f6;
-    border: 0px;
-    color: white;
-    transition: 0.5s;
-    }
-    .buttonSuivant:hover {
-    background-color: #1877f2;
-    }
-    .img1 {
-        width: 15%;
-        height: 110px;
-    }
+body {
+background-color: #b2d1fa;
+}
 </style>
 
 

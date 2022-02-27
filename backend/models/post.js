@@ -11,7 +11,7 @@ const post = sequelizeDb.define("post", {
     userId: {
         type: DataTypes.INTEGER, 
     },
-    images: {
+    image: {
         type : DataTypes.STRING,
     },
     titre: {

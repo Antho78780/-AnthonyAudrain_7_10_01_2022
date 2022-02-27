@@ -1,8 +1,9 @@
 const modelUsers = require("../models/users");
+const modelsComments = require("../models/comments");
+const modelsPost = require("../models/post");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
-const { use } = require("../routes/users");
 
 
 exports.login =  (req, res) => {
@@ -14,7 +15,6 @@ exports.login =  (req, res) => {
 			bcrypt.compare(req.body.passwordLogin, users.mdp)
 			.then((control) => {
 				if(control) {
-					console.log(req.body)
 					res.status(200).json({
 						message: "Compte connecté",
 						id: users.id, 
@@ -48,7 +48,6 @@ exports.register = (req, res) => {
         })
 		.then((create) => {
 			if(create) {
-				console.log(create)
 				res.status(201).json({message: "compte enregistré"});
 				console.log("Compte enregistré");
 			}
@@ -72,12 +71,11 @@ exports.deleteUsers = (req, res) => {
 
 exports.getAllUsers = (req, res) => {
 	modelUsers.findAll()
-	.then((users)=> {
+	.then((users) => {
 		res.status(200).json(users)
 	})
 }
 exports.getOneUsers = (req, res) => {
-	console.log(req.params)
 	modelUsers.findByPk(req.params.id)
 	.then((oneUser) => {
 		res.status(200).json(oneUser);

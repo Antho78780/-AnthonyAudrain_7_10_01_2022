@@ -51,7 +51,7 @@ app.post("/users/addPhoto/:id", upload.single("imageUser"), (req, res) => {
         if(user) 
         console.log(req.file)
         user.update({
-            images: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+            image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
         })
         .then((userUpdate) => {
             res.status(200).json(userUpdate);
@@ -65,7 +65,7 @@ app.post("/post/postCreate/file", upload.single("imagePost"),(req, res) => {
         userId: fichePostUser.userId,
         titre: fichePostUser.titre,
         sujet: fichePostUser.sujet,
-        images: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+        image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
    })
    .then((post) => {
        res.status(200).json(post);

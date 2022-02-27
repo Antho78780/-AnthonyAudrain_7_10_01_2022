@@ -1,72 +1,80 @@
 <template>
-    <main id="modifA">
-        <img src="../assets/icon-left-font-monochrome-black.svg" class="img1">
-        <div id="flex-row">
-            <a :href="hrefProfil"  class="modifTitre modifFlex"><p>{{texteProfil}}</p></a>
-            <a @click="deconnecter" type="button" class="modifButton2 modifFlex">{{texteDeconnexion}}</a>
-        </div>
-    </main>
-	<section id="section1">
-		<h1 class="texte1">{{texteForums}}</h1>
-		<a :href="hrefSujet"><p class="texte1">{{texteCreerSujet}}</p></a>
-	</section>
-    <div v-for="post in allPostsUsers" :key="post" class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div id="content" class="content content-full-width">
-					<ul class="timeline">
-					<li>
-						<div class="timeline-time">
-							<span class="date">{{post.dateJour}}</span>
-							<span class="time">{{post.dateHeure}}</span>
+	<div id="block">
+		<main id="modifA">
+			<img src="../assets/icon-left-font-monochrome-black.svg" class="img1">
+			<div id="flex-row">
+				<a :href="hrefProfil"  class="modifTitre modifFlex"><p>{{texteProfil}}</p></a>
+				<a @click="deconnecter" type="button" class="modifButton2 modifFlex">{{texteDeconnexion}}</a>
+			</div>
+		</main>
+		<section id="section1">
+			<h1 class="texte1">{{texteForums}}</h1>
+			<a :href="hrefSujet"><p class="texte1">{{texteCreerSujet}}</p></a>
+		</section>
+		<div class="container">
+			<ul class="timeline">
+				<li v-for="post in allPostsUsers" :key="post">
+					<div class="timeline-time">
+						<span class="date">{{post.dateJour}}</span>
+						<span class="time">{{post.dateHeure}}</span>
+					</div>
+					<div class="timeline-body">
+						<div class="timeline-header">
+							<span class="userimage"><img :src="post.image" alt=""></span>
+							<p class="username"><a href="javascript:;">{{post.auteur}}</a></p>
+							<p class="titreSujet">{{post.titre}}</p>
 						</div>
-						<div class="timeline-body">
-							<div class="timeline-header">
-								<span class="userimage"><img :src="post.image" alt=""></span>
-								<p class="username"><a href="javascript:;">{{post.auteur}}</a></p>
-								<p class="titreSujet">{{post.titre}}</p>
+						<div class="timeline-content">
+							<p>{{post.sujet}}</p>
+							<span><img :src="post.imagePostUser" alt=""></span>
+						</div>
+						<div class="timeline-likes">
+							<div class="stats-right">
+								<span class="stats-text">{{post.numberComments}} commentaires</span>
 							</div>
-							<div class="timeline-content">
-								<p>{{post.sujet}}</p>
-								<span><img :src="post.imagePostUser" alt=""></span>
-							</div>
-							<div class="timeline-likes">
-								<div class="stats-right">
-									<span class="stats-text">{{post.numberComments}}</span>
-								</div>
-							</div>
-							<div class="timeline-footer">
-								<a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
-								<button type="button" @click="buttonComments(post)" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> comment</button> 
-								<button @click="suppresionPostUser" type="button" class="suppPost">Supprimé</button>
-								<div class="timeline-header">
-									<span ><img :src="post.imagePost" alt=""></span>
-								</div>
-								<div  v-for="postCommentsUser in post.comments" :key="postCommentsUser" class="container justify-content-center mt-5 border-left border-right">
-									<div class="d-flex justify-content-center py-2">
-										<div class="second py-2 px-2"> <span class="text1">{{postCommentsUser.comments}}</span></div>
+						</div>
+						<div class="timeline-footer">
+							<a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
+							<button type="button" @click="buttonComments(post)" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i>Tout les commentaire</button> 
+							<button @click="suppresionPostUser" type="button" class="suppPost">Supprimé</button>
+							
+							<div v-for="comments in post.comments" :key="comments" class="container mt-5">
+								<div class="row d-flex justify-content-center">
+									<div class="col-md-8">
+										<div class="card p-3">
+											<div class="d-flex justify-content-between align-items-center">
+												<div class="user d-flex flex-row align-items-center"> 
+													<img :src="comments.image" width="30" class="user-img rounded-circle mr-2"> 
+													&nbsp;
+													<span><small class="font-weight-bold text-primary">{{comments.prenom}}</small> 
+														&nbsp;
+														<small class="font-weight-bold">{{comments.comment}}</small>
+													</span>
+												</div>
+												<small class="colorDate">Le {{comments.dateJour}}&nbsp; à &nbsp;{{comments.dateHeure}}</small>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
-							<div class="timeline-comment-box">
-								<div class="input">
-								<form action="">
+						</div>
+						<div class="timeline-comment-box">
+							<div class="input">
+								<form action="POST">
 									<div class="input-group">
-										<input v-model.lazy="textComments" type="text" class="form-control rounded-corner" placeholder="Entrez votre commentaire...">
+										<input  type="text" class="form-control rounded-corner" id="textComment" value="" placeholder="Entrez votre commentaire...">
 										<span class="input-group-btn p-l-10">
-											<button @click="envoisComments(post)" type="button">Comment</button>
+											<button class="modifButton" @click="envoisComments(post)" type="button">Envoyer</button>
 										</span>
 									</div>   
 								</form>
-								</div>
 							</div>
 						</div>
-					</li>
-					</ul>
-				</div>
-			</div>
+					</div>
+				</li>
+			</ul>
 		</div>
-    </div>
+	</div>
 </template>
 <script>
 export default {
@@ -80,39 +88,39 @@ export default {
 			hrefProfil: "/#/profil",
 			hrefSujet: "/#/sujet",
 			allPostsUsers: [],
-			textComments: "",
+			allCommentUsers: [],
 		}
 	},
 	mounted() {
-		fetch(this.apiGetAllPost)
-		.then(res => res.json())
-		.then((allPost) => {
-			for(let post of allPost) {
-				let date = new Date(post.createdAt);
+        fetch(this.apiGetAllPost)
+        .then(res => res.json())
+        .then((allPost) => {
+            for(let post of allPost) {
+                let date = new Date(post.createdAt);
 				const dateJour = date.toLocaleDateString();
 				const dateHeure = date.toLocaleTimeString();
-				fetch(`http://localhost:3000/comments/getAllComments/${post.id}`)
-				.then(res => res.json())
-				.then((onePost) => {
-					fetch(`http://localhost:3000/users/getOneUsers/${post.userId}`)
-					.then(res => res.json())
-					.then((user) => {
-						this.allPostsUsers.push({
-							titre: post.titre,
+                fetch(`http://localhost:3000/comments/getAllComments/${post.id}`)
+                .then(res => res.json())
+                .then((allComments) => {
+                     fetch(`http://localhost:3000/users/getOneUsers/${post.userId}`)
+                    .then(res => res.json())
+                    .then((user) => {
+                        this.allPostsUsers.push({
+                            titre: post.titre,
 							sujet: post.sujet,
 							dateJour: dateJour,
 							dateHeure: dateHeure,
 							auteur: user.prenom,
-							image: user.images,
-							imagePostUser: post.images,
+							image: user.image,
+							imagePostUser: post.image,
 							idPost: post.id,
-							comments: "",
-							numberComments: onePost.length
-						})
-					})
-				})
-			}
-		})
+							comments: [],
+							numberComments: allComments.length,
+                        })
+                    })
+                })
+            }
+        })
 	},
 	methods: {
 		deconnecter() {
@@ -120,34 +128,78 @@ export default {
 			sessionStorage.removeItem("usersIdToken");
 		},
 		buttonComments(post) {
-			fetch(`http://localhost:3000/post/getOnePost/${post.idPost}`)
+			post.comments = [];
+			fetch(`http://localhost:3000/comments/getAllComments/${post.idPost}`)
 			.then(res => res.json())
-			.then(() => {
-				fetch(`http://localhost:3000/comments/getAllComments/${post.idPost}`)
-				.then(res => res.json())
-				.then((commentUser) => {
-					post.comments = commentUser;
-				})
+			.then((allComments) => {
+				for(let comment of allComments) {
+
+					const date = new Date(comment.createdAt);
+					const dateJour = date.toLocaleDateString();
+					const dateHeure = date.toLocaleTimeString();
+
+					fetch(`http://localhost:3000/users/getOneUsers/${comment.userIdComment}`)
+					.then(res => res.json())
+					.then((user) => {
+						post.comments.push({
+							prenom: user.prenom,
+							image: user.image,
+							comment: comment.comment,
+							dateJour: dateJour,
+							dateHeure: dateHeure
+						})
+					})
+				}
 			})
 		},
 		envoisComments(post) {
-			const comment = this.textComments;
-			const objetComments = {comment};
-			console.log(post)
-			fetch(`http://localhost:3000/comments/createComments/${post.idPost}`, {
+			const recupStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
+			const userId = recupStorage[0];
+
+			const postId = post.idPost;
+			const comment = document.querySelector("#textComment").value;
+			console.log(comment)
+			const objetComment = {comment, postId}
+
+			fetch(`http://localhost:3000/comments/createComments/${userId}`, {
 				method: "POST",
 				headers: {
 					"Content-type" : "application/json"
 				},
-				body: JSON.stringify(objetComments)
+				body: JSON.stringify(objetComment)
+				
 			})
-			location.reload();
+			.then(res => res.json())
+			.then((createComment) => {
+				const numberUserIdComment = JSON.parse(createComment.userIdComment);
+				createComment.userIdComment = numberUserIdComment;
+				fetch(`http://localhost:3000/users/getOneUsers/${createComment.userIdComment}`)
+				.then(res => res.json())
+				.then((user) => {
+					fetch(`http://localhost:3000/comments/getAllComments/${post.idPost}`)
+					.then(res => res.json())
+					.then((allComments) => {
+						
+						const date = new Date(createComment.createdAt);
+						const dateJour = date.toLocaleDateString();
+						const dateHeure = date.toLocaleTimeString();
+					
+							post.comments.push({
+								prenom: user.prenom,
+								image: user.image,
+								comment: createComment.comment,
+								dateJour: dateJour,
+								dateHeure: dateHeure
+							})
+							post.numberComments = allComments.length;
+					})
+				})
+			})
 		}
-
 	}
 }
 </script>
-<style>
+<style scoped>
 p {
 font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
 }
@@ -155,6 +207,7 @@ font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
 	margin-left: 88%;
 	display: none;
 }
+
 .m-r-15{
 	border: none;
 	background-color: white;
@@ -899,19 +952,89 @@ max-height: 100%
 .timeline-comment-box .user+.input {
 margin-left: 44px
 }
-
-.lead {
-margin-bottom: 20px;
-font-size: 21px;
-font-weight: 300;
-line-height: 1.4;
+.card {
+    border: none;
+    box-shadow: 5px 6px 6px 2px #e9ecef;
+    border-radius: 4px
 }
 
-.text-danger, .text-red {
-color: #ff5b57!important;
+.dots {
+    height: 4px;
+    width: 4px;
+    margin-bottom: 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block
 }
+
+.badge {
+    padding: 7px;
+    padding-right: 9px;
+    padding-left: 16px;
+    box-shadow: 5px 6px 6px 2px #e9ecef
+}
+
+.user-img {
+    margin-top: 4px
+}
+
+.check-icon {
+    font-size: 17px;
+    color: #c3bfbf;
+    top: 1px;
+    position: relative;
+    margin-left: 3px
+}
+
+.form-check-input {
+    margin-top: 6px;
+    margin-left: -24px !important;
+    cursor: pointer
+}
+
+.form-check-input:focus {
+    box-shadow: none
+}
+
+.icons i {
+    margin-left: 8px
+}
+
+.reply {
+    margin-left: 12px
+}
+
+.reply small {
+    color: #b7b4b4
+}
+
+.reply small:hover {
+    color: green;
+    cursor: pointer
+}
+.col-md-8 {
+	width: 100%;
+}
+.modifButton {
+background-color: #1877f2;
+color: white;
+border: none;
+border-radius: 6px;
+padding: 10px;
+margin: 10px;
+transition: 0.5s;
+width: 100px;
+}
+.modifButton:hover {
+background-color: blue;
+}
+.colorDate {
+	color: #0D6EFD;
+}
+</style>
+<style>
 body {
-background-color: #b2d1fa;
+	background-color: #b2d1fa;
 }
 </style>
 

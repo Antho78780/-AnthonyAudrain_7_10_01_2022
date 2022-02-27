@@ -41,6 +41,7 @@ export default {
 
 			const fd = new FormData();
 			if(this.fileSujet) {
+				console.log(this.fileSujet)
 				const postUser = {titre, sujet, userId};
 				console.log(postUser);
 				fd.append("imagePost", this.fileSujet, this.fileSujet.name);
@@ -74,10 +75,7 @@ export default {
 	}
 }
 </script>
-<style>
- body {
-    background-color: #b2d1fa;
-  }
+<style scoped>
 section {
   margin-top: 5%;
   text-align: center;
@@ -101,5 +99,10 @@ p {
 .obligatoire {
   font-size: 10px;
   color: #F01A1A
+}
+</style>
+<style>
+body {
+    background-color: #b2d1fa;
 }
 </style>

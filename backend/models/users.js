@@ -32,7 +32,7 @@ const users = sequelizeDb.define("users", {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    images: {
+    image: {
         type : DataTypes.STRING
     }
 

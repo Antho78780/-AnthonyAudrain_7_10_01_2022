@@ -3,7 +3,6 @@ const modelsPost = require("../models/post");
 const modelsUsers = require("../models/users");
 
 exports.postCreate = (req, res) => {
-	console.log(req.body)
 	modelsPost.create({
         userId: req.body.userId,
         titre: req.body.titre,
@@ -16,13 +15,12 @@ exports.postCreate = (req, res) => {
 
 exports.getAllPost = (req, res) => {
 	modelsPost.findAll()
-	.then((sujet) => {
-		res.status(200).json(sujet)
+	.then((post) => {
+		res.status(200).json(post)
 	})
 	
 }
 exports.getOnePost = (req, res) => {
-	console.log(req.params.id)
 	modelsPost.findOne({
 		where: {id : req.params.id}
 	})
@@ -35,7 +33,6 @@ exports.getOnePost = (req, res) => {
 exports.updatePost = (req, res) => {
 	modelsPost.findByPk(req.params.id)
 	.then((sujet) => {
-		console.log(sujet)
 		sujet.set({
 			sujet: req.body.sujet
 		})

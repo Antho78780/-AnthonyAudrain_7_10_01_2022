@@ -1,20 +1,20 @@
 <template>
     <section>
         <div>
-          <img src="../assets/icon-left-font-monochrome-black.svg" class="img1">
-          <p>{{texte1Connexion}}</p>
+            <img src="../assets/icon-left-font-monochrome-black.svg" class="img1">
+            <p>{{texte1Connexion}}</p>
         </div>
-			<label>
-				<form id="formLogin">
-					<input  type="email" v-model="emailLogin" placeholder="Addrese email" class="modifChampLogin">
-					<input type="password" v-model="passwordLogin" placeholder="Mot de passe" class="modifChampLogin">
-				</form>
-				<form id="ensembleButton">
-					<button type="button" @click="connecter" class="modifButton">Se connecter</button>
-					<button type="button" @click="enregistrer" class="modifButton">s'enregistrer</button>
-				</form>
-				<div class="color">{{emailPasswordError}}</div>
-			</label>
+        <label>
+          <form id="formLogin">
+            <input  type="email" v-model="emailLogin" placeholder="Addrese email" class="modifChampLogin">
+            <input type="password" v-model="passwordLogin" placeholder="Mot de passe" class="modifChampLogin">
+          </form>
+          <form id="ensembleButton">
+            <button type="button" @click="connecter" class="modifButton">Se connecter</button>
+            <button type="button" @click="enregistrer" class="modifButton">s'enregistrer</button>
+          </form>
+          <div class="color">{{emailPasswordError}}</div>
+        </label>
     </section>
 </template>
 <script>
@@ -66,10 +66,7 @@
     }
 	}
 </script>
-<style >
-    body {
-    background-color: #b2d1fa;
-  }
+<style scoped>
   p {
     font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
   }
@@ -117,5 +114,12 @@
     padding-left: 10px;
     background-color: white;
   }
- 
+ body {
+    background-color: #b2d1fa;
+  }
+</style>
+<style>
+body {
+    background-color: #b2d1fa;
+  }
 </style>
