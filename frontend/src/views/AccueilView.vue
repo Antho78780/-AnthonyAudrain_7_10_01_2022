@@ -4,16 +4,16 @@
 			<img src="../assets/icon-left-font-monochrome-black.svg" class="img1">
 			<div id="flex-row">
 				<a :href="hrefProfil"  class="modifTitre modifFlex"><p>{{texteProfil}}</p></a>
-				<a @click="deconnecter" type="button" class="modifButton2 modifFlex">{{texteDeconnexion}}</a>
+				<a @click="deconnecter"  type="button" class="modifButton2 modifFlex">{{texteDeconnexion}}</a>
 			</div>
 		</main>
 		<section id="section1">
 			<h1 class="texte1">{{texteForums}}</h1>
 			<a :href="hrefSujet"><p class="texte1">{{texteCreerSujet}}</p></a>
 		</section>
-		<div class="container">
+		<div  v-for="post of allPostsUsers" :key="post" class="container">
 			<ul class="timeline">
-				<li v-for="post in allPostsUsers" :key="post">
+				<li>
 					<div class="timeline-time">
 						<span class="date">{{post.dateJour}}</span>
 						<span class="time">{{post.dateHeure}}</span>
@@ -21,7 +21,8 @@
 					<div class="timeline-body">
 						<div class="timeline-header">
 							<span class="userimage"><img :src="post.image" alt=""></span>
-							<p class="username"><a href="javascript:;">{{post.auteur}}</a></p>
+								<p class="username">{{post.auteur}}</p>
+								<input v-if="post.userIdPost == post.userIdStorage" @click="supprimerPost(post)" class="modifButtonSupp2" type="button" value="Supprimer">
 							<p class="titreSujet">{{post.titre}}</p>
 						</div>
 						<div class="timeline-content">
@@ -36,9 +37,8 @@
 						<div class="timeline-footer">
 							<a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
 							<button type="button" @click="buttonComments(post)" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i>Tout les commentaire</button> 
-							<button @click="suppresionPostUser" type="button" class="suppPost">Supprimé</button>
 							
-							<div v-for="comments in post.comments" :key="comments" class="container mt-5">
+							<div v-for="comments of post.comments" :key="comments" class="container mt-5">
 								<div class="row d-flex justify-content-center">
 									<div class="col-md-8">
 										<div class="card p-3">
@@ -50,19 +50,22 @@
 														&nbsp;
 														<small class="font-weight-bold">{{comments.comment}}</small>
 													</span>
+													&nbsp;
 												</div>
 												<small class="colorDate">Le {{comments.dateJour}}&nbsp; à &nbsp;{{comments.dateHeure}}</small>
 											</div>
+											<input class ="modifButtonSupp" v-if="comments.userIdComment == comments.userIdStorage" @click="buttonSuppComment(comments, post)" type="button" id="masquerOuAfficher" value="Supprimer">
 										</div>
 									</div>
 								</div>
 							</div>
+							
 						</div>
 						<div class="timeline-comment-box">
 							<div class="input">
 								<form action="POST">
 									<div class="input-group">
-										<input  type="text" class="form-control rounded-corner" id="textComment" value="" placeholder="Entrez votre commentaire...">
+										<input  type="text"  value="" class="form-control rounded-corner" id="textComment"  placeholder="Entrez votre commentaire...">
 										<span class="input-group-btn p-l-10">
 											<button class="modifButton" @click="envoisComments(post)" type="button">Envoyer</button>
 										</span>
@@ -88,10 +91,12 @@ export default {
 			hrefProfil: "/#/profil",
 			hrefSujet: "/#/sujet",
 			allPostsUsers: [],
-			allCommentUsers: [],
 		}
 	},
 	mounted() {
+		const recupStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
+		const userId = recupStorage[0];
+		
         fetch(this.apiGetAllPost)
         .then(res => res.json())
         .then((allPost) => {
@@ -116,10 +121,13 @@ export default {
 							idPost: post.id,
 							comments: [],
 							numberComments: allComments.length,
+							userIdPost: post.userId,
+							userIdStorage: userId
                         })
                     })
                 })
             }
+			console.log(allPost)
         })
 	},
 	methods: {
@@ -127,13 +135,42 @@ export default {
 			window.location.href = "/#/";
 			sessionStorage.removeItem("usersIdToken");
 		},
+		buttonSuppComment(comments, post) {
+			fetch(`http://localhost:3000/comments/deleteComments/${comments.idComment}`, {
+				method: "DELETE",
+				headers: {
+					"Content-type" : "application/json"
+				}
+			})
+			.then((res) => {
+				console.log(res);
+			})
+			const suppComment = post.comments.filter(el => el.idComment != comments.idComment);
+			post.comments = suppComment;
+			post.numberComments = post.comments.length;
+		},
+
+		supprimerPost(post) {
+			fetch(`http://localhost:3000/post/deletePost/${post.idPost}`, {
+				method: "DELETE",
+				headers: {
+					"Content-type" : "application/json"
+				}
+			})
+			.then((res) => {
+				console.log(res)
+			})
+			location.reload();
+		},
+
 		buttonComments(post) {
 			post.comments = [];
+			const recupStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
+			const userId = recupStorage[0];
 			fetch(`http://localhost:3000/comments/getAllComments/${post.idPost}`)
 			.then(res => res.json())
 			.then((allComments) => {
 				for(let comment of allComments) {
-
 					const date = new Date(comment.createdAt);
 					const dateJour = date.toLocaleDateString();
 					const dateHeure = date.toLocaleTimeString();
@@ -146,7 +183,10 @@ export default {
 							image: user.image,
 							comment: comment.comment,
 							dateJour: dateJour,
-							dateHeure: dateHeure
+							dateHeure: dateHeure,
+							idComment: comment.id,
+							userIdComment: comment.userIdComment,
+							userIdStorage: userId
 						})
 					})
 				}
@@ -157,44 +197,50 @@ export default {
 			const userId = recupStorage[0];
 
 			const postId = post.idPost;
-			const comment = document.querySelector("#textComment").value;
-			console.log(comment)
-			const objetComment = {comment, postId}
-
-			fetch(`http://localhost:3000/comments/createComments/${userId}`, {
-				method: "POST",
-				headers: {
-					"Content-type" : "application/json"
-				},
-				body: JSON.stringify(objetComment)
-				
-			})
-			.then(res => res.json())
-			.then((createComment) => {
-				const numberUserIdComment = JSON.parse(createComment.userIdComment);
-				createComment.userIdComment = numberUserIdComment;
-				fetch(`http://localhost:3000/users/getOneUsers/${createComment.userIdComment}`)
-				.then(res => res.json())
-				.then((user) => {
-					fetch(`http://localhost:3000/comments/getAllComments/${post.idPost}`)
-					.then(res => res.json())
-					.then((allComments) => {
+			const recupComments = document.querySelectorAll("#textComment");
+			for (let comments of recupComments) {
+				const comment = comments.value;
+				if(comment != "") {
+					const objetComment = { comment, postId}
+					fetch(`http://localhost:3000/comments/createComments/${userId}`, {
+						method: "POST",
+						headers: {
+							"Content-type" : "application/json"
+						},
+						body: JSON.stringify(objetComment)
 						
-						const date = new Date(createComment.createdAt);
-						const dateJour = date.toLocaleDateString();
-						const dateHeure = date.toLocaleTimeString();
-					
-							post.comments.push({
-								prenom: user.prenom,
-								image: user.image,
-								comment: createComment.comment,
-								dateJour: dateJour,
-								dateHeure: dateHeure
-							})
-							post.numberComments = allComments.length;
 					})
-				})
-			})
+					.then(res => res.json())
+					.then((createComment) => {
+						const numberUserIdComment = JSON.parse(createComment.userIdComment);
+						createComment.userIdComment = numberUserIdComment;
+
+						
+						fetch(`http://localhost:3000/users/getOneUsers/${createComment.userIdComment}`)
+						.then(res => res.json())
+						.then((user) => {
+							fetch(`http://localhost:3000/comments/getAllComments/${post.idPost}`)
+							.then(res => res.json())
+							.then((allComments) => {
+								
+								const date = new Date(createComment.createdAt);
+								const dateJour = date.toLocaleDateString();
+								const dateHeure = date.toLocaleTimeString();
+							
+									post.comments.push({
+										prenom: user.prenom,
+										image: user.image,
+										comment: createComment.comment,
+										dateJour: dateJour,
+										dateHeure: dateHeure,
+										idComment: createComment.id
+									})
+									post.numberComments = allComments.length;	
+							})
+						})
+					})
+				}
+			}
 		}
 	}
 }
@@ -1024,6 +1070,26 @@ padding: 10px;
 margin: 10px;
 transition: 0.5s;
 width: 100px;
+}
+.modifButton:hover {
+background-color: blue;
+}
+.modifButtonSupp {
+background-color: #1877f2;
+color: white;
+border: none;
+transition: 0.5s;
+width: 15%;
+margin-left: 85%;
+}
+.modifButton:hover {
+background-color: blue;
+}
+.modifButtonSupp2 {
+background-color: #1877f2;
+color: white;
+border: none;
+border-radius: 5px;
 }
 .modifButton:hover {
 background-color: blue;

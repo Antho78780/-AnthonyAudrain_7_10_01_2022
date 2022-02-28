@@ -28,3 +28,13 @@ exports.getAllComments = (req, res) => {
     })
     
 }
+exports.deleteComments = (req, res) => {
+    console.log(req.params);
+    modelsComments.destroy({
+        where: {id: req.params.id}
+    })
+    .then((destroyComment) => {
+        console.log(destroyComment)
+        res.status(200).json(destroyComment);
+    })
+}

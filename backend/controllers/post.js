@@ -47,13 +47,8 @@ exports.deletePost = (req, res) => {
 	modelsPost.destroy({
 		where: {id: req.params.id}
 	})
-	.then((sujetDelete) => {
-		if(sujetDelete) {
-			res.status(200).json({message: "Sujet supprimé"})
-		}
-		else {
-			res.status(400).json({error : "Sujet non supprimé"})
-		}
+	.then((postDelete) => {
+		res.status(200).json(postDelete);
 	})
 }
 
