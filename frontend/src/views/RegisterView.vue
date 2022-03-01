@@ -56,7 +56,7 @@
     }
 </script>
 <style scoped>
-@media all and (max-width: 1000px) {
+@media all and (max-width: 1024px) {
 	.modifChampInscription{
 		width: 100% !important;
 	}
@@ -64,7 +64,7 @@
         width: 50% !important;
     }
     .logoGroupomania{
-       width: 60% !important;
+       width: 70%  !important;
     }
 }
 section {

@@ -244,7 +244,7 @@ export default {
 }
 </script>
 <style scoped>
-@media all and (max-width: 1000px) {
+@media all and (max-width: 1024px) {
 	.logoGroupomania{
 	display: none;
 	}

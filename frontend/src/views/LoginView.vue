@@ -2,7 +2,7 @@
     <section>
 			<div>
 				<img src="../assets/icon-left-font-monochrome-black.svg" class="logoGroupomania">
-				<p>{{texte1Connexion}}</p>
+				<p>{{texteConnexion}}</p>
 			</div>
 			<label>
 			<form id="formLogin">
@@ -21,7 +21,7 @@
 	export default {
 		data() {
         return {
-            texte1Connexion: "Groupomania le nouveau réseau social pour communiqué entre collègue",
+            texteConnexion: "Groupomania le nouveau réseau social pour communiqué entre collègue",
             apiLogin: "http://localhost:3000/users/login",
 
             emailLogin: "",
@@ -66,16 +66,16 @@
     }
 	}
 </script>
-<style  scoped>
-@media all and(max-width: 1000px) {
-     .logoGroupomania{
-       width: 60% !important;
-    }
+<style scoped>
+@media all and (max-width: 1024px)  {
+   .logoGroupomania{
+    width: 70% !important;
+}
 }
 section {
     text-align: center;
-	width: 100%;
-    margin-top: 10%;
+	margin-top: 10%;
+    
 }
 #formLogin {
 width: 100%;
