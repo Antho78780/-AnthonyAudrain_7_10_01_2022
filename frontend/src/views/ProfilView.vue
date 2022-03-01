@@ -121,10 +121,8 @@
 		}
     }
 </script>
+
 <style scoped>
-p {
-font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
-}
 section {
 margin-top: 5%;
 text-align: center;
@@ -230,10 +228,5 @@ text-align: center;
 .profile-tab p{
     font-weight: 600;
     color: #0062cc;
-}
-</style>
-<style>
-body {
-    background-color: #b2d1fa;
 }
 </style>

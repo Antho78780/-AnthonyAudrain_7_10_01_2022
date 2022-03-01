@@ -80,9 +80,6 @@ section {
   margin-top: 5%;
   text-align: center;
 }
-p {
-  font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
-}
 #titreForms {
  width: 40%;
  height: 40px;
@@ -101,8 +98,4 @@ p {
   color: #F01A1A
 }
 </style>
-<style>
-body {
-    background-color: #b2d1fa;
-}
-</style>
+

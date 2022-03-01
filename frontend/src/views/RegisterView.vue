@@ -1,7 +1,7 @@
 <template>
     <section>
         <div>
-            <img src="../assets/icon-left-font-monochrome-black.svg" class="img1">
+            <img src="../assets/icon-left-font-monochrome-black.svg" class="logoGroupomania">
             <h1>{{texte1Inscription}}</h1>
         </div>
             <label>
@@ -56,20 +56,24 @@
     }
 </script>
 <style scoped>
-p {
-font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
+@media all and (max-width: 1000px) {
+	.modifChampInscription{
+		width: 100% !important;
+	}
+    #formInscription{
+        width: 50% !important;
+    }
+    .logoGroupomania{
+       width: 60% !important;
+    }
 }
 section {
-margin-top: 5%;
+margin-top: 10%;
 text-align: center;
-}
-::placeholder {
-padding-left: 10px;
-background-color: white;
+width: 100%;
 }
 #formInscription {
-margin-top: 10%;
-width: 20%;
+width: 35%;
 margin: auto;
 }
 .modifChampInscription {
@@ -77,30 +81,24 @@ margin: 10px;
 height: 40px;
 border: 1px solid gainsboro;
 border-radius: 5px;
-width: 200px;
+width: 70%;
 font-size: 15px;
 }
 .buttonSuivant {
-width: 210px;
+width: 70%;
 margin-top: 20px;
 padding: 5px;
 border-radius: 5px;
 background-color: #0095f6;
-border: 0px;
+border: none;
 color: white;
 transition: 0.5s;
 }
 .buttonSuivant:hover {
 background-color: #1877f2;
 }
-.img1 {
-    width: 15%;
-    height: 110px;
-}
-</style>
-<style>
-body {
-background-color: #b2d1fa;
+.logoGroupomania{
+   width: 20%;
 }
 </style>
 

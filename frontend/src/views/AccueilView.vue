@@ -1,82 +1,80 @@
 <template>
-	<div id="block">
-		<main id="modifA">
-			<img src="../assets/icon-left-font-monochrome-black.svg" class="img1">
-			<div id="flex-row">
-				<a :href="hrefProfil"  class="modifTitre modifFlex"><p>{{texteProfil}}</p></a>
-				<a @click="deconnecter"  type="button" class="modifButton2 modifFlex">{{texteDeconnexion}}</a>
-			</div>
-		</main>
-		<section id="section1">
-			<h1 class="texte1">{{texteForums}}</h1>
-			<a :href="hrefSujet"><p class="texte1">{{texteCreerSujet}}</p></a>
-		</section>
-		<div  v-for="post of allPostsUsers" :key="post" class="container">
-			<ul class="timeline">
-				<li>
-					<div class="timeline-time">
-						<span class="date">{{post.dateJour}}</span>
-						<span class="time">{{post.dateHeure}}</span>
+	<main id="modifA">
+		<img src="../assets/icon-left-font-monochrome-black.svg" class="logoGroupomania">
+		<div id="flex-row">
+			<a :href="hrefProfil"  class="modifTitre modifFlex"><p>{{texteProfil}}</p></a>
+			<a @click="deconnecterAccueil"  type="button" class="modifButton2 modifFlex">{{texteDeconnexion}}</a>
+		</div>
+	</main>
+	<section>
+		<h1 class="texte1">{{texteForums}}</h1>
+		<a :href="hrefSujet"><p class="texte1">{{texteCreerSujet}}</p></a>
+	</section>
+	<div  v-for="post of allPostsUsers" :key="post" class="container">
+		<ul class="timeline">
+			<li>
+				<div class="timeline-time">
+					<span class="date">{{post.dateJour}}</span>
+					<span class="time">{{post.dateHeure}}</span>
+				</div>
+				<div class="timeline-body">
+					<div class="timeline-header">
+						<span class="userimage"><img :src="post.image" alt=""></span>
+							<p class="username">{{post.auteur}}</p>
+							<input v-if="post.userIdPost == post.userIdStorage" @click="supprimerPost(post)" class="modifButtonSupp2" type="button" value="Supprimer">
+						<p class="titreSujet">{{post.titre}}</p>
 					</div>
-					<div class="timeline-body">
-						<div class="timeline-header">
-							<span class="userimage"><img :src="post.image" alt=""></span>
-								<p class="username">{{post.auteur}}</p>
-								<input v-if="post.userIdPost == post.userIdStorage" @click="supprimerPost(post)" class="modifButtonSupp2" type="button" value="Supprimer">
-							<p class="titreSujet">{{post.titre}}</p>
+					<div class="timeline-content">
+						<p>{{post.sujet}}</p>
+						<span><img :src="post.imagePostUser" class="imgPost" alt=""></span>
+					</div>
+					<div class="timeline-likes">
+						<div class="stats-right">
+							<span class="stats-text">{{post.numberComments}} commentaires</span>
 						</div>
-						<div class="timeline-content">
-							<p>{{post.sujet}}</p>
-							<span><img :src="post.imagePostUser" alt=""></span>
-						</div>
-						<div class="timeline-likes">
-							<div class="stats-right">
-								<span class="stats-text">{{post.numberComments}} commentaires</span>
-							</div>
-						</div>
-						<div class="timeline-footer">
-							<a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
-							<button type="button" @click="buttonComments(post)" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i>Tout les commentaire</button> 
-							
-							<div v-for="comments of post.comments" :key="comments" class="container mt-5">
-								<div class="row d-flex justify-content-center">
-									<div class="col-md-8">
-										<div class="card p-3">
-											<div class="d-flex justify-content-between align-items-center">
-												<div class="user d-flex flex-row align-items-center"> 
-													<img :src="comments.image" width="30" class="user-img rounded-circle mr-2"> 
+					</div>
+					<div class="timeline-footer">
+						<a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
+						<button type="button" @click="toutLesComments(post)" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i>Tout les commentaire</button> 
+						
+						<div v-for="comments of post.comments" :key="comments" class="container mt-5">
+							<div class="row d-flex justify-content-center">
+								<div class="col-md-8">
+									<div class="card p-3">
+										<div class="d-flex justify-content-between align-items-center">
+											<div class="user d-flex flex-row align-items-center"> 
+												<img :src="comments.image" width="30" class="user-img rounded-circle mr-2"> 
+												&nbsp;
+												<span><small class="font-weight-bold text-primary">{{comments.prenom}}</small> 
 													&nbsp;
-													<span><small class="font-weight-bold text-primary">{{comments.prenom}}</small> 
-														&nbsp;
-														<small class="font-weight-bold">{{comments.comment}}</small>
-													</span>
-													&nbsp;
-												</div>
-												<small class="colorDate">Le {{comments.dateJour}}&nbsp; à &nbsp;{{comments.dateHeure}}</small>
+													<small class="font-weight-bold">{{comments.comment}}</small>
+												</span>
+												&nbsp;
 											</div>
-											<input class ="modifButtonSupp" v-if="comments.userIdComment == comments.userIdStorage" @click="buttonSuppComment(comments, post)" type="button" id="masquerOuAfficher" value="Supprimer">
+											<small class="colorDate">Le {{comments.dateJour}}&nbsp; à &nbsp;{{comments.dateHeure}}</small>
 										</div>
+										<input class ="modifButtonSupp" v-if="comments.userIdComment == comments.userIdStorage" @click="supprimerComment(comments, post)" type="button" id="masquerOuAfficher" value="Supprimer">
 									</div>
 								</div>
 							</div>
-							
 						</div>
-						<div class="timeline-comment-box">
-							<div class="input">
-								<form action="POST">
-									<div class="input-group">
-										<input  type="text"  value="" class="form-control rounded-corner" id="textComment"  placeholder="Entrez votre commentaire...">
-										<span class="input-group-btn p-l-10">
-											<button class="modifButton" @click="envoisComments(post)" type="button">Envoyer</button>
-										</span>
-									</div>   
-								</form>
-							</div>
+						
+					</div>
+					<div class="timeline-comment-box">
+						<div class="input">
+							<form action="POST">
+								<div class="input-group">
+									<input  type="text"  value="" class="form-control rounded-corner" id="textComment"  placeholder="Entrez votre commentaire...">
+									<span class="input-group-btn p-l-10">
+										<button class="modifButtonEnvoyer" @click="envoisComments(post)" type="button">Envoyer</button>
+									</span>
+								</div>   
+							</form>
 						</div>
 					</div>
-				</li>
-			</ul>
-		</div>
+				</div>
+			</li>
+		</ul>
 	</div>
 </template>
 <script>
@@ -111,6 +109,9 @@ export default {
                     .then(res => res.json())
                     .then((user) => {
                         this.allPostsUsers.push({
+							userIdPost: post.userId,
+							userIdStorage: userId,
+							idPost: post.id,
                             titre: post.titre,
 							sujet: post.sujet,
 							dateJour: dateJour,
@@ -118,24 +119,20 @@ export default {
 							auteur: user.prenom,
 							image: user.image,
 							imagePostUser: post.image,
-							idPost: post.id,
 							comments: [],
 							numberComments: allComments.length,
-							userIdPost: post.userId,
-							userIdStorage: userId
                         })
                     })
                 })
             }
-			console.log(allPost)
         })
 	},
 	methods: {
-		deconnecter() {
+		deconnecterAccueil() {
 			window.location.href = "/#/";
 			sessionStorage.removeItem("usersIdToken");
 		},
-		buttonSuppComment(comments, post) {
+		supprimerComment(comments, post) {
 			fetch(`http://localhost:3000/comments/deleteComments/${comments.idComment}`, {
 				method: "DELETE",
 				headers: {
@@ -149,7 +146,6 @@ export default {
 			post.comments = suppComment;
 			post.numberComments = post.comments.length;
 		},
-
 		supprimerPost(post) {
 			fetch(`http://localhost:3000/post/deletePost/${post.idPost}`, {
 				method: "DELETE",
@@ -162,11 +158,12 @@ export default {
 			})
 			location.reload();
 		},
-
-		buttonComments(post) {
+		toutLesComments(post) {
 			post.comments = [];
+
 			const recupStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
 			const userId = recupStorage[0];
+
 			fetch(`http://localhost:3000/comments/getAllComments/${post.idPost}`)
 			.then(res => res.json())
 			.then((allComments) => {
@@ -201,7 +198,7 @@ export default {
 			for (let comments of recupComments) {
 				const comment = comments.value;
 				if(comment != "") {
-					const objetComment = { comment, postId}
+					const objetComment = {comment, postId}
 					fetch(`http://localhost:3000/comments/createComments/${userId}`, {
 						method: "POST",
 						headers: {
@@ -212,13 +209,14 @@ export default {
 					})
 					.then(res => res.json())
 					.then((createComment) => {
+						console.log(createComment)
 						const numberUserIdComment = JSON.parse(createComment.userIdComment);
 						createComment.userIdComment = numberUserIdComment;
 
-						
 						fetch(`http://localhost:3000/users/getOneUsers/${createComment.userIdComment}`)
 						.then(res => res.json())
 						.then((user) => {
+							console.log(user)
 							fetch(`http://localhost:3000/comments/getAllComments/${post.idPost}`)
 							.then(res => res.json())
 							.then((allComments) => {
@@ -246,56 +244,59 @@ export default {
 }
 </script>
 <style scoped>
-p {
-font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
-}
-.suppPost {
-	margin-left: 88%;
+@media all and (max-width: 1000px) {
+	.logoGroupomania{
 	display: none;
+	}
+	.timeline-time{
+		display: none;
+	}
+	.timeline-body{
+		min-width: 100%;
+		margin-left: 0% !important;
+	}
+	.timeline::before {
+		display: none;
+	}
+	#flex-row {
+		margin-left: 10%;
+	}
+	section {
+		text-align: center;
+	}
+	.input-group>.form-control{
+		width: 100%;
+	}
+	.modifButtonEnvoyer {
+		margin-left: 80% !important;
+	}
 }
-
+section{
+	display: flex;
+	justify-content: space-around;
+}
+.texte1{
+	margin: 50px;
+}
+#modifA{
+	display: flex;
+	justify-content: space-between;
+	background: linear-gradient(#e66465, #9198e5);
+}
+#flex-row{
+	display: flex;
+}
 .m-r-15{
 	border: none;
 	background-color: white;
-}
-section {
-text-align: center;
-}
-::placeholder {
-padding-left: 10px;
-background-color: white;
 }
 .modifTitre {
 color: black;
 text-decoration: none;
 }
-#accueil {
-width: 1600px;
-margin: auto;
-}
-#modifA {
-display: flex;
-justify-content: space-between;
-background: linear-gradient(#e66465, #9198e5);
-height: 100px;
-
-}
 .titreSujet {
-display: flex;
-justify-content: center;
-}
-#section1 {
-display: flex;
-justify-content:space-around;
-height: 100px;
-width: 1600px;
-margin: auto;
-margin-top: 20px;
-}
-.img1 {
-width: 300px;
-height: 110px;
 
+justify-content: center;
 }
 #articleJs{
 height: 300px;
@@ -306,16 +307,9 @@ border-radius: 5px;
 margin: auto;
 
 }
-.titreSujet {
-text-align: center;
-}
 a {
 text-decoration: none;
 color: black;
-}
-.likes {
-text-align: right;
-margin-right: 30px;
 }
 i {
 font-family: FontAwesome;
@@ -338,9 +332,6 @@ width: 150px;
 height: 40px;
 border-radius: 5px;
 margin-left: 5px;
-}
-#flex-row {
-display: flex;
 }
 .modifFlex {
 padding: 40px;
@@ -852,8 +843,8 @@ transition: border-color .2s linear
 }
 
 .timeline .timeline-body {
-margin-left: 23%;
-margin-right: 17%;
+width: 70%;
+margin-left: 22%;
 background: #fff;
 position: relative;
 padding: 20px 25px;
@@ -1061,7 +1052,7 @@ margin-left: 44px
 .col-md-8 {
 	width: 100%;
 }
-.modifButton {
+.modifButtonEnvoyer {
 background-color: #1877f2;
 color: white;
 border: none;
@@ -1096,11 +1087,6 @@ background-color: blue;
 }
 .colorDate {
 	color: #0D6EFD;
-}
-</style>
-<style>
-body {
-	background-color: #b2d1fa;
 }
 </style>
 
