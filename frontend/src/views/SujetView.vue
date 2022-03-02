@@ -1,16 +1,18 @@
 <template>
     <section>
 		<form method="post">
-			<p>{{titreSujet}}</p>
-			<p class="obligatoire">{{titreObligatoire}}</p>
+			<div class="flexSujet">
+				<p class="strong">{{titreSujet}}</p>
+				<p class="obligatoire">{{titreObligatoire}}</p>
+			</div>
 			<textarea v-model="titre" id="titreForms"></textarea>
 			<div>
-				<p class="test">{{  SujetArticle }}</p>
+				<p class="strong">{{  SujetArticle }}</p>
 				<input @change="changeFile" type="file">
 			</div>
 				<textarea  v-model="sujet" id="message"></textarea>
 		</form>
-		<button type="button" class="modifButton" @click="envoyerSujet">Envoyer</button>
+		<button type="button" class="modifButton" @click="envoyerSujet">{{texteEnvoyer}}</button>
     </section>
 </template>
 <script>
@@ -23,6 +25,7 @@ export default {
 			SujetArticle: "Créer un nouveau sujet",
 			apiPostCreateFile: "http://localhost:3000/post/postCreate/file",
 			apiPostCreate: "http://localhost:3000/post/postCreate",
+			texteEnvoyer: "Envoyer",
 			
 			titre: "",
 			sujet: "",
@@ -76,26 +79,66 @@ export default {
 }
 </script>
 <style scoped>
-section {
-  margin-top: 5%;
-  text-align: center;
-}
-#titreForms {
- width: 40%;
- height: 40px;
-}
-#message {
-  width: 40%;
-  height: 300px;
-  margin: auto;
-}
-.size {
-  font-size: 12px;
-  color: #AA1414;
-}
-.obligatoire {
-  font-size: 10px;
-  color: #F01A1A
-}
+	@media all and (max-width:1024px) {
+		#titreForms{
+			width: 100% !important;
+		}
+
+		#message {
+			width: 100% !important;
+		}
+
+		.modifButton {
+			background-color: #1877f2;
+			color: white;
+			border: none;
+			border-radius: 6px;
+			padding: 10px;
+			margin: 10px;
+			transition: 0.5s;
+			width: 40%;
+		}
+
+		section {
+			margin-top: 20% !important;
+		}
+		
+	}
+	section {
+		margin-top: 5%;
+		text-align: center;
+	}
+
+	#titreForms {
+		width: 40%;
+		height: 40px;
+	}
+
+	#message {
+		width: 40%;
+		height: 300px;
+		margin: auto;
+	}
+
+	.size {
+		font-size: 12px;
+		color: #AA1414;
+	}
+
+	.obligatoire {
+		font-size: 10px;
+		color: #F01A1A;
+		margin-left: 10px;
+		margin-top: 5px;
+	}
+
+	.flexSujet {
+		display: flex;
+		justify-content: center;
+	}
+	
+	.strong{
+		font-weight: bold;
+	}
 </style>
 

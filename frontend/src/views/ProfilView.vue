@@ -1,6 +1,6 @@
 <template>
     <section>
-            <div class="container emp-profile">
+        <div class="container emp-profile">
             <form method="post">
                 <div class="row">
                     <div class="col-md-4">
@@ -8,7 +8,7 @@
                             <img :src="user.image"  alt="">
                             <form method="post">
                                 <div class="file btn btn-lg btn-primary">
-                                    choisi ta photo
+                                   {{texteChoisiPhoto}}
                                     <input @change="changePhoto" type="file" name="file"/>
                                 </div>
                             </form>
@@ -16,62 +16,66 @@
                     </div>
                     <div class="col-md-6">
                         <div class="profile-head">
-                                    <h5>{{user.prenom}}</h5>
+                            <h5>{{user.prenom}}</h5>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">A propos de</a>
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">{{texteApropos}}</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <button @click="suppresionCompte" type="button" class="profile-edit-btn" name="btnAddMore">Supprimé le compte</button>
+                        <button @click="suppresionCompte" type="button" class="profile-edit-btn" name="btnAddMore">{{texteSuppresionDeCompte}}</button>
                     </div>
                 </div>
-					<div class="tab-content profile-tab" id="myTabContent">
-						<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-							<div class="row">
+				<div class="tab-content profile-tab" id="myTabContent">
+					<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+						<div class="row">
+							<div class="col-md-6">
+								<label>{{labelPrenom}}</label>
 							</div>
-							<div class="row">
-								<div class="col-md-6">
-									<label>Prenom</label>
-								</div>
-								<div class="col-md-6">
-									<p>{{user.prenom}}</p>
-								</div>
+							<div class="col-md-6">
+								<p>{{user.prenom}}</p>
 							</div>
-							<div class="row">
-								<div class="col-md-6">
-									<label>Nom</label>
-								</div>
-								<div class="col-md-6">
-									<p>{{user.nom}}</p>
-								</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label>{{labelNom}}</label>
 							</div>
-							<div class="row">
-								<div class="col-md-6">
-									<label>Email</label>
-								</div>
-								<div class="col-md-6">
-									<p>{{user.email}}</p>
-								</div>
+							<div class="col-md-6">
+								<p>{{user.nom}}</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label>{{labelEmail}}</label>
+							</div>
+							<div class="col-md-6">
+								<p>{{user.email}}</p>
 							</div>
 						</div>
 					</div>
+				</div>
             </form>           
         </div>
-        </section>
+    </section>
 </template>
 <script>
     import axios from "axios";
     export default {
         data() {
             return {
-                titreSuppresionCompte: "Suppresion de mon compte",
-                user: "",
+				labelNom: "Nom",
+				labelPrenom: "Prenom" ,
+				labelEmail: "Email" ,
+				texteChoisiPhoto: "Choisi ta photo",
+                texteSuppresionDeCompte: "Suppresion de mon compte",
+				texteApropos: "A propos de",
+                user: {},
                 PhotoProfil: "",
             }  
         },
+
 		mounted() {
 			const idUserssessionStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
 			const users_id = idUserssessionStorage[0];
@@ -102,12 +106,11 @@
 						}
 					})
 			},
+
 			changePhoto(e) {
                 this.selectedFile = e.target.files[0];
                 const fd = new FormData();
                 fd.append("imageUser", this.selectedFile, this.selectedFile.name);
-                
-
                 const idUserssessionStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
                 const users_id = idUserssessionStorage[0];
                 console.log(users_id);
@@ -123,110 +126,130 @@
 </script>
 
 <style scoped>
-section {
-margin-top: 5%;
-text-align: center;
-}
-.modifButton {
-  background-color: #1877f2;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 10px;
-  margin: 10px;
-  transition: 0.5s;
-  width: 200px;
-}
-.emp-profile{
-    padding: 3%;
-    margin-top: 3%;
-    margin-bottom: 3%;
-    border-radius: 0.5rem;
-    background: #fff;
-}
-.profile-img{
-    text-align: center;
-}
-.profile-img img{
-    width: 70%;
-    height: 100%;
-}
-.profile-img .file {
-    position: relative;
-    overflow: hidden;
-    margin-top: -20%;
-    width: 70%;
-    border: none;
-    border-radius: 0;
-    font-size: 15px;
-    background: #212529b8;
-}
-.profile-img .file input {
-    position: absolute;
-    opacity: 0;
-    right: 0;
-    top: 0;
-}
-.profile-head h5{
-    color: #333;
-}
-.profile-head h6{
-    color: #0062cc;
-}
-.profile-edit-btn{
-    border: none;
-    border-radius: 1.5rem;
-    width: 70%;
-    padding: 2%;
-    font-weight: 600;
-    color: #6c757d;
-    cursor: pointer;
-}
-.proile-rating{
-    font-size: 12px;
-    color: #818182;
-    margin-top: 5%;
-}
-.proile-rating span{
-    color: #495057;
-    font-size: 15px;
-    font-weight: 600;
-}
-.profile-head .nav-tabs{
-    margin-bottom:5%;
-}
-.profile-head .nav-tabs .nav-link{
-    font-weight:600;
-    border: none;
-}
-.profile-head .nav-tabs .nav-link.active{
-    border: none;
-    border-bottom:2px solid #0062cc;
-}
-.profile-work{
-    padding: 14%;
-    margin-top: -15%;
-}
-.profile-work p{
-    font-size: 12px;
-    color: #818182;
-    font-weight: 600;
-    margin-top: 10%;
-}
-.profile-work a{
-    text-decoration: none;
-    color: #495057;
-    font-weight: 600;
-    font-size: 14px;
-}
-.profile-work ul{
-    list-style: none;
-}
-.profile-tab label{
-    font-weight: 600;
-}
-.profile-tab p{
-    font-weight: 600;
-    color: #0062cc;
-}
+    section {
+        margin-top: 5%;
+        text-align: center;
+    }
+
+    .modifButton {
+        background-color: #1877f2;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 10px;
+        margin: 10px;
+        transition: 0.5s;
+        width: 200px;
+    }
+
+    .emp-profile{
+        padding: 3%;
+        margin-top: 3%;
+        margin-bottom: 3%;
+        border-radius: 0.5rem;
+        background: #fff;
+    }
+
+    .profile-img{
+        text-align: center;
+    }
+
+    .profile-img img{
+        width: 70%;
+        height: 100%;
+    }
+
+    .profile-img .file {
+        position: relative;
+        overflow: hidden;
+        margin-top: -20%;
+        width: 70%;
+        border: none;
+        border-radius: 0;
+        font-size: 15px;
+        background: #212529b8;
+    }
+
+    .profile-img .file input {
+        position: absolute;
+        opacity: 0;
+        right: 0;
+        top: 0;
+    }
+
+    .profile-head h5{
+        color: #333;
+    }
+
+    .profile-head h6{
+        color: #0062cc;
+    }
+
+    .profile-edit-btn{
+        border: none;
+        border-radius: 1.5rem;
+        width: 70%;
+        padding: 2%;
+        font-weight: 600;
+        color: #6c757d;
+        cursor: pointer;
+    }
+
+    .proile-rating{
+        font-size: 12px;
+        color: #818182;
+        margin-top: 5%;
+    }
+
+    .proile-rating span{
+        color: #495057;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .profile-head .nav-tabs{
+        margin-bottom:5%;
+    }
+
+    .profile-head .nav-tabs .nav-link{
+        font-weight:600;
+        border: none;
+    }
+
+    .profile-head .nav-tabs .nav-link.active{
+        border: none;
+        border-bottom:2px solid #0062cc;
+    }
+
+    .profile-work{
+        padding: 14%;
+        margin-top: -15%;
+    }
+
+    .profile-work p{
+        font-size: 12px;
+        color: #818182;
+        font-weight: 600;
+        margin-top: 10%;
+    }
+
+    .profile-work a{
+        text-decoration: none;
+        color: #495057;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .profile-work ul{
+        list-style: none;
+    }
+
+    .profile-tab label{
+        font-weight: 600;
+    }
+    
+    .profile-tab p{
+        font-weight: 600;
+        color: #0062cc;
+    }
 </style>

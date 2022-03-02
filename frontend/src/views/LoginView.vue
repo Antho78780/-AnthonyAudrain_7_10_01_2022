@@ -1,20 +1,20 @@
 <template>
     <section>
-			<div>
-				<img src="../assets/icon-left-font-monochrome-black.svg" class="logoGroupomania">
-				<p>{{texteConnexion}}</p>
-			</div>
-			<label>
-			<form id="formLogin">
-				<input  type="email" v-model="emailLogin" placeholder="Addrese email" class="modifChampLogin">
-				<input type="password" v-model="passwordLogin" placeholder="Mot de passe" class="modifChampLogin">
-			</form>
-			<form id="ensembleButton">
-				<button type="button" @click="connecter" class="modifButton">Se connecter</button>
-				<button type="button" @click="enregistrer" class="modifButton">s'enregistrer</button>
-			</form>
-			<div class="colorError">{{emailPasswordError}}</div>
-			</label>
+        <div>
+            <img src="../assets/icon-left-font-monochrome-black.svg" class="logoGroupomania">
+            <p>{{texteConnexion}}</p>
+        </div>
+        <label>
+        <form id="formLogin">
+            <input  type="email" v-model="emailLogin" placeholder="Addrese email" class="modifChampLogin">
+            <input type="password" v-model="passwordLogin" placeholder="Mot de passe" class="modifChampLogin">
+        </form>
+        <form id="ensembleButton">
+            <button type="button" @click="connecter" class="modifButton">{{texteSeConnecter}}</button>
+            <button type="button" @click="enregistrer" class="modifButton">{{texteEnregistrer}}</button>
+        </form>
+        <div class="colorError">{{emailPasswordError}}</div>
+        </label>
     </section>
 </template>
 <script>
@@ -28,6 +28,8 @@
             passwordLogin: "",
             infosUsers: [],
             emailPasswordError: "",
+            texteSeConnecter: "Se connecter",
+            texteEnregistrer: "S'enregistrer"
         }
     },
     methods: {
@@ -67,49 +69,61 @@
 	}
 </script>
 <style scoped>
-@media all and (max-width: 1024px)  {
-   .logoGroupomania{
-    width: 70% !important;
-}
-}
-section {
-    text-align: center;
-	margin-top: 10%;
+    @media all and (max-width: 1024px)  {
+        .logoGroupomania{
+            width: 70% !important;
+
+        }
+
+        section {
+            margin-top: 40% !important;
+        }
+    }
+    section {
+        text-align: center;
+        margin-top: 10%;
+        
+    }
+
+    #formLogin {
+        width: 100%;
+        margin: auto;
+    }
+
+    .colorError {
+        color: red;
+    }
+
+    #ensembleButton {
+        display: flex;
+        justify-content: center;
+    }
+
+    .modifButton {
+        background-color: #1877f2;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 10px;
+        margin: 10px;
+        transition: 0.5s;
+        width: 40%;
+    }
+
+    .modifButton:hover {
+        background-color: blue;
+    }
+
+    .modifChampLogin {
+        border: 1px solid #dddfe2;
+        border-radius: 5px;
+        height: 50px;
+        margin: 10px;
+        width: 70%;
+        font-size: 17px;  
+    }
     
-}
-#formLogin {
-width: 100%;
-margin: auto;
-}
-.colorError {
-color: red;
-}
-#ensembleButton {
-display: flex;
-justify-content: center;
-}
-.modifButton {
-background-color: #1877f2;
-color: white;
-border: none;
-border-radius: 6px;
-padding: 10px;
-margin: 10px;
-transition: 0.5s;
-width: 40%;
-}
-.modifButton:hover {
-background-color: blue;
-}
-.modifChampLogin {
-border: 1px solid #dddfe2;
-border-radius: 5px;
-height: 50px;
-margin: 10px;
-width: 70%;
-font-size: 17px;  
-}
-.logoGroupomania{
-    width: 20%;
-}
+    .logoGroupomania{
+        width: 20%;
+    }
 </style>
