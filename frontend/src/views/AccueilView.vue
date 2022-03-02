@@ -1,6 +1,6 @@
 <template>
 	<main id="modifA">
-		<img src="../assets/icon-left-font-monochrome-black.svg" class="logoGroupomania">
+		<img src= "../assets/icon-left-font-monochrome-black.svg" class="logoGroupomania" alt="logo de l'entreprise groupomania">
 		<div id="flex-row">
 			<a :href="hrefProfil"  class="modifTitre modifFlex"><p>{{texteProfil}}</p></a>
 			<a @click="deconnecterAccueil"  type="button" class="modifButton2 modifFlex">{{texteDeconnexion}}</a>
@@ -63,7 +63,7 @@
 						<div class="input">
 							<form action="POST">
 								<div class="input-group">
-									<input  type="text"  value="" class="form-control rounded-corner" id="textComment"  placeholder="Entrez votre commentaire...">
+									<input  type="text"  value="" class="form-control rounded-corner textComment" placeholder="Entrez votre commentaire...">
 									<span class="input-group-btn p-l-10">
 										<button class="modifButtonEnvoyer" @click="envoisComments(post)" type="button">Envoyer</button>
 									</span>
@@ -195,7 +195,7 @@ export default {
 			const userId = recupStorage[0];
 
 			const postId = post.idPost;
-			const recupComments = document.querySelectorAll("#textComment");
+			const recupComments = document.querySelectorAll(".textComment");
 			for (let comments of recupComments) {
 				const comment = comments.value;
 				if(comment != "") {
@@ -269,9 +269,6 @@ export default {
 			margin-left: 65% !important;
 			width: 35% !important;
 		}
-		.colorDate{
-			margin-left: 30%;
-		}
 		#modifA{
 			justify-content: center !important;
 		}
@@ -281,6 +278,12 @@ export default {
 			margin-left: 0 !important;
 			margin-top: 50px;
 		}
+		.d-flex{
+			display: block !important;
+		}
+	}
+	.imgPost {
+		width: 50%;
 	}
 	section{
 		display: flex;

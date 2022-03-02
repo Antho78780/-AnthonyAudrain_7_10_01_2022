@@ -1,7 +1,7 @@
 <template>
     <section>
         <div>
-            <img src="../assets/icon-left-font-monochrome-black.svg" class="logoGroupomania">
+            <img src="../assets/icon-left-font-monochrome-black.svg" class="logoGroupomania" alt="logo de l'entreprise groupomania">
             <p>{{texteConnexion}}</p>
         </div>
         <label>

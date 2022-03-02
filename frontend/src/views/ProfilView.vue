@@ -8,8 +8,9 @@
                             <img :src="user.image"  alt="">
                             <form method="post">
                                 <div class="file btn btn-lg btn-primary">
-                                   {{texteChoisiPhoto}}
-                                    <input @change="changePhoto" type="file" name="file"/>
+                                   <label>{{texteChoisiPhoto}}
+                                        <input @change="changePhoto" type="file" name="file"/>
+                                   </label>
                                 </div>
                             </form>
                         </div>
@@ -17,9 +18,9 @@
                     <div class="col-md-6">
                         <div class="profile-head">
                             <h5>{{user.prenom}}</h5>
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">{{texteApropos}}</a>
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li>
+                                    <p class="nav-link active" id="home-tab" data-toggle="tab" href="#home" aria-controls="home" aria-selected="true">{{texteApropos}}</p>
                                 </li>
                             </ul>
                         </div>
@@ -126,11 +127,13 @@
 </script>
 
 <style scoped>
+    .nav {
+        display: block;
+    }
     section {
         margin-top: 5%;
         text-align: center;
     }
-
     .modifButton {
         background-color: #1877f2;
         color: white;
@@ -191,7 +194,6 @@
         width: 70%;
         padding: 2%;
         font-weight: 600;
-        color: #6c757d;
         cursor: pointer;
     }
 

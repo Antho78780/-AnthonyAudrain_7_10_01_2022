@@ -5,7 +5,7 @@
 				<p class="strong">{{titreSujet}}</p>
 				<p class="obligatoire">{{titreObligatoire}}</p>
 			</div>
-			<textarea v-model="titre" id="titreForms"></textarea>
+				<textarea v-model="titre" id="titreForms"></textarea>
 			<div>
 				<p class="strong">{{  SujetArticle }}</p>
 				<input @change="changeFile" type="file">
@@ -100,12 +100,12 @@ export default {
 		}
 
 		section {
-			margin-top: 20% !important;
+			margin-top: 40% !important;
 		}
 		
 	}
 	section {
-		margin-top: 5%;
+		margin-top: 10%;
 		text-align: center;
 	}
 
