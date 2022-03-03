@@ -1,5 +1,6 @@
 
 const modelsPost = require("../models/post");
+const modelsUser = require("../models/users");
 
 exports.postCreate = (req, res) => {
 	modelsPost.create({
@@ -30,18 +31,37 @@ exports.getOnePost = (req, res) => {
 }
 
 exports.deletePost = (req, res) => {
-	console.log(req.body)
-	modelsPost.destroy({
-		where: {id: req.params.id, userId: req.body.userIdPost}
-	})
-	.then((postDelete) => {
-		if(postDelete) {
-			res.status(200).json({message: "Post supprimé"});
-		}
-		else {
-			res.status(401).json({error: "Post non supprimé"})
-		}
-	})
+	if(req.body.userIdPost){
+		console.log(req.body)
+		modelsPost.destroy({
+			where: {id: req.params.id, userId: req.body.userIdPost}
+		})
+		.then((postDelete) => {
+			if(postDelete) {
+				res.status(200).json({message: "Post supprimé"});
+			}
+			else {
+				res.status(401).json({error: "Post non supprimé"})
+			}
+		})
+		.catch(() => {
+			res.status(401).json({error: "UserIdPost non reçu"})
+		})
+	}
+	else if(req.body.isAdmin) {
+		console.log(req.body)
+		modelsPost.destroy({
+			where: {id: req.params.id}
+		})
+		.then((postDeleteAdmin) => {
+			if(postDeleteAdmin) {
+				res.status(200).json({message: "Post supprimé par l'admin"})
+			}
+			else {
+				res.status(401).json({message: "Post non supprimé"})
+			}
+		})
+	}
 }
 
 

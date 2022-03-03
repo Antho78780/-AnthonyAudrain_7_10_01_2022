@@ -22,7 +22,7 @@
 						<span class="userimage"><img :src="post.image"  alt="Image du profil de l'utilisateur"></span>
 						<div class="flexPost">
 							<p class="username">{{post.auteur}}</p>
-							<input v-if="post.userIdPost == post.userIdStorage" @click="supprimerPost(post)" class="modifButtonSupp2" type="button" value="Supprimer">
+							<input v-if="userIsAdmin || post.userIdPost == post.userIdStorage" @click="supprimerPost(post)" class="modifButtonSupp2" type="button" value="Supprimer">
 						</div>
 						<p class="titreSujet">{{post.titre}}</p>
 					</div>
@@ -55,7 +55,7 @@
 											</div>
 											<small class="colorDate">Le {{comments.dateJour}}&nbsp; à &nbsp;{{comments.dateHeure}}</small>
 										</div>
-										<input class ="modifButtonSupp" v-if="comments.userIdComment == comments.userIdStorage"  @click="supprimerComment(comments, post)" type="button" id="masquerOuAfficher" value="Supprimer">
+										<input class ="modifButtonSupp" v-if=" userIsAdmin || comments.userIdComment == comments.userIdStorage"  @click="supprimerComment(comments, post)" type="button" id="masquerOuAfficher" value="Supprimer">
 									</div>
 								</div>
 							</div>
@@ -92,6 +92,7 @@ export default {
 			texteCommentaire: "commentaires",
 			texteToutLesCommentaires: "Tout les commentaires",
 			allPostsUsers: [],
+			userIsAdmin: ""
 		}
 	},
 	mounted() {
@@ -129,6 +130,12 @@ export default {
                 })
             }
         })
+		fetch(`http://localhost:3000/users/getOneUser/${userId}`)
+		.then(res => res.json())
+		.then((user) => {
+			this.userIsAdmin = user.isAdmin
+			console.log(user)
+		})
 	},
 	methods: {
 		deconnecterAccueil() {
@@ -140,36 +147,58 @@ export default {
 			for (let Postcomment of post.comments) {
 				const userIdComment = Postcomment.userIdComment;
 				const objetUserIdComment = {userIdComment};
-
-				fetch(`http://localhost:3000/comments/deleteComment/${comments.idComment}`, {
-				method: "DELETE",
-				headers: {
-					"Content-type" : "application/json"
-				},
-				body: JSON.stringify(objetUserIdComment)
-			})
+				const isAdmin = this.userIsAdmin;
+				if(isAdmin == false) {
+					fetch(`http://localhost:3000/comments/deleteComment/${comments.idComment}`, {
+						method: "DELETE",
+						headers: {
+							"Content-type" : "application/json"
+						},
+						body: JSON.stringify(objetUserIdComment)
+					})
+				}
+				else if(isAdmin) {
+					const objetAdmin = {isAdmin}; 
+					fetch(`http://localhost:3000/comments/deleteComment/${comments.idComment}`, {
+						method: "DELETE",
+						headers: {
+							"Content-type" : "application/json"
+						},
+						body: JSON.stringify(objetAdmin)
+					})
+				}
 			}
-
+			
 			const suppComment = post.comments.filter(el => el.idComment != comments.idComment);
 			post.comments = suppComment;
 			post.numberComments = post.comments.length;
 		},
 		supprimerPost(post) {
 			const recupStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
+			const isAdmin = this.userIsAdmin;
 			const userIdPost = recupStorage[0];
 			const objetUserId = {userIdPost};
-		
-			fetch(`http://localhost:3000/post/deletePost/${post.idPost}`, {
-				method: "DELETE",
-				headers: {
-					"Content-type" : "application/json"
-				},
-				body: JSON.stringify(objetUserId)
-			})
-			.then(() => {
+			if(isAdmin == false) {
+				fetch(`http://localhost:3000/post/deletePost/${post.idPost}`, {
+					method: "DELETE",
+					headers: {
+						"Content-type" : "application/json"
+					},
+					body: JSON.stringify(objetUserId)
+				})
 				location.reload();
-			})
-			
+			}
+			else if(isAdmin) {
+					const objetAdmin = {isAdmin}
+					fetch(`http://localhost:3000/post/deletePost/${post.idPost}`, {
+					method: "DELETE",
+					headers: {
+						"Content-type" : "application/json"
+					},
+					body: JSON.stringify(objetAdmin)
+				})
+				location.reload();
+			}
 		},
 		toutLesComments(post) {
 			post.comments = [];

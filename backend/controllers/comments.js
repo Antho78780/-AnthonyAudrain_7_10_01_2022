@@ -3,7 +3,6 @@ const modelsComment = require("../models/comments");
 const modelsPost = require("../models/post");
 
 exports.createComment = (req,res) => {
-    console.log(req.body)
     modelsComment.create({
         userIdComment: req.params.id,
         idPost: req.body.postId,
@@ -28,15 +27,33 @@ exports.getAllComments = (req, res) => {
     
 }
 exports.deleteComment = (req, res) => {
-    modelsComment.destroy({
-        where: {id: req.params.id, userIdComment: req.body.userIdComment}
-    })
-    .then((destroyComment) => {
-        if(destroyComment) {
-            res.status(200).json({message: "Commentaire supprimé"})
-        }
-        else {
-            res.status(401).json({error: "Commentaire non supprimé"})
-        }
-    })
+    if(req.body.userIdComment) {
+        modelsComment.destroy({
+            where: {id: req.params.id, userIdComment: req.body.userIdComment}
+        })
+        .then((destroyComment) => {
+            if(destroyComment) {
+                res.status(200).json({message: "Commentaire supprimé"})
+            }
+            else {
+                res.status(401).json({error: "Commentaire non supprimé"})
+            }
+        })
+        .catch(() => {
+            res.status(400).json({error: "UserIdComment non reçu"})
+        })
+    }
+    else if(req.body.isAdmin){
+        modelsComment.destroy({
+            where: {id: req.params.id}
+        })
+        .then((adminDeleteComment) => {
+            if(adminDeleteComment) {
+                res.status(200).json({message: "Commentaire supprimé par l'admin"})
+            }
+            else {
+                res.status(400).json({error: "Commentaire non supprimé par l'admin"})
+            }
+        })
+    }
 }
