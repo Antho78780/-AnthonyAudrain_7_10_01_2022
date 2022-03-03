@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
-                            <img :src="user.image"  alt="Image du profil de l'utilisateur">
+                            <img :src="user.image" alt="Image du profil de l'utilisateur">
                             <form method="post">
                                 <div class="file btn btn-lg btn-primary">
                                    <label>{{texteChoisiPhoto}}
@@ -55,6 +55,15 @@
 								<p>{{user.email}}</p>
 							</div>
 						</div>
+                        <div class="row">
+							<div class="col-md-6">
+								<label>Role</label>
+							</div>
+							<div class="col-md-6">
+								<p v-if="user.isAdmin == true">Admin</p>
+                                <p v-if="user.isAdmin == false">Membre</p>
+							</div>
+						</div>
 					</div>
 				</div>
             </form>           
@@ -80,12 +89,11 @@
 		mounted() {
 			const idUserssessionStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
 			const users_id = idUserssessionStorage[0];
-			fetch(`http://localhost:3000/users/getOneUsers/${users_id}`)
+			fetch(`http://localhost:3000/users/getOneUser/${users_id}`)
 			.then(res => res.json())
 			.then((getOneUser) => {
                 console.log("Profil de l'utilistateur")
-                console.log(getOneUser)
-                this.user = getOneUser
+                this.user = getOneUser;
 			})
 		},
 
@@ -93,7 +101,7 @@
 			suppresionCompte() {
 			const recupTokenIdStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
 			const users_id = recupTokenIdStorage[0];
-				fetch(`http://localhost:3000/users/deleteUsers/${users_id}`, {
+				fetch(`http://localhost:3000/users/deleteUser/${users_id}`, {
 					method: "DELETE",
 					headers: {
 						'Content-Type' : 'application/json'

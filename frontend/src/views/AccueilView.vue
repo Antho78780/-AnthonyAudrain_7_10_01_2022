@@ -19,7 +19,7 @@
 				</div>
 				<div class="timeline-body">
 					<div class="timeline-header">
-						<span class="userimage"><img :src="post.image" alt="Image du profil de l'utilisateur"></span>
+						<span class="userimage"><img :src="post.image"  alt="Image du profil de l'utilisateur"></span>
 						<div class="flexPost">
 							<p class="username">{{post.auteur}}</p>
 							<input v-if="post.userIdPost == post.userIdStorage" @click="supprimerPost(post)" class="modifButtonSupp2" type="button" value="Supprimer">
@@ -55,7 +55,7 @@
 											</div>
 											<small class="colorDate">Le {{comments.dateJour}}&nbsp; à &nbsp;{{comments.dateHeure}}</small>
 										</div>
-										<input class ="modifButtonSupp" v-if="comments.userIdComment == comments.userIdStorage" @click="supprimerComment(comments, post)" type="button" id="masquerOuAfficher" value="Supprimer">
+										<input class ="modifButtonSupp" v-if="comments.userIdComment == comments.userIdStorage"  @click="supprimerComment(comments, post)" type="button" id="masquerOuAfficher" value="Supprimer">
 									</div>
 								</div>
 							</div>
@@ -97,7 +97,7 @@ export default {
 	mounted() {
 		const recupStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
 		const userId = recupStorage[0];
-		
+
         fetch(this.apiGetAllPost)
         .then(res => res.json())
         .then((allPost) => {
@@ -108,7 +108,7 @@ export default {
                 fetch(`http://localhost:3000/comments/getAllComments/${post.id}`)
                 .then(res => res.json())
                 .then((allComments) => {
-                     fetch(`http://localhost:3000/users/getOneUsers/${post.userId}`)
+                     fetch(`http://localhost:3000/users/getOneUser/${post.userId}`)
                     .then(res => res.json())
                     .then((user) => {
                         this.allPostsUsers.push({
@@ -135,31 +135,41 @@ export default {
 			window.location.href = "/#/";
 			sessionStorage.removeItem("usersIdToken");
 		},
+
 		supprimerComment(comments, post) {
-			fetch(`http://localhost:3000/comments/deleteComments/${comments.idComment}`, {
+			for (let Postcomment of post.comments) {
+				const userIdComment = Postcomment.userIdComment;
+				const objetUserIdComment = {userIdComment};
+
+				fetch(`http://localhost:3000/comments/deleteComment/${comments.idComment}`, {
 				method: "DELETE",
 				headers: {
 					"Content-type" : "application/json"
-				}
+				},
+				body: JSON.stringify(objetUserIdComment)
 			})
-			.then((res) => {
-				console.log(res);
-			})
+			}
+
 			const suppComment = post.comments.filter(el => el.idComment != comments.idComment);
 			post.comments = suppComment;
 			post.numberComments = post.comments.length;
 		},
 		supprimerPost(post) {
+			const recupStorage = JSON.parse(sessionStorage.getItem("usersIdToken"));
+			const userIdPost = recupStorage[0];
+			const objetUserId = {userIdPost};
+		
 			fetch(`http://localhost:3000/post/deletePost/${post.idPost}`, {
 				method: "DELETE",
 				headers: {
 					"Content-type" : "application/json"
-				}
+				},
+				body: JSON.stringify(objetUserId)
 			})
-			.then((res) => {
-				console.log(res)
+			.then(() => {
+				location.reload();
 			})
-			location.reload();
+			
 		},
 		toutLesComments(post) {
 			post.comments = [];
@@ -175,7 +185,7 @@ export default {
 					const dateJour = date.toLocaleDateString();
 					const dateHeure = date.toLocaleTimeString();
 
-					fetch(`http://localhost:3000/users/getOneUsers/${comment.userIdComment}`)
+					fetch(`http://localhost:3000/users/getOneUser/${comment.userIdComment}`)
 					.then(res => res.json())
 					.then((user) => {
 						post.comments.push({
@@ -186,7 +196,7 @@ export default {
 							dateHeure: dateHeure,
 							idComment: comment.id,
 							userIdComment: comment.userIdComment,
-							userIdStorage: userId
+							userIdStorage: userId,
 						})
 					})
 				}
@@ -202,7 +212,7 @@ export default {
 				const comment = comments.value;
 				if(comment != "") {
 					const objetComment = {comment, postId}
-					fetch(`http://localhost:3000/comments/createComments/${userId}`, {
+					fetch(`http://localhost:3000/comments/createComment/${userId}`, {
 						method: "POST",
 						headers: {
 							"Content-type" : "application/json"
@@ -212,14 +222,11 @@ export default {
 					})
 					.then(res => res.json())
 					.then((createComment) => {
-						console.log(createComment)
 						const numberUserIdComment = JSON.parse(createComment.userIdComment);
 						createComment.userIdComment = numberUserIdComment;
-
-						fetch(`http://localhost:3000/users/getOneUsers/${createComment.userIdComment}`)
+						fetch(`http://localhost:3000/users/getOneUser/${createComment.userIdComment}`)
 						.then(res => res.json())
 						.then((user) => {
-							console.log(user)
 							fetch(`http://localhost:3000/comments/getAllComments/${post.idPost}`)
 							.then(res => res.json())
 							.then((allComments) => {
@@ -234,9 +241,12 @@ export default {
 										comment: createComment.comment,
 										dateJour: dateJour,
 										dateHeure: dateHeure,
-										idComment: createComment.id
+										idComment: createComment.id,
+										userIdComment: createComment.userIdComment,
+										userIdStorage: userId,
 									})
 									post.numberComments = allComments.length;	
+									console.log(post)
 							})
 						})
 					})

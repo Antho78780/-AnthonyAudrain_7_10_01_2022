@@ -30,11 +30,17 @@ exports.getOnePost = (req, res) => {
 }
 
 exports.deletePost = (req, res) => {
+	console.log(req.body)
 	modelsPost.destroy({
-		where: {id: req.params.id}
+		where: {id: req.params.id, userId: req.body.userIdPost}
 	})
 	.then((postDelete) => {
-		res.status(200).json(postDelete);
+		if(postDelete) {
+			res.status(200).json({message: "Post supprimé"});
+		}
+		else {
+			res.status(401).json({error: "Post non supprimé"})
+		}
 	})
 }
 

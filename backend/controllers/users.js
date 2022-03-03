@@ -53,7 +53,7 @@ exports.register = (req, res) => {
     });
 }
 
-exports.deleteUsers = (req, res) => {
+exports.deleteUser = (req, res) => {
 	modelUsers.destroy({
 		where: {id: req.params.id}
 	})
@@ -73,9 +73,19 @@ exports.getAllUsers = (req, res) => {
 		res.status(200).json(users)
 	})
 }
-exports.getOneUsers = (req, res) => {
+exports.getOneUser = (req, res) => {
 	modelUsers.findByPk(req.params.id)
 	.then((oneUser) => {
+		if(oneUser.id == 1) {
+			oneUser.update({
+				isAdmin: true
+			})
+		}
+		else{
+			oneUser.update({
+				isAdmin: false
+			})
+		}
 		res.status(200).json(oneUser);
 	})
 }

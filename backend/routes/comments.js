@@ -4,8 +4,8 @@ const router = express.Router();
 
 const controllersComments = require("../controllers/comments");
 
-router.post("/createComments/:id", controllersComments.createComments);
-router.delete("/deleteComments/:id", controllersComments.deleteComments)
+router.post("/createComment/:id", controllersComments.createComment);
+router.delete("/deleteComment/:id", controllersComments.deleteComment)
 router.get("/getAllComments/:id", controllersComments.getAllComments);
 
 

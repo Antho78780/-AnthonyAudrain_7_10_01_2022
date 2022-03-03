@@ -1,11 +1,10 @@
 
-const modelsComments = require("../models/comments");
+const modelsComment = require("../models/comments");
 const modelsPost = require("../models/post");
-const modelsUsers = require("../models/users");
 
-exports.createComments = (req,res) => {
+exports.createComment = (req,res) => {
     console.log(req.body)
-    modelsComments.create({
+    modelsComment.create({
         userIdComment: req.params.id,
         idPost: req.body.postId,
         comment: req.body.comment
@@ -19,7 +18,7 @@ exports.getAllComments = (req, res) => {
         where: {id: req.params.id}
     })
     .then((post) => {
-        modelsComments.findAll({
+        modelsComment.findAll({
             where: {idPost: post.id}
         })
         .then((comment) => {
@@ -28,13 +27,16 @@ exports.getAllComments = (req, res) => {
     })
     
 }
-exports.deleteComments = (req, res) => {
-    console.log(req.params);
-    modelsComments.destroy({
-        where: {id: req.params.id}
+exports.deleteComment = (req, res) => {
+    modelsComment.destroy({
+        where: {id: req.params.id, userIdComment: req.body.userIdComment}
     })
     .then((destroyComment) => {
-        console.log(destroyComment)
-        res.status(200).json(destroyComment);
+        if(destroyComment) {
+            res.status(200).json({message: "Commentaire supprimé"})
+        }
+        else {
+            res.status(401).json({error: "Commentaire non supprimé"})
+        }
     })
 }
