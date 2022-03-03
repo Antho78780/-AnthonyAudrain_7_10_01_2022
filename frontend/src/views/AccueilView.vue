@@ -19,7 +19,7 @@
 				</div>
 				<div class="timeline-body">
 					<div class="timeline-header">
-						<span class="userimage"><img :src="post.image" alt=""></span>
+						<span class="userimage"><img :src="post.image" alt="Image du profil de l'utilisateur"></span>
 						<div class="flexPost">
 							<p class="username">{{post.auteur}}</p>
 							<input v-if="post.userIdPost == post.userIdStorage" @click="supprimerPost(post)" class="modifButtonSupp2" type="button" value="Supprimer">
@@ -28,7 +28,9 @@
 					</div>
 					<div class="timeline-content">
 						<p>{{post.sujet}}</p>
-						<span><img :src="post.imagePostUser" class="imgPost" alt=""></span>
+						<span>
+							<img :src="post.imagePostUser" class="imgPost" v-if="post.imagePostUser != null" alt="Image du post de l'utilisateur">
+						</span>
 					</div>
 					<div class="timeline-likes">
 						<div class="stats-right">
@@ -282,14 +284,15 @@ export default {
 			display: block !important;
 		}
 	}
-	.imgPost {
-		width: 50%;
-	}
 	section{
 		display: flex;
 		justify-content: space-around;
 	}
 
+	.imgPost {
+		height: 200px;
+		width: 50%;
+	}
 	.flexPost {
 		display: flex;
 		justify-content: space-between;
@@ -909,10 +912,11 @@ export default {
 
 	.timeline-header .userimage {
 		float: left;
-		width: 34px;
-		height: 34px;
-		border-radius: 40px;
+		width: 50px;
+		height: 50px;
+		border-radius: 10px;
 		overflow: hidden;
+		
 		margin: -2px 10px -2px 0
 	}
 
@@ -1100,7 +1104,7 @@ export default {
 	}
 
 	.modifButtonSupp {
-		background-color: #1877f2;
+		background-color: green;
 		color: white;
 		border: none;
 		transition: 0.5s;
@@ -1113,7 +1117,7 @@ export default {
 	}
 
 	.modifButtonSupp2 {
-		background-color: #1877f2;
+		background-color: green;
 		color: white;
 		border: none;
 		border-radius: 5px;

@@ -8,7 +8,6 @@ const auth = require("../middelware/auth");
 router.post("/postCreate", controllersPost.postCreate)
 router.get("/getAllpost", controllersPost.getAllPost);
 router.get("/getOnePost/:id", controllersPost.getOnePost);
-router.put("/updatePost/:id", controllersPost.updatePost);
 router.delete("/deletePost/:id", controllersPost.deletePost);
 
 

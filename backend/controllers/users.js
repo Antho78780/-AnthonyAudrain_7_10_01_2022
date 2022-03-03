@@ -1,6 +1,4 @@
 const modelUsers = require("../models/users");
-const modelsComments = require("../models/comments");
-const modelsPost = require("../models/post");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");

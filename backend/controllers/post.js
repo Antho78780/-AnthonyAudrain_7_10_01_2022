@@ -1,6 +1,5 @@
 
 const modelsPost = require("../models/post");
-const modelsUsers = require("../models/users");
 
 exports.postCreate = (req, res) => {
 	modelsPost.create({
@@ -28,19 +27,6 @@ exports.getOnePost = (req, res) => {
 		res.status(200).json(post)
 	})
 	
-}
-
-exports.updatePost = (req, res) => {
-	modelsPost.findByPk(req.params.id)
-	.then((sujet) => {
-		sujet.set({
-			sujet: req.body.sujet
-		})
-		sujet.save()
-		.then(() => {
-			res.status(200).json({message: "Sujet modifié"});
-		})
-	})
 }
 
 exports.deletePost = (req, res) => {

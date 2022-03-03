@@ -1,18 +1,21 @@
 <template>
     <section>
 		<form method="post">
-			<div class="flexSujet">
-				<p class="strong">{{titreSujet}}</p>
-				<p class="obligatoire">{{titreObligatoire}}</p>
+			<label class="strong">{{titreSujet}}</label>
+			<label>
+				<input type="text" v-model="titre" id="titreForms">
+			</label>
+			<div class="modifSujet">
+				<label class="strong">{{SujetArticle}}</label>
+				<label>
+					<input class="modifButtonFichier" @change="changeFile" type="file">
+				</label>
+				<label>
+					<textarea type="text" v-model="sujet" id="message"></textarea>
+				</label>
+				<button type="button" class="modifButton" @click="envoyerSujet">{{texteEnvoyer}}</button>
 			</div>
-				<textarea v-model="titre" id="titreForms"></textarea>
-			<div>
-				<p class="strong">{{  SujetArticle }}</p>
-				<input @change="changeFile" type="file">
-			</div>
-				<textarea  v-model="sujet" id="message"></textarea>
 		</form>
-		<button type="button" class="modifButton" @click="envoyerSujet">{{texteEnvoyer}}</button>
     </section>
 </template>
 <script>
@@ -21,7 +24,6 @@ export default {
 	data() {
 		return {
 			titreSujet: "Titre",
-			titreObligatoire: "(Obligatoire)",
 			SujetArticle: "Créer un nouveau sujet",
 			apiPostCreateFile: "http://localhost:3000/post/postCreate/file",
 			apiPostCreate: "http://localhost:3000/post/postCreate",
@@ -96,7 +98,7 @@ export default {
 			padding: 10px;
 			margin: 10px;
 			transition: 0.5s;
-			width: 40%;
+			width: 40% !important;
 		}
 
 		section {
@@ -117,19 +119,6 @@ export default {
 	#message {
 		width: 40%;
 		height: 300px;
-		margin: auto;
-	}
-
-	.size {
-		font-size: 12px;
-		color: #AA1414;
-	}
-
-	.obligatoire {
-		font-size: 10px;
-		color: #F01A1A;
-		margin-left: 10px;
-		margin-top: 5px;
 	}
 
 	.flexSujet {
@@ -139,6 +128,25 @@ export default {
 	
 	.strong{
 		font-weight: bold;
+	}
+
+	.modifButton {
+			background-color: green;
+			color: white;
+			border: none;
+			border-radius: 6px;
+			padding: 10px;
+			margin: 10px;
+			transition: 0.5s;
+			width: 10%;
+	}
+
+	.modifSujet {
+		margin-top: 2%;
+	}
+
+	label {
+		display: block;
 	}
 </style>
 
